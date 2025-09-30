@@ -1,0 +1,2954 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E%E2%9C%88%EF%B8%8F%3C/text%3E%3C/svg%3E">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Search</title>
+    <style>
+        html {
+            box-sizing: border-box;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        form {
+            width: 100%;
+            max-width: 420px;
+            margin: 12px auto;
+            padding: 10px 6px 16px 6px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 2px;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        select,
+        input[list] {
+            width: 100%;
+            padding: 10px 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            background: #fafbfc;
+        }
+
+        input[list] {
+            min-width: 0;
+        }
+
+        fieldset {
+            border: none;
+            margin-bottom: 10px;
+            padding: 0;
+        }
+
+        legend {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        button {
+            display: inline-block;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button[type="button"] {
+            margin-top: 4px;
+            width: auto;
+            padding: 7px 16px;
+            font-size: 15px;
+        }
+
+        div {
+            margin-bottom: 10px;
+        }
+
+        .multi-select-container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .row {
+            background-color: #f9f9f9;
+            padding: 7px 6px 7px 6px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 7px;
+            position: relative;
+            min-height: 36px;
+        }
+
+        .remove-row-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            padding: 8px 10px !important;
+            font-size: 18px;
+            font-weight: 900;
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            line-height: 1;
+            z-index: 2;
+            height: 34px;
+        }
+
+        .remove-row-btn:hover {
+            background: #c0392b;
+        }
+
+        #add-row-container {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #ddd;
+            margin: 12px 0;
+        }
+
+        #dates-checkboxes label {
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 2px;
+            font-weight: normal;
+            font-size: 14px;
+        }
+
+        #select-all-dates {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 14px;
+            padding: 6px 12px;
+        }
+
+        [type="submit"] {
+            width: 100%;
+            margin: 0;
+            font-size: 18px;
+            padding: 12px 0;
+        }
+
+        h1 {
+            font-size: 1.5em;
+            margin: 18px 0 10px 0;
+            letter-spacing: 1px;
+        }
+
+        @media (min-width: 600px) {
+            form {
+                max-width: 480px;
+                padding: 18px 24px 24px 24px;
+            }
+
+            h1 {
+                font-size: 2.1em;
+                margin: 32px 0 12px 0;
+            }
+
+            input[type="email"],
+            input[type="password"],
+            select,
+            input[list] {
+                font-size: 15px;
+                padding: 8px 10px;
+            }
+
+            button {
+                font-size: 15px;
+                padding: 10px 0;
+            }
+
+            [type="submit"] {
+                font-size: 17px;
+                padding: 13px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align:center; font-size:2.1em; margin:32px 0 12px 0; letter-spacing:1px;">✈️ Wizz Flights Search ✈️
+    </h1>
+    <form id="flight-search-form">
+        <!-- User Credentials -->
+        <label for="username">Username (Email):</label>
+        <input type="email" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <!-- Connection Mode -->
+        <fieldset>
+            <legend>Connection Mode:</legend>
+            <label>
+                <input type="radio" name="connection" value="none" checked> None
+            </label>
+            <label>
+                <input type="radio" name="connection" value="with"> With
+            </label>
+        </fieldset>
+
+        <!-- Dynamic Content -->
+        <div id="dynamic-content"></div>
+
+        <div class="divider"></div>
+
+        <!-- Date Selector -->
+        <label for="dates">Select Dates:</label>
+        <div id="dates-checkboxes"></div>
+        <button type="button" id="select-all-dates">Select All</button>
+
+        <!-- Start Button -->
+        <div style="text-align: center; margin: 24px 0;">
+            <button type="submit">Start</button>
+        </div>
+    </form>
+
+    <script>
+        const pairs = {
+            "ABZ": [
+                "GDN"
+            ],
+            "ADB": [
+                "OTP"
+            ],
+            "KGS": [
+                "FCO"
+            ],
+            "AUH": [
+                "HBE",
+                "ALA",
+                "AMM",
+                "HMB",
+                "GYD",
+                "BEY",
+                "FRU",
+                "OTP",
+                "BUD",
+                "SPX",
+                "RMO",
+                "DMM",
+                "GBB",
+                "KTW",
+                "KRK",
+                "KUT",
+                "LCA",
+                "MED",
+                "SLL",
+                "SJJ",
+                "SOF",
+                "TAS",
+                "TLV",
+                "VIE",
+                "EVN",
+                "LGW",
+                "AQJ",
+                "BBU",
+                "EBL",
+                "HSA",
+                "MCT",
+                "MLE",
+                "NQZ",
+                "SKD",
+                "FCO"
+            ],
+            "AGA": [
+                "KTW",
+                "LGW",
+            ],
+            "AES": [
+                "GDN"
+            ],
+            "HBE": [
+                "AUH"
+            ],
+            "AHO": [
+                "OTP",
+                "BUD",
+                "SOF",
+                "WAW"
+            ],
+            "ALC": [
+                "BEG",
+                "OTP",
+                "BUD",
+                "CLJ",
+                "GDN",
+                "KTW",
+                "WAW",
+                "FCO"
+            ],
+            "ALA": [
+                "AUH"
+            ],
+            "AMM": [
+                "AUH",
+                "BUD",
+                "MXP",
+                "VIE",
+                "LTN",
+                "FCO"
+            ],
+            "AOI": [
+                "TIA"
+            ],
+            "AYT": [
+                "OTP",
+                "BUD",
+                "LGW",
+                "LTN"
+            ],
+            "HMB": [
+                "AUH"
+            ],
+            "ATH": [
+                "OTP",
+                "BUD",
+                "RMO",
+                "KTW",
+                "KUT",
+                "LCA",
+                "TLV",
+                "TIA",
+                "VCE",
+                "WAW",
+                "LGW",
+                "LTN"
+            ],
+            "AQJ": [
+                "AUH",
+                "OTP",
+                "KTW",
+                "FCO",
+                "SOF",
+                "WAW"
+            ],
+            "BBU": [
+                "EVN",
+                "AUH",
+                "BUD",
+                "KRK",
+                "LTN",
+                "NAP",
+                "WAW",
+                "WRO"
+            ],
+            "BRE": [
+                "SKP"
+            ],
+            "BRU": [
+                "BUD"
+            ],
+            "BVA": [
+                "BEG",
+                "OTP",
+                "RMO",
+                "CLJ",
+                "GDN",
+                "IAS",
+                "KUT",
+                "LCA",
+                "MXP",
+                "SKP",
+                "SOF",
+                "TSR",
+                "TIA",
+                "VNO"
+            ],
+            "GYD": [
+                "AUH",
+                "BUD",
+                "FCO"
+            ],
+            "BNX": [
+                "BSL",
+                "DTM",
+                "MLH"
+            ],
+            "BCN": [
+                "BEG",
+                "OTP",
+                "BUD",
+                "RMO",
+                "CLJ",
+                "GDN",
+                "IAS",
+                "KTW",
+                "KRK",
+                "KUT",
+                "LCA",
+                "MXP",
+                "SKP",
+                "SOF",
+                "TSR",
+                "TIA",
+                "VCE",
+                "VIE",
+                "VNO",
+                "WAW",
+                "WRO",
+                "FCO"
+            ],
+            "BRI": [
+                "OTP",
+                "BUD",
+                "RMO",
+                "CLJ",
+                "CRA",
+                "SKP",
+                "SOF",
+                "TSR",
+                "TIA",
+                "WAW",
+                "WRO",
+                "EVN"
+            ],
+            "BSL": [
+                "BNX",
+                "BEG",
+                "OTP",
+                "BUD",
+                "CLJ",
+                "IAS",
+                "KRK",
+                "INI",
+                "OHD",
+                "SBZ",
+                "SKP",
+                "SOF",
+                "TSR",
+                "TIA",
+                "TZL",
+                "WAW",
+                "WRO",
+                "FCO"
+            ],
+            "BEY": [
+                "AUH"
+            ],
+            "BEG": [
+                "ALC",
+                "BCN",
+                "BSL",
+                "BGY",
+                "BER",
+                "CPH",
+                "DTM",
+                "EIN",
+                "FDH",
+                "GOT",
+                "HAM",
+                "HER",
+                "FKB",
+                "LCA",
+                "LIS",
+                "MMX",
+                "MLA",
+                "FMM",
+                "NCE",
+                "ARN",
+                "BVA",
+                "CIA",
+                "MLH",
+                "NYO",
+                "LTN",
+                "FCO"
+            ],
+            "BGY": [
+                "BEG",
+                "OTP",
+                "RMO",
+                "CLJ",
+                "CRA",
+                "IAS",
+                "SOF",
+                "SCV",
+                "TSR",
+                "TIA",
+                "VAR",
+                "WAW",
+                "BCM"
+            ],
+            "BGO": [
+                "GDN",
+                "KRK",
+                "VNO",
+                "WAW"
+            ],
+            "BER": [
+                "BEG",
+                "BUD",
+                "RMO",
+                "KUT",
+                "SKP",
+                "TIA",
+                "VAR",
+                "FCO"
+            ],
+            "BIO": [
+                "BUD",
+                "KRK",
+                "VIE",
+                "WAW",
+                "FCO"
+            ],
+            "BLL": [
+                "OTP",
+                "RMO",
+                "CLJ",
+                "GDN",
+                "IAS",
+                "KTW",
+                "VNO"
+            ],
+            "BHX": [
+                "OTP",
+                "BUD",
+                "CRA",
+                "SBZ",
+                "SCV",
+                "FCO"
+            ],
+            "FRU": [
+                "AUH"
+            ],
+            "BLQ": [
+                "OTP",
+                "CTA",
+                "RMO",
+                "CLJ",
+                "CRA",
+                "IAS",
+                "KRK",
+                "SKP",
+                "SCV",
+                "TSR",
+                "TIA",
+                "WAW"
+            ],
+            "GHV": [
+                "BUD",
+                "DTM",
+                "KTW",
+                "FMM",
+                "NAP",
+                "NUE",
+                "LTN"
+            ],
+            "GVA": [
+                "OTP",
+                "SOF"
+            ],
+            "HSA": [
+                "AUH"
+            ],
+            "BTS": [
+                "OTP",
+                "SKP",
+                "LTN"
+            ],
+            "BDS": [
+                "OTP",
+                "KTW",
+                "WAW"
+            ],
+            "CRL": [
+                "OTP",
+                "BUD",
+                "RMO",
+                "CLJ",
+                "CRA",
+                "IAS",
+                "KUT",
+                "SKP",
+                "SOF",
+                "SCV",
+                "TSR",
+                "TIA",
+                "VAR",
+                "WAW"
+            ],
+            "OTP": [
+                "AUH",
+                "AHO",
+                "ALC",
+                "AYT",
+                "ATH",
+                "BCN",
+                "BRI",
+                "BSL",
+                "BGY",
+                "BLL",
+                "BHX",
+                "BLQ",
+                "BTS",
+                "BDS",
+                "CRL",
+                "BUD",
+                "CDT",
+                "CTA",
+                "RMO",
+                "CGN",
+                "CPH",
+                "CFU",
+                "DTM",
+                "DXB",
+                "EIN",
+                "HHN",
+                "GDN",
+                "LPA",
+                "HAM",
+                "HER",
+                "KRK",
+                "LCA",
+                "LBA",
+                "LEJ",
+                "LIS",
+                "LPL",
+                "LYS",
+                "MST",
+                "MAD",
+                "AGP",
+                "PMI",
+                "MMX",
+                "MLA",
+                "RAK",
+                "FMM",
+                "MXP",
+                "JMK",
+                "NAP",
+                "NCE",
+                "NUE",
+                "PSR",
+                "PSA",
+                "OPO",
+                "QSR",
+                "TRF",
+                "SDR",
+                "JTR",
+                "SVQ",
+                "ARN",
+                "STR",
+                "TLV",
+                "TFS",
+                "TRS",
+                "TRN",
+                "VLC",
+                "VCE",
+                "WAW",
+                "WRO",
+                "EVN",
+                "ZTH",
+                "ZAZ",
+                "LGW",
+                "ADB",
+                "AQJ",
+                "BVA",
+                "GVA",
+                "NYO",
+                "SZG",
+                "TSF",
+                "LTN",
+                "FCO"
+            ],
+            "BUD": [
+                "AUH",
+                "AHO",
+                "ALC",
+                "AMM",
+                "AYT",
+                "ATH",
+                "GYD",
+                "BCN",
+                "BRI",
+                "BSL",
+                "BER",
+                "BIO",
+                "BHX",
+                "GHV",
+                "CRL",
+                "OTP",
+                "BOJ",
+                "SPX",
+                "CTA",
+                "RMO",
+                "CPH",
+                "CFU",
+                "DTM",
+                "DXB",
+                "EIN",
+                "FNC",
+                "GDN",
+                "GOA",
+                "GRO",
+                "GLA",
+                "LPA",
+                "HER",
+                "HRG",
+                "IST",
+                "JED",
+                "KUT",
+                "LCA",
+                "LIS",
+                "LPL",
+                "MAD",
+                "AGP",
+                "PMI",
+                "MLA",
+                "RAK",
+                "FMM",
+                "MXP",
+                "NAP",
+                "NCE",
+                "TGD",
+                "KEF",
+                "RHO",
+                "JTR",
+                "SSH",
+                "ARN",
+                "STR",
+                "TLV",
+                "TFS",
+                "SKG",
+                "TIA",
+                "TGM",
+                "VLC",
+                "VCE",
+                "VNO",
+                "WAW",
+                "WRO",
+                "EVN",
+                "ZTH",
+                "LGW",
+                "BBU",
+                "BRU",
+                "ORY",
+                "RUH",
+                "RVN",
+                "LTN",
+                "FCO"
+            ],
+            "BOJ": [
+                "BUD",
+                "GDN",
+                "KTW",
+                "LUZ",
+                "VIE",
+                "WAW",
+                "LTN"
+            ],
+            "SPX": [
+                "AUH",
+                "BUD",
+                "LCA",
+                "MXP",
+                "LTN",
+                "FCO"
+            ],
+            "CDT": [
+                "OTP",
+                "CLJ",
+                "FCO"
+            ],
+            "CTA": [
+                "BLQ",
+                "OTP",
+                "BUD",
+                "CLJ",
+                "GDN",
+                "IAS",
+                "KTW",
+                "FMM",
+                "MXP",
+                "PRG",
+                "SSH",
+                "TRN",
+                "VCE",
+                "VRN",
+                "VNO",
+                "WAW",
+                "WRO",
+                "LGW"
+            ],
+            "CHQ": [
+                "VIE",
+                "WAW"
+            ],
+            "RMO": [
+                "AUH",
+                "ATH",
+                "BCN",
+                "BRI",
+                "BGY",
+                "BER",
+                "BLL",
+                "BLQ",
+                "CRL",
+                "OTP",
+                "BUD",
+                "DTM",
+                "FKB",
+                "KTW",
+                "LCA",
+                "MST",
+                "FMM",
+                "MXP",
+                "NAP",
+                "NUE",
+                "VCE",
+                "VRN",
+                "VIE",
+                "WAW",
+                "WRO",
+                "BVA",
+                "MLH",
+                "LTN",
+                "FCO"
+            ],
+            "CLJ": [
+                "ALC",
+                "BCN",
+                "BRI",
+                "BSL",
+                "BGY",
+                "BLL",
+                "BLQ",
+                "CRL",
+                "CDT",
+                "CTA",
+                "CFU",
+                "DTM",
+                "EIN",
+                "HHN",
+                "HER",
+                "LCA",
+                "LBA",
+                "LIS",
+                "LYS",
+                "MAD",
+                "AGP",
+                "PMI",
+                "MMX",
+                "FMM",
+                "NAP",
+                "NUE",
+                "STR",
+                "TLV",
+                "VLC",
+                "VCE",
+                "VIE",
+                "ZTH",
+                "ZAZ",
+                "BVA",
+                "CIA",
+                "TSF",
+                "LTN",
+                "FCO"
+            ],
+            "CGN": [
+                "OTP"
+            ],
+            "CIA": [
+                "BEG",
+                "CLJ",
+                "CRA",
+                "IAS",
+                "KTW",
+                "KUT",
+                "SKP",
+                "SOF",
+                "SCV",
+                "TSR"
+            ],
+            "CIY": [
+                "TIA"
+            ],
+            "CND": [
+                "LTN"
+            ],
+            "CPH": [
+                "BEG",
+                "OTP",
+                "BUD",
+                "GDN",
+                "WAW"
+            ],
+            "CFU": [
+                "OTP",
+                "BUD",
+                "CLJ",
+                "KTW",
+                "MXP",
+                "VIE",
+                "WAW",
+                "FCO"
+            ],
+            "CRA": [
+                "BRI",
+                "BGY",
+                "BHX",
+                "BLQ",
+                "CRL",
+                "DTM",
+                "MAD",
+                "FMM",
+                "CIA",
+                "LTN",
+                "FCO"
+            ],
+            "DLM": [
+                "LGW",
+                "LTN"
+            ],
+            "DMM": [
+                "AUH",
+                "FCO"
+            ],
+            "DEB": [
+                "LCA",
+                "LTN",
+                "FCO"
+            ],
+            "DTM": [
+                "BNX",
+                "BEG",
+                "GHV",
+                "OTP",
+                "BUD",
+                "RMO",
+                "CLJ",
+                "CRA",
+                "GDN",
+                "IAS",
+                "KTW",
+                "KUT",
+                "INI",
+                "OHD",
+                "SZY",
+                "TGD",
+                "PRN",
+                "SBZ",
+                "SKP",
+                "SOF",
+                "SCV",
+                "TSR",
+                "TIA",
+                "TZL",
+                "VAR",
+                "VNO",
+                "WAW",
+                "EVN",
+                "FCO"
+            ],
+            "DXB": [
+                "OTP",
+                "BUD"
+            ],
+            "DBV": [
+                "WAW"
+            ],
+            "EBL": [
+                "AUH"
+            ],
+            "EIN": [
+                "BEG",
+                "OTP",
+                "BUD",
+                "CLJ",
+                "GDN",
+                "IAS",
+                "KTW",
+                "KRK",
+                "SKP",
+                "SOF",
+                "TIA",
+                "VAR",
+                "VNO",
+                "WAW",
+                "WRO",
+                "FCO"
+            ],
+            "EFL": [
+                "FCO"
+            ],
+            "FAO": [
+                "KTW",
+                "LGW"
+            ],
+            "HHN": [
+                "OTP",
+                "CLJ",
+                "KUT",
+                "SBZ",
+                "SKP",
+                "SOF",
+                "TSR",
+                "TIA",
+                "VAR"
+            ],
+            "FDH": [
+                "BEG",
+                "SKP"
+            ],
+            "FUE": [
+                "KTW",
+                "WAW"
+            ],
+            "FNC": [
+                "BUD",
+                "GDN",
+                "KTW",
+                "VIE",
+                "WAW",
+                "FCO"
+            ],
+            "GBB": [
+                "AUH"
+            ],
+            "GDN": [
+                "ABZ",
+                "AES",
+                "ALC",
+                "BCN",
+                "BGO",
+                "BLL",
+                "OTP",
+                "BUD",
+                "BOJ",
+                "CTA",
+                "CPH",
+                "DTM",
+                "EIN",
+                "FNC",
+                "GOT",
+                "HAM",
+                "HAU",
+                "HER",
+                "LCA",
+                "LBA",
+                "LPL",
+                "MAD",
+                "AGP",
+                "MXP",
+                "OSL",
+                "KEF",
+                "TRF",
+                "SPU",
+                "SVG",
+                "ARN",
+                "TFS",
+                "TIA",
+                "TOS",
+                "TRD",
+                "TKU",
+                "VRN",
+                "BVA",
+                "LTN",
+                "FCO"
+            ],
+            "GOA": [
+                "BUD",
+                "KRK",
+                "TIA",
+                "WAW"
+            ],
+            "GRO": [
+                "BUD"
+            ],
+            "GLA": [
+                "BUD"
+            ],
+            "GOT": [
+                "BEG",
+                "GDN",
+                "SKP",
+                "FCO"
+            ],
+            "LPA": [
+                "OTP",
+                "BUD",
+                "WRO",
+                "FCO"
+            ],
+            "GNB": [
+                "VNO",
+                "WAW",
+                "LGW",
+                "LTN"
+            ],
+            "HAM": [
+                "BEG",
+                "OTP",
+                "GDN",
+                "KUT",
+                "SBZ",
+                "SKP",
+                "SOF",
+                "TIA",
+                "VAR",
+                "EVN",
+                "FCO"
+            ],
+            "HAU": [
+                "GDN"
+            ],
+            "HER": [
+                "BEG",
+                "OTP",
+                "BUD",
+                "CLJ",
+                "GDN",
+                "KRK",
+                "MXP",
+                "TLV",
+                "WAW",
+                "FCO"
+            ],
+            "HRG": [
+                "BUD",
+                "MXP",
+                "VIE",
+                "LGW",
+                "LTN",
+                "FCO"
+            ],
+            "IAS": [
+                "BCN",
+                "BSL",
+                "BGY",
+                "BLL",
+                "BLQ",
+                "CRL",
+                "CTA",
+                "DTM",
+                "EIN",
+                "IST",
+                "LCA",
+                "LPL",
+                "MAD",
+                "MMX",
+                "FMM",
+                "TLV",
+                "TRN",
+                "VCE",
+                "BVA",
+                "CIA",
+                "NYO",
+                "TSF",
+                "LTN",
+                "FCO"
+            ],
+            "IBZ": [
+                "FCO"
+            ],
+            "IST": [
+                "BUD",
+                "IAS",
+                "LGW",
+                "LTN"
+            ],
+            "JED": [
+                "BUD",
+                "MXP",
+                "VIE",
+                "LGW",
+                "FCO"
+            ],
+            "FKB": [
+                "BEG",
+                "RMO",
+                "SBZ",
+                "SKP",
+                "SCV",
+                "TSR",
+                "TIA"
+            ],
+            "KTW": [
+                "AUH",
+                "AGA",
+                "ALC",
+                "ATH",
+                "BCN",
+                "BLL",
+                "GHV",
+                "BDS",
+                "BOJ",
+                "CTA",
+                "RMO",
+                "CFU",
+                "DTM",
+                "EIN",
+                "FAO",
+                "FUE",
+                "FNC",
+                "KUT",
+                "LCA",
+                "LPL",
+                "MST",
+                "MAD",
+                "AGP",
+                "MLA",
+                "NAP",
+                "PSA",
+                "TGD",
+                "OPO",
+                "KEF",
+                "SPU",
+                "TFS",
+                "TIA",
+                "AQJ",
+                "CIA",
+                "LTN",
+                "FCO"
+            ],
+            "KUN": [
+                "LTN"
+            ],
+            "KSC": [
+                "LTN"
+            ],
+            "KRK": [
+                "AUH",
+                "BCN",
+                "BSL",
+                "BGO",
+                "BIO",
+                "BLQ",
+                "OTP",
+                "EIN",
+                "GOA",
+                "HER",
+                "LCA",
+                "LYS",
+                "AGP",
+                "MXP",
+                "NCE",
+                "OSL",
+                "SOF",
+                "SPU",
+                "SVG",
+                "TLL",
+                "TLV",
+                "TIA",
+                "VLC",
+                "VRN",
+                "VNO",
+                "LGW",
+                "BBU",
+                "LTN",
+                "FCO"
+            ],
+            "KUT": [
+                "AUH",
+                "ATH",
+                "BCN",
+                "BER",
+                "CRL",
+                "BUD",
+                "DTM",
+                "HHN",
+                "HAM",
+                "KTW",
+                "LCA",
+                "LYS",
+                "MAD",
+                "FMM",
+                "MXP",
+                "POZ",
+                "PRG",
+                "SKG",
+                "VIE",
+                "VNO",
+                "WAW",
+                "WRO",
+                "BVA",
+                "CIA",
+                "RIX",
+                "FCO"
+            ],
+            "LCA": [
+                "AUH",
+                "ATH",
+                "BCN",
+                "BEG",
+                "OTP",
+                "BUD",
+                "SPX",
+                "RMO",
+                "CLJ",
+                "DEB",
+                "GDN",
+                "IAS",
+                "KTW",
+                "KRK",
+                "KUT",
+                "MXP",
+                "PRG",
+                "RDO",
+                "SKP",
+                "SOF",
+                "SCV",
+                "TLV",
+                "SKG",
+                "TSR",
+                "TIA",
+                "VIE",
+                "VNO",
+                "WAW",
+                "WRO",
+                "EVN",
+                "LGW",
+                "BVA",
+                "LTN",
+                "FCO"
+            ],
+            "LBA": [
+                "OTP",
+                "CLJ",
+                "GDN",
+                "WAW"
+            ],
+            "LEJ": [
+                "OTP",
+                "TIA",
+                "VAR"
+            ],
+            "LIS": [
+                "BEG",
+                "OTP",
+                "BUD",
+                "CLJ",
+                "WAW",
+                "LTN",
+                "FCO"
+            ],
+            "LPL": [
+                "OTP",
+                "BUD",
+                "GDN",
+                "IAS",
+                "KTW",
+                "WAW"
+            ],
+            "LJU": [
+                "SKP"
+            ],
+            "LUZ": [
+                "BOJ",
+                "SPU",
+                "LTN"
+            ],
+            "LYS": [
+                "OTP",
+                "CLJ",
+                "KRK",
+                "KUT",
+                "SKP",
+                "SOF",
+                "TIA",
+                "LGW",
+                "FCO"
+            ],
+            "MST": [
+                "OTP",
+                "RMO",
+                "KTW"
+            ],
+            "MAD": [
+                "OTP",
+                "BUD",
+                "CLJ",
+                "CRA",
+                "GDN",
+                "IAS",
+                "KTW",
+                "KUT",
+                "MXP",
+                "SBZ",
+                "SKP",
+                "SOF",
+                "TSR",
+                "TIA",
+                "VCE",
+                "WAW",
+                "WRO",
+                "FCO"
+            ],
+            "AGP": [
+                "OTP",
+                "BUD",
+                "CLJ",
+                "GDN",
+                "KTW",
+                "KRK",
+                "MXP",
+                "SOF",
+                "TIA",
+                "VIE",
+                "VNO",
+                "WAW",
+                "WRO",
+                "LGW",
+                "FCO"
+            ],
+            "PMI": [
+                "OTP",
+                "BUD",
+                "CLJ",
+                "WAW",
+                "LTN",
+                "FCO"
+            ],
+            "MMX": [
+                "BEG",
+                "OTP",
+                "CLJ",
+                "IAS",
+                "SKP",
+                "TIA"
+            ],
+            "MLA": [
+                "BEG",
+                "OTP",
+                "BUD",
+                "KTW",
+                "SKP",
+                "TIA",
+                "WAW"
+            ],
+            "RAK": [
+                "OTP",
+                "BUD",
+                "MXP",
+                "WAW",
+                "LGW",
+                "FCO"
+            ],
+            "RMF": [
+                "MXP",
+                "FCO"
+            ],
+            "MED": [
+                "AUH",
+                "LGW"
+            ],
+            "FMM": [
+                "BEG",
+                "GHV",
+                "OTP",
+                "BUD",
+                "CTA",
+                "RMO",
+                "CLJ",
+                "CRA",
+                "IAS",
+                "KUT",
+                "INI",
+                "OHD",
+                "TGD",
+                "PRN",
+                "SBZ",
+                "SKP",
+                "SOF",
+                "SCV",
+                "TSR",
+                "TIA",
+                "TZL",
+                "VAR",
+                "EVN",
+                "FCO"
+            ],
+            "MXP": [
+                "AMM",
+                "BCN",
+                "OTP",
+                "BUD",
+                "SPX",
+                "CTA",
+                "RMO",
+                "CFU",
+                "GDN",
+                "HER",
+                "HRG",
+                "JED",
+                "KRK",
+                "KUT",
+                "LCA",
+                "MAD",
+                "AGP",
+                "RAK",
+                "RMF",
+                "OLB",
+                "TGD",
+                "PRN",
+                "KEF",
+                "RZE",
+                "SSH",
+                "JSI",
+                "SKP",
+                "SCV",
+                "TLV",
+                "TFS",
+                "TIA",
+                "VLC",
+                "VNO",
+                "WAW",
+                "EVN",
+                "ZTH",
+                "LGW",
+                "BVA",
+                "RUH"
+            ],
+            "JMK": [
+                "OTP",
+                "FCO"
+            ],
+            "NAP": [
+                "GHV",
+                "OTP",
+                "BUD",
+                "RMO",
+                "CLJ",
+                "KTW",
+                "SSH",
+                "SOF",
+                "TLV",
+                "TSR",
+                "TIA",
+                "WAW",
+                "EVN",
+                "LGW",
+                "BBU"
+            ],
+            "NCE": [
+                "BEG",
+                "OTP",
+                "BUD",
+                "KRK",
+                "SOF",
+                "TIA",
+                "VIE",
+                "WAW",
+                "WRO",
+                "FCO"
+            ],
+            "INI": [
+                "BSL",
+                "DTM",
+                "FMM",
+                "MLH"
+            ],
+            "NUE": [
+                "GHV",
+                "OTP",
+                "RMO",
+                "CLJ",
+                "SBZ",
+                "SKP",
+                "TSR",
+                "TIA",
+                "VAR"
+            ],
+            "OHD": [
+                "BSL",
+                "DTM",
+                "FMM",
+                "VIE",
+                "MLH"
+            ],
+            "OLB": [
+                "MXP",
+                "WAW"
+            ],
+            "SZY": [
+                "DTM"
+            ],
+            "OSL": [
+                "GDN",
+                "KRK",
+                "SZZ"
+            ],
+            "PFO": [
+                "WAW",
+                "EVN"
+            ],
+            "PEG": [
+                "TIA"
+            ],
+            "PSR": [
+                "OTP",
+                "TIA"
+            ],
+            "PSA": [
+                "OTP",
+                "KTW",
+                "TIA",
+                "WAW"
+            ],
+            "PDV": [
+                "LTN"
+            ],
+            "TGD": [
+                "BUD",
+                "DTM",
+                "KTW",
+                "FMM",
+                "MXP",
+                "VIE",
+                "WAW",
+                "LGW",
+                "MLH"
+            ],
+            "TAT": [
+                "LTN"
+            ],
+            "OPO": [
+                "OTP",
+                "KTW",
+                "WAW",
+                "FCO"
+            ],
+            "POZ": [
+                "KUT",
+                "TIA",
+                "LTN",
+                "FCO"
+            ],
+            "PRG": [
+                "CTA",
+                "KUT",
+                "LCA",
+                "SKP",
+                "TIA",
+                "EVN",
+                "LGW",
+                "LTN",
+                "FCO"
+            ],
+            "PRN": [
+                "DTM",
+                "FMM",
+                "MXP",
+                "VIE",
+                "LTN"
+            ],
+            "RDO": [
+                "LCA"
+            ],
+            "KEF": [
+                "BUD",
+                "GDN",
+                "KTW",
+                "MXP",
+                "WAW",
+                "FCO"
+            ],
+            "RHO": [
+                "BUD",
+                "TLV",
+                "WAW"
+            ],
+            "RMI": [
+                "TIA"
+            ],
+            "RZE": [
+                "MXP",
+                "FCO"
+            ],
+            "SLL": [
+                "AUH"
+            ],
+            "QSR": [
+                "OTP",
+                "TIA"
+            ],
+            "TRF": [
+                "OTP",
+                "GDN",
+                "SKP",
+                "SZZ",
+                "TIA",
+                "WAW",
+                "PLQ"
+            ],
+            "SDR": [
+                "OTP"
+            ],
+            "JTR": [
+                "OTP",
+                "BUD",
+                "WAW",
+                "FCO"
+            ],
+            "SJJ": [
+                "AUH",
+                "LTN",
+                "FCO"
+            ],
+            "SUJ": [
+                "LTN"
+            ],
+            "SVQ": [
+                "OTP",
+                "WAW",
+                "FCO"
+            ],
+            "SSH": [
+                "BUD",
+                "CTA",
+                "MXP",
+                "NAP",
+                "VCE",
+                "LGW",
+                "LTN",
+                "FCO"
+            ],
+            "SBZ": [
+                "BSL",
+                "BHX",
+                "DTM",
+                "HHN",
+                "HAM",
+                "FKB",
+                "MAD",
+                "FMM",
+                "NUE",
+                "VIE",
+                "LTN",
+                "FCO"
+            ],
+            "JSI": [
+                "MXP",
+                "FCO"
+            ],
+            "SKP": [
+                "BCN",
+                "BRE",
+                "BRI",
+                "BSL",
+                "BER",
+                "BLQ",
+                "BTS",
+                "CRL",
+                "DTM",
+                "EIN",
+                "HHN",
+                "FDH",
+                "GOT",
+                "HAM",
+                "FKB",
+                "LCA",
+                "LJU",
+                "LYS",
+                "MAD",
+                "MMX",
+                "MLA",
+                "FMM",
+                "MXP",
+                "NUE",
+                "PRG",
+                "TRF",
+                "ARN",
+                "STR",
+                "VCE",
+                "BVA",
+                "CIA",
+                "MLH",
+                "NYO",
+                "SZG",
+                "TSF",
+                "LTN",
+                "FCO"
+            ],
+            "SOF": [
+                "AUH",
+                "AHO",
+                "BCN",
+                "BRI",
+                "BSL",
+                "BGY",
+                "CRL",
+                "DTM",
+                "EIN",
+                "HHN",
+                "HAM",
+                "KRK",
+                "LCA",
+                "LYS",
+                "MAD",
+                "AGP",
+                "FMM",
+                "NAP",
+                "NCE",
+                "STR",
+                "TLV",
+                "VLC",
+                "WAW",
+                "EVN",
+                "AQJ",
+                "BVA",
+                "CIA",
+                "GVA",
+                "LTN",
+                "FCO"
+            ],
+            "SPU": [
+                "GDN",
+                "KTW",
+                "KRK",
+                "LUZ",
+                "WAW",
+                "WRO",
+                "LTN",
+                "FCO"
+            ],
+            "SVG": [
+                "GDN",
+                "KRK"
+            ],
+            "ARN": [
+                "BEG",
+                "OTP",
+                "BUD",
+                "GDN",
+                "SKP",
+                "WAW"
+            ],
+            "STR": [
+                "OTP",
+                "BUD",
+                "CLJ",
+                "SKP",
+                "SOF",
+                "TIA"
+            ],
+            "SCV": [
+                "BGY",
+                "BHX",
+                "BLQ",
+                "CRL",
+                "DTM",
+                "FKB",
+                "LCA",
+                "FMM",
+                "MXP",
+                "VCE",
+                "VIE",
+                "CIA",
+                "LTN",
+                "FCO"
+            ],
+            "SZZ": [
+                "OSL",
+                "TRF"
+            ],
+            "TLL": [
+                "KRK",
+                "LTN"
+            ],
+            "TAS": [
+                "AUH"
+            ],
+            "TLV": [
+                "AUH",
+                "ATH",
+                "OTP",
+                "BUD",
+                "CLJ",
+                "HER",
+                "IAS",
+                "KRK",
+                "LCA",
+                "MXP",
+                "NAP",
+                "RHO",
+                "SOF",
+                "VAR",
+                "VIE",
+                "VNO",
+                "WAW",
+                "LGW",
+                "LTN",
+                "FCO"
+            ],
+            "TFS": [
+                "OTP",
+                "BUD",
+                "GDN",
+                "KTW",
+                "MXP",
+                "VCE",
+                "VIE",
+                "WAW",
+                "FCO"
+            ],
+            "SKG": [
+                "BUD",
+                "KUT",
+                "LCA"
+            ],
+            "TSR": [
+                "BCN",
+                "BRI",
+                "BSL",
+                "BGY",
+                "BLQ",
+                "CRL",
+                "DTM",
+                "FCO",
+                "HHN",
+                "FKB",
+                "LCA",
+                "LTN",
+                "MAD",
+                "FMM",
+                "NAP",
+                "NUE",
+                "VLC",
+                "VCE",
+                "ZTH",
+                "BVA",
+                "CIA",
+                "TSF",
+                "TRN"
+            ],
+            "TIA": [
+                "AOI",
+                "ATH",
+                "BCN",
+                "BRI",
+                "BSL",
+                "BGY",
+                "BER",
+                "BLQ",
+                "CRL",
+                "BUD",
+                "CIY",
+                "DTM",
+                "EIN",
+                "HHN",
+                "GDN",
+                "GOA",
+                "HAM",
+                "FKB",
+                "KTW",
+                "KRK",
+                "LCA",
+                "LEJ",
+                "LYS",
+                "MAD",
+                "AGP",
+                "MMX",
+                "MLA",
+                "FMM",
+                "MXP",
+                "NAP",
+                "NCE",
+                "NUE",
+                "PEG",
+                "PSR",
+                "PSA",
+                "POZ",
+                "PRG",
+                "RMI",
+                "QSR",
+                "TRF",
+                "STR",
+                "TRS",
+                "TRN",
+                "VLC",
+                "VCE",
+                "VRN",
+                "VIE",
+                "WAW",
+                "WRO",
+                "BVA",
+                "MLH",
+                "NYO",
+                "TSF",
+                "LTN",
+                "FCO"
+            ],
+            "TRS": [
+                "OTP",
+                "TIA"
+            ],
+            "TOS": [
+                "GDN",
+                "LTN"
+            ],
+            "TRD": [
+                "GDN"
+            ],
+            "TRN": [
+                "OTP",
+                "CTA",
+                "IAS",
+                "TIA",
+                "WAW",
+                "TSR"
+            ],
+            "TKU": [
+                "GDN"
+            ],
+            "TZL": [
+                "BSL",
+                "DTM",
+                "FMM",
+                "VIE",
+                "MLH"
+            ],
+            "TGM": [
+                "BUD",
+                "LTN"
+            ],
+            "VLC": [
+                "OTP",
+                "BUD",
+                "CLJ",
+                "KRK",
+                "MXP",
+                "SOF",
+                "TSR",
+                "TIA",
+                "WAW",
+                "FCO"
+            ],
+            "VAR": [
+                "BGY",
+                "BER",
+                "CRL",
+                "DTM",
+                "EIN",
+                "HHN",
+                "HAM",
+                "LEJ",
+                "FMM",
+                "NUE",
+                "TLV",
+                "LGW",
+                "LTN"
+            ],
+            "VCE": [
+                "ATH",
+                "BCN",
+                "OTP",
+                "BUD",
+                "CTA",
+                "RMO",
+                "CLJ",
+                "IAS",
+                "MAD",
+                "SSH",
+                "SKP",
+                "SCV",
+                "TFS",
+                "TSR",
+                "TIA",
+                "WAW",
+                "EVN",
+                "LGW"
+            ],
+            "VRN": [
+                "CTA",
+                "RMO",
+                "GDN",
+                "KRK",
+                "TIA",
+                "WAW"
+            ],
+            "VIE": [
+                "AUH",
+                "AMM",
+                "BCN",
+                "BIO",
+                "BOJ",
+                "CHQ",
+                "RMO",
+                "CLJ",
+                "CFU",
+                "FNC",
+                "HRG",
+                "JED",
+                "KUT",
+                "LCA",
+                "AGP",
+                "NCE",
+                "OHD",
+                "TGD",
+                "PRN",
+                "SBZ",
+                "SCV",
+                "TLV",
+                "TFS",
+                "TIA",
+                "TZL",
+                "EVN",
+                "ZTH",
+                "LGW",
+                "RUH",
+                "FCO"
+            ],
+            "VNO": [
+                "BCN",
+                "BGO",
+                "BLL",
+                "BUD",
+                "CTA",
+                "DTM",
+                "EIN",
+                "GNB",
+                "KRK",
+                "KUT",
+                "LCA",
+                "AGP",
+                "MXP",
+                "TLV",
+                "BVA",
+                "LTN",
+                "FCO"
+            ],
+            "WAW": [
+                "AHO",
+                "ALC",
+                "ATH",
+                "BCN",
+                "BRI",
+                "BSL",
+                "BGY",
+                "BGO",
+                "BIO",
+                "BLQ",
+                "BDS",
+                "CRL",
+                "OTP",
+                "BUD",
+                "BOJ",
+                "CTA",
+                "CHQ",
+                "RMO",
+                "CPH",
+                "CFU",
+                "DTM",
+                "DBV",
+                "EIN",
+                "FUE",
+                "FNC",
+                "GOA",
+                "GNB",
+                "HER",
+                "KUT",
+                "LCA",
+                "LBA",
+                "LIS",
+                "LPL",
+                "MAD",
+                "AGP",
+                "PMI",
+                "MLA",
+                "RAK",
+                "MXP",
+                "NAP",
+                "NCE",
+                "OLB",
+                "PFO",
+                "PSA",
+                "TGD",
+                "OPO",
+                "KEF",
+                "RHO",
+                "TRF",
+                "JTR",
+                "SVQ",
+                "SOF",
+                "SPU",
+                "ARN",
+                "TLV",
+                "TFS",
+                "TIA",
+                "TRN",
+                "VLC",
+                "VCE",
+                "VRN",
+                "ZTH",
+                "LGW",
+                "AQJ",
+                "BBU",
+                "NYO",
+                "ORY",
+                "LTN",
+                "FCO"
+            ],
+            "WRO": [
+                "BCN",
+                "BRI",
+                "BSL",
+                "OTP",
+                "BUD",
+                "CTA",
+                "RMO",
+                "EIN",
+                "LPA",
+                "KUT",
+                "LCA",
+                "MAD",
+                "AGP",
+                "NCE",
+                "SPU",
+                "TIA",
+                "LGW",
+                "BBU",
+                "LTN"
+            ],
+            "EVN": [
+                "AUH",
+                "BRI",
+                "OTP",
+                "BUD",
+                "DTM",
+                "HAM",
+                "LCA",
+                "FMM",
+                "MXP",
+                "NAP",
+                "PFO",
+                "PRG",
+                "SOF",
+                "VCE",
+                "VIE",
+                "BBU",
+                "FCO"
+            ],
+            "ZTH": [
+                "OTP",
+                "BUD",
+                "CLJ",
+                "MXP",
+                "TSR",
+                "VIE",
+                "WAW",
+                "FCO"
+            ],
+            "ZAZ": [
+                "OTP",
+                "CLJ",
+                "FCO"
+            ],
+            "LGW": [
+                "AUH",
+                "AGA",
+                "AYT",
+                "ATH",
+                "OTP",
+                "BUD",
+                "CTA",
+                "DLM",
+                "FAO",
+                "GNB",
+                "HRG",
+                "IST",
+                "JED",
+                "KRK",
+                "LCA",
+                "LYS",
+                "MED",
+                "AGP",
+                "RAK",
+                "MXP",
+                "NAP",
+                "TGD",
+                "PRG",
+                "FCO",
+                "SSH",
+                "TLV",
+                "VAR",
+                "VCE",
+                "VIE",
+                "WAW",
+                "WRO"
+            ],
+            "FCO": [
+                "LGW",
+                "AQJ",
+                "EFL",
+                "KGS",
+                "ORY",
+                "RUH",
+                "TSR",
+                "BCM",
+                "AUH",
+                "ALC",
+                "AMM",
+                "AQJ",
+                "BCM",
+                "GYD",
+                "BCN",
+                "BSL",
+                "BEG",
+                "BER",
+                "BIO",
+                "BHX",
+                "OTP",
+                "BUD",
+                "SPX",
+                "CDT",
+                "RMO",
+                "CLJ",
+                "CFU",
+                "CRA",
+                "DMM",
+                "DEB",
+                "DTM",
+                "EIN",
+                "FNC",
+                "GDN",
+                "GOT",
+                "LPA",
+                "HAM",
+                "HER",
+                "HRG",
+                "IAS",
+                "IBZ",
+                "JED",
+                "KTW",
+                "EFL",
+                "KGS",
+                "KRK",
+                "KUT",
+                "LCA",
+                "LIS",
+                "LGW",
+                "LYS",
+                "MAD",
+                "AGP",
+                "RAK",
+                "RMF",
+                "FMM",
+                "JMK",
+                "NCE",
+                "PMI",
+                "ORY",
+                "OPO",
+                "POZ",
+                "PRG",
+                "KEF",
+                "RUH",
+                "RZE",
+                "JTR",
+                "SJJ",
+                "SVQ",
+                "SSH",
+                "SBZ",
+                "JSI",
+                "SKP",
+                "SOF",
+                "SPU",
+                "SCV",
+                "TLV",
+                "TFS",
+                "TSR",
+                "TIA",
+                "VLC",
+                "VIE",
+                "VNO",
+                "WAW",
+                "EVN",
+                "ZTH",
+                "ZAZ"
+            ],
+            "LTN": [
+                "BBU",
+                "GNB",
+                "KSC",
+                "SZG",
+                "TSR",
+                "PRG",
+                "LCA",
+                "LIS",
+                "LUZ",
+                "PMI",
+                "POZ",
+                "KUN",
+                "KRK",
+                "PRN",
+                "DLM",
+                "DEB",
+                "GDN",
+                "HRG",
+                "IAS",
+                "IST",
+                "KTW",
+                "AMM",
+                "AYT",
+                "ATH",
+                "BCM",
+                "BEG",
+                "BOJ",
+                "GHV",
+                "PDV",
+                "BTS",
+                "OTP",
+                "BBU",
+                "BUD",
+                "SPX",
+                "RMO",
+                "SPU",
+                "CLJ",
+                "CND",
+                "CRA",
+                "TAT",
+                "SZG",
+                "SJJ",
+                "SUJ",
+                "SSH",
+                "SBZ",
+                "SKP",
+                "SOF",
+                "SCV",
+                "TLL",
+                "TLV",
+                "TSR",
+                "TIA",
+                "TGM",
+                "TOS",
+                "VAR",
+                "VNO",
+                "WAW",
+                "WRO"
+            ],
+            "MCT": [
+                "AUH"
+            ],
+            "MLE": [
+                "AUH"
+            ],
+            "MLH": [
+                "BNX",
+                "BEG",
+                "RMO",
+                "INI",
+                "OHD",
+                "TGD",
+                "SKP",
+                "TIA",
+                "TZL"
+            ],
+            "NQZ": [
+                "AUH"
+            ],
+            "ORY": [
+                "BUD",
+                "FCO",
+                "WAW"
+            ],
+            "NYO": [
+                "BEG",
+                "OTP",
+                "IAS",
+                "SKP",
+                "WAW",
+                "TIA"
+            ],
+            "PLQ": [
+                "TRF"
+            ],
+            "RIX": [
+                "KUT"
+            ],
+            "RUH": [
+                "BUD",
+                "MXP",
+                "FCO",
+                "VIE"
+            ],
+            "RVN": [
+                "BUD"
+            ],
+            "SKD": [
+                "AUH"
+            ],
+            "SZG": [
+                "LTN",
+                "OTP",
+                "SKP"
+            ],
+            "TSF": [
+                "TSR",
+                "OTP",
+                "CLJ",
+                "IAS",
+                "SKP",
+                "TSR",
+                "TIA"
+            ],
+            "BCM": [
+                "LTN",
+                "BGY",
+                "FCO"
+            ],
+            "AGJ": [
+                "FCO"
+            ],
+            "IED": [
+                "FCO"
+            ]
+        }
+
+        const allDestinations = [...new Set(Object.values(pairs).flat())];
+
+        const today = new Date();
+        const formatDate = (date) => {
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        };
+
+        const dateOptions = [
+            { value: 'today', label: formatDate(today) },
+            { value: 'tomorrow', label: formatDate(new Date(today.getTime() + 86400000)) },
+            { value: 'day-after-tomorrow', label: formatDate(new Date(today.getTime() + 2 * 86400000)) },
+            { value: 'two-days-after-tomorrow', label: formatDate(new Date(today.getTime() + 3 * 86400000)) }
+        ];
+
+        const dynamicContent = document.getElementById('dynamic-content');
+        const connectionRadios = document.getElementsByName('connection');
+        const datesSelect = document.getElementById('dates');
+        const selectAllDatesButton = document.getElementById('select-all-dates');
+        const datesCheckboxes = document.getElementById('dates-checkboxes');
+
+        function renderDateCheckboxes() {
+            datesCheckboxes.innerHTML = '';
+            const today = new Date();
+            for (let i = 0; i < 4; i++) {
+                const date = new Date(today.getTime() + i * 86400000);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                const dateStr = `${day}/${month}/${year}`;
+                const label = document.createElement('label');
+                label.style.fontWeight = 'normal';
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'dates';
+                checkbox.value = dateStr;
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(' ' + dateStr));
+                datesCheckboxes.appendChild(label);
+                datesCheckboxes.appendChild(document.createElement('br'));
+            }
+        }
+
+        renderDateCheckboxes();
+
+        document.getElementById('select-all-dates').onclick = function () {
+            datesCheckboxes.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+        };
+
+        connectionRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                dynamicContent.innerHTML = '';
+
+                // --- WITH mode ---
+                if (radio.value === 'with') {
+                    const fromLabel = document.createElement('label');
+                    fromLabel.textContent = 'FROM';
+                    fromLabel.style.display = 'block';
+                    fromLabel.style.fontWeight = 'bold';
+                    const originSelect = createComboBox(Object.keys(pairs), 'origin');
+                    fromLabel.appendChild(originSelect);
+
+                    const toLabel = document.createElement('label');
+                    toLabel.textContent = 'TO';
+                    toLabel.style.display = 'block';
+                    toLabel.style.fontWeight = 'bold';
+                    const destinationSelect = createComboBox(allDestinations, 'destination');
+                    toLabel.appendChild(destinationSelect);
+
+                    dynamicContent.appendChild(fromLabel);
+                    dynamicContent.appendChild(toLabel);
+
+                    datesSelect.multiple = false;
+                    document.getElementById('select-all-dates').style.display = 'none';
+                } else {
+                    renderRowsContainer();
+                    datesSelect && (datesSelect.multiple = true);
+                    document.getElementById('select-all-dates').style.display = 'inline-block';
+                }
+            });
+        });
+
+        function createComboBox(options, name, onChangeCallback, isMultiSelect = false) {
+            if (isMultiSelect) {
+                // MULTIPLE select as before
+                const select = document.createElement('select');
+                select.name = name;
+                select.multiple = true;
+                options.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option;
+                    opt.textContent = option;
+                    select.appendChild(opt);
+                });
+                if (onChangeCallback) {
+                    select.addEventListener('change', onChangeCallback);
+                }
+                const selectAllButton = document.createElement('button');
+                selectAllButton.type = 'button';
+                selectAllButton.textContent = 'Select All';
+                selectAllButton.addEventListener('click', () => {
+                    for (const option of select.options) {
+                        option.selected = true;
+                    }
+                });
+                const container = document.createElement('div');
+                container.appendChild(select);
+                container.appendChild(selectAllButton);
+                return container;
+            } else {
+                // SINGLE select: use input + datalist
+                const input = document.createElement('input');
+                input.setAttribute('list', `datalist-${name}`);
+                input.name = name;
+                input.autocomplete = 'off';
+                const datalist = document.createElement('datalist');
+                datalist.id = `datalist-${name}`;
+                options.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option;
+                    datalist.appendChild(opt);
+                });
+                if (onChangeCallback) {
+                    input.addEventListener('change', onChangeCallback);
+                }
+                const container = document.createElement('span');
+                container.appendChild(input);
+                container.appendChild(datalist);
+                return container;
+            }
+        }
+
+        function createNoneRow() {
+            const row = document.createElement('div');
+            row.classList.add('row');
+
+            const fromAnywhereCheckbox = document.createElement('input');
+            fromAnywhereCheckbox.type = 'checkbox';
+            fromAnywhereCheckbox.name = 'from-anywhere';
+
+            const fromAnywhereLabel = document.createElement('label');
+            fromAnywhereLabel.textContent = 'From Anywhere';
+            fromAnywhereLabel.appendChild(fromAnywhereCheckbox);
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.textContent = '—';
+            removeButton.className = 'remove-row-btn';
+            removeButton.title = 'Remove Row';
+            removeButton.addEventListener('click', () => {
+                row.remove();
+            });
+
+            const originSelect = createComboBox(Object.keys(pairs), 'origin', () => {
+                // Handle both input+datalist and multiselect
+                let selectedOrigin = null;
+                // If originSelect is input+datalist
+                if (originSelect.querySelector('input[name="origin"]')) {
+                    selectedOrigin = originSelect.querySelector('input[name="origin"]').value;
+                } else if (originSelect.value !== undefined) {
+                    selectedOrigin = originSelect.value;
+                }
+                const destinationOptions = pairs[selectedOrigin] || [];
+                // Find the destination select (could be inside a label)
+                let destinationSelect = row.querySelector('select[name="destination"]');
+                if (!destinationSelect) {
+                    // If not found directly, search inside labels
+                    const toLabel = Array.from(row.querySelectorAll('label')).find(l => l.textContent.startsWith('TO'));
+                    if (toLabel) destinationSelect = toLabel.querySelector('select[name="destination"]');
+                }
+                if (destinationSelect) {
+                    destinationSelect.innerHTML = '';
+                    destinationOptions.forEach(dest => {
+                        const opt = document.createElement('option');
+                        opt.value = dest;
+                        opt.textContent = dest;
+                        destinationSelect.appendChild(opt);
+                    });
+                }
+            });
+
+            const destinationSelect = createComboBox([], 'destination', null, true);
+
+            // When row is rendered, also trigger the originSelect change to fill destination
+            function renderRowContent() {
+                row.innerHTML = '';
+                row.appendChild(removeButton);
+                row.appendChild(fromAnywhereLabel);
+                if (fromAnywhereCheckbox.checked) {
+                    // Only TO
+                    const toLabel = document.createElement('label');
+                    toLabel.textContent = 'TO';
+                    toLabel.style.display = 'block';
+                    toLabel.style.fontWeight = 'bold';
+                    const anywhereSelect = createComboBox(allDestinations, 'anywhere', null, false);
+                    toLabel.appendChild(anywhereSelect);
+                    row.appendChild(toLabel);
+                } else {
+                    // Always show FROM and TO when not 'from anywhere'
+                    const fromLabel = document.createElement('label');
+                    fromLabel.textContent = 'FROM';
+                    fromLabel.style.display = 'block';
+                    fromLabel.style.fontWeight = 'bold';
+                    fromLabel.appendChild(originSelect);
+                    row.appendChild(fromLabel);
+                    const toLabel = document.createElement('label');
+                    toLabel.textContent = 'TO';
+                    toLabel.style.display = 'block';
+                    toLabel.style.fontWeight = 'bold';
+                    toLabel.appendChild(destinationSelect);
+                    row.appendChild(toLabel);
+                    // Fill destination options according to current origin
+                    if (typeof originSelect.onchange === 'function') originSelect.onchange();
+                    else originSelect.dispatchEvent(new Event('change'));
+                }
+            }
+
+            fromAnywhereCheckbox.addEventListener('change', renderRowContent);
+            renderRowContent();
+
+            return row;
+        }
+
+        function renderRowsContainer() {
+            dynamicContent.innerHTML = '';
+            const rowsContainer = document.createElement('div');
+            rowsContainer.id = 'rows-container';
+            dynamicContent.appendChild(rowsContainer);
+
+            // Add initial row if none exist
+            if (rowsContainer.children.length === 0) {
+                rowsContainer.appendChild(createNoneRow());
+            }
+
+            const addRowContainer = document.createElement('div');
+            addRowContainer.id = 'add-row-container';
+            const addButton = document.createElement('button');
+            addButton.type = 'button';
+            addButton.textContent = '+ Add Route';
+            addButton.title = 'Add Row';
+            addButton.addEventListener('click', () => {
+                rowsContainer.appendChild(createNoneRow());
+            });
+            addRowContainer.appendChild(addButton);
+            dynamicContent.appendChild(addRowContainer);
+        }
+
+        // Update the logic for adding rows so the plus button is always below all rows
+        connectionRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                dynamicContent.innerHTML = '';
+
+                // --- WITH mode ---
+                if (radio.value === 'with') {
+                    const fromLabel = document.createElement('label');
+                    fromLabel.textContent = 'FROM';
+                    fromLabel.style.display = 'block';
+                    fromLabel.style.fontWeight = 'bold';
+                    const originSelect = createComboBox(Object.keys(pairs), 'origin');
+                    fromLabel.appendChild(originSelect);
+
+                    const toLabel = document.createElement('label');
+                    toLabel.textContent = 'TO';
+                    toLabel.style.display = 'block';
+                    toLabel.style.fontWeight = 'bold';
+                    const destinationSelect = createComboBox(allDestinations, 'destination');
+                    toLabel.appendChild(destinationSelect);
+
+                    dynamicContent.appendChild(fromLabel);
+                    dynamicContent.appendChild(toLabel);
+
+                    datesSelect.multiple = false;
+                    document.getElementById('select-all-dates').style.display = 'none';
+                } else {
+                    renderRowsContainer();
+                    datesSelect && (datesSelect.multiple = true);
+                    document.getElementById('select-all-dates').style.display = 'inline-block';
+                }
+            });
+        });
+
+        // Update the default state for 'none' mode on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const radioNone = document.querySelector('input[type="radio"][name="connection"][value="none"]');
+            if (radioNone) {
+                radioNone.dispatchEvent(new Event('change'));
+            }
+        });
+
+        document.getElementById('flight-search-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            // Collect username and password
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            // Mode
+            const mode = document.querySelector('input[type="radio"][name="connection"]:checked').value;
+            // Dates
+            const dateCheckboxes = document.querySelectorAll('#dates-checkboxes input[type="checkbox"]:checked');
+            const dates = Array.from(dateCheckboxes).map(cb => {
+                // Convert DD/MM/YYYY to YYYY-MM-DD
+                const [d, m, y] = cb.value.split('/');
+                return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+            });
+            // Routes
+            let routes = [];
+            if (mode === 'with') {
+                const from = document.querySelector('input[name="origin"]').value;
+                const to = document.querySelector('input[name="destination"]').value;
+                routes.push([from, to]);
+            } else {
+                const rows = document.querySelectorAll('.row');
+                rows.forEach(row => {
+                    const fromAnywhere = row.querySelector('input[name="from-anywhere"]').checked;
+                    if (fromAnywhere) {
+                        const to = row.querySelector('input[name="anywhere"]').value;
+                        // Find all keys in pairs where to is in the array
+                        Object.entries(pairs).forEach(([from, arr]) => {
+                            if (arr.includes(to)) {
+                                routes.push([from, to]);
+                            }
+                        });
+                    } else {
+                        const from = row.querySelector('input[name="origin"]')?.value;
+                        if (!from) {
+                            console.log('Missing origin in one of the rows');
+                            return
+                        }
+                        const toSelect = row.querySelector('select[name="destination"]');
+                        if (toSelect.multiple) {
+                            Array.from(toSelect.selectedOptions).forEach(opt => {
+                                routes.push([from, opt.value]);
+                            });
+                        } else {
+                            routes.push([from, toSelect.value]);
+                        }
+                    }
+                });
+            }
+            // Validation
+            if (!username || !password || routes.length === 0 || dates.length === 0) {
+                alert('All fields are required. Please fill in all details.');
+                console.log(username, password, routes, dates, mode);
+                return;
+            }
+            // Build info field
+            let info = '';
+            if (mode === 'with') {
+                // flights_with_connections_{from}-{to}_{date1,date2,...}
+                const [from, to] = routes[0] || ['', ''];
+                info = `flights with connections from:${from} to:${to} at: ${dates.join(',')}`;
+            } else {
+                const uniqueOrigins = Array.from(new Set(routes.map(r => (r[0] || '').trim().toUpperCase())));
+                let fileOrigins = uniqueOrigins.slice(0, 5).join(' ');
+                if (uniqueOrigins.length > 5) fileOrigins += ' etc';
+                info = `${fileOrigins}`;
+            }
+            // Build object
+            const obj = {
+                username,
+                password,
+                routes,
+                dates,
+                mode,
+                info
+            };
+            // Remove any previous message
+            let msgDiv = document.getElementById('success-message');
+            if (msgDiv) msgDiv.remove();
+
+            fetch('https://wizz-flights.onrender.com/process', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(obj)
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json().catch(() => ({}));
+                })
+                .then(() => {
+                    const div = document.createElement('div');
+                    div.id = 'success-message';
+                    div.style.background = '#d4edda';
+                    div.style.color = '#155724';
+                    div.style.border = '1px solid #c3e6cb';
+                    div.style.padding = '14px 10px';
+                    div.style.borderRadius = '5px';
+                    div.style.margin = '16px 0';
+                    div.style.textAlign = 'center';
+                    div.style.fontSize = '16px';
+                    div.innerHTML = 'הבקשה התקבלה בהצלחה! התוצאות יישלחו אליך במייל.';
+                    document.body.insertBefore(div, document.body.firstChild);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                })
+                .catch(() => {
+                    const div = document.createElement('div');
+                    div.id = 'success-message';
+                    div.style.background = '#f8d7da';
+                    div.style.color = '#721c24';
+                    div.style.border = '1px solid #f5c6cb';
+                    div.style.padding = '14px 10px';
+                    div.style.borderRadius = '5px';
+                    div.style.margin = '16px 0';
+                    div.style.textAlign = 'center';
+                    div.style.fontSize = '16px';
+                    div.innerHTML = 'אירעה שגיאה בשליחת הבקשה. נסה שוב.';
+                    document.body.insertBefore(div, document.body.firstChild);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+        });
+    </script>
+</body>
+
+</html>
