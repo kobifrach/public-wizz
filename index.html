@@ -231,6 +231,25 @@
                 padding: 13px 0;
             }
         }
+        /* Compact per-row dates: keep checkboxes and select-all on one line when possible */
+        .row-dates-checkboxes {
+            display: inline-flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap; /* allow wrapping on very small screens */
+        }
+        .row-dates-checkboxes label {
+            margin-bottom: 0;
+            white-space: nowrap; /* keep each date together */
+            font-weight: normal;
+            font-size: 13px;
+        }
+        .row > .multiselect-select-all {
+            margin-left: 8px;
+            margin-top: 0;
+            margin-bottom: 0;
+            vertical-align: middle;
+        }
     </style>
 </head>
 
@@ -263,9 +282,9 @@
         <div class="divider"></div>
 
         <!-- Date Selector -->
-        <label for="dates">Select Dates:</label>
-        <div id="dates-checkboxes"></div>
-        <button type="button" id="select-all-dates">Select All</button>
+    <label for="dates" id="global-dates-label">Select Dates:</label>
+    <div id="dates-checkboxes"></div>
+    <button type="button" id="select-all-dates">Select All</button>
 
         <!-- Start Button -->
         <div style="text-align: center; margin: 24px 0;">
@@ -362,9 +381,9 @@
 
             const dynamicContent = document.getElementById('dynamic-content');
             const connectionRadios = document.getElementsByName('connection');
-            const datesSelect = document.getElementById('dates');
             const selectAllDatesButton = document.getElementById('select-all-dates');
             const datesCheckboxes = document.getElementById('dates-checkboxes');
+            const globalDatesLabel = document.getElementById('global-dates-label');
 
             function renderDateCheckboxes() {
                 datesCheckboxes.innerHTML = '';
@@ -398,8 +417,16 @@
                 radio.addEventListener('change', () => {
                     dynamicContent.innerHTML = '';
 
+                    const showGlobalDates = (show) => {
+                        if (globalDatesLabel) globalDatesLabel.style.display = show ? 'block' : 'none';
+                        if (datesCheckboxes) datesCheckboxes.style.display = show ? 'block' : 'none';
+                        if (selectAllDatesButton) selectAllDatesButton.style.display = show ? 'inline-block' : 'none';
+                    };
+
                     // --- WITH mode ---
                     if (radio.value === 'with') {
+                        showGlobalDates(true);
+
                         const fromLabel = document.createElement('label');
                         fromLabel.textContent = 'FROM';
                         fromLabel.style.display = 'block';
@@ -421,13 +448,10 @@
 
                         dynamicContent.appendChild(fromLabel);
                         dynamicContent.appendChild(toLabel);
-
-                        if (datesSelect) datesSelect.multiple = false;
-                        document.getElementById('select-all-dates').style.display = 'none';
                     } else {
+                        // NONE mode: hide global dates and render rows with per-row date selectors
+                        showGlobalDates(false);
                         renderRowsContainer();
-                        datesSelect && (datesSelect.multiple = true);
-                        document.getElementById('select-all-dates').style.display = 'inline-block';
                     }
                 });
             });
@@ -576,7 +600,7 @@
 
                     const selectAllLabel = document.createElement('label');
                     selectAllLabel.setAttribute('for', selectAllCheckbox.id);
-                    selectAllLabel.textContent = 'בחר הכל';
+                    selectAllLabel.textContent = 'select all destnations';
                     selectAllLabel.style.fontSize = '13px';
                     selectAllLabel.style.color = '#007bff';
 
@@ -728,7 +752,116 @@
                 }
             }
 
-            function createNoneRow() {
+            // Helper to create per-row date selector (4 upcoming days) with "Select All" button
+            function createRowDateSelector(preselectedDates = []) {
+                const container = document.createElement('div');
+                const label = document.createElement('label');
+                label.textContent = 'Select Dates:';
+                label.style.display = 'block';
+                label.style.fontWeight = 'bold';
+
+                const cbWrap = document.createElement('div');
+                cbWrap.className = 'row-dates-checkboxes';
+
+                const today = new Date();
+                const toDMY = (date) => {
+                    const d = String(date.getDate()).padStart(2, '0');
+                    const m = String(date.getMonth() + 1).padStart(2, '0');
+                    const y = date.getFullYear();
+                    return `${d}/${m}/${y}`;
+                };
+
+                // build 4 day checkboxes
+                const selectedDMY = new Set(preselectedDates);
+                for (let i = 0; i < 4; i++) {
+                        const date = new Date(today.getTime() + i * 86400000);
+                        const dmy = toDMY(date); // DD/MM/YYYY used as value for API
+                        const lbl = document.createElement('label');
+                        lbl.style.fontWeight = 'normal';
+                        lbl.style.display = 'inline-block';
+                        lbl.style.marginRight = '6px';
+                        const cb = document.createElement('input');
+                        cb.type = 'checkbox';
+                        cb.name = 'row-date';
+                        cb.value = dmy; // keep year in value for API
+                        if (selectedDMY.has(dmy)) cb.checked = true;
+                        lbl.appendChild(cb);
+                        // Display without year to save horizontal space (DD/MM)
+                        lbl.appendChild(document.createTextNode(' ' + dmy.slice(0,5)));
+                        cbWrap.appendChild(lbl);
+                }
+
+                // create a select-all checkbox (can select/deselect and show indeterminate)
+                const selectAllWrapper = document.createElement('div');
+                selectAllWrapper.style.display = 'inline-flex';
+                selectAllWrapper.style.alignItems = 'center';
+                selectAllWrapper.style.gap = '6px';
+                selectAllWrapper.style.marginLeft = '8px';
+
+                const selectAllCheckbox = document.createElement('input');
+                selectAllCheckbox.type = 'checkbox';
+                selectAllCheckbox.className = 'row-select-all-checkbox';
+                selectAllCheckbox.title = 'Select/Deselect all visible dates';
+
+                const selectAllLabel = document.createElement('label');
+                selectAllLabel.style.fontSize = '13px';
+                selectAllLabel.style.color = '#007bff';
+                selectAllLabel.textContent = 'select all';
+
+                // Toggle visible checkboxes when user clicks the select-all checkbox
+                selectAllCheckbox.addEventListener('change', () => {
+                    const shouldCheck = selectAllCheckbox.checked;
+                    cbWrap.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = shouldCheck);
+                });
+
+                // Keep select-all checkbox state in sync with children
+                function updateSelectAllState() {
+                    const all = Array.from(cbWrap.querySelectorAll('input[type="checkbox"]'));
+                    const visible = all.filter(cb => !cb.hidden);
+                    if (visible.length === 0) {
+                        selectAllCheckbox.checked = false;
+                        selectAllCheckbox.indeterminate = false;
+                        return;
+                    }
+                    const checkedCount = visible.filter(cb => cb.checked).length;
+                    if (checkedCount === 0) {
+                        selectAllCheckbox.checked = false;
+                        selectAllCheckbox.indeterminate = false;
+                    } else if (checkedCount === visible.length) {
+                        selectAllCheckbox.checked = true;
+                        selectAllCheckbox.indeterminate = false;
+                    } else {
+                        selectAllCheckbox.checked = false;
+                        selectAllCheckbox.indeterminate = true;
+                    }
+                }
+
+                // Attach listeners to children to update state
+                cbWrap.addEventListener('change', (e) => {
+                    if (e.target && e.target.type === 'checkbox') updateSelectAllState();
+                });
+
+                // Initialize state
+                setTimeout(updateSelectAllState, 0);
+
+                selectAllWrapper.appendChild(selectAllCheckbox);
+                selectAllWrapper.appendChild(selectAllLabel);
+
+                container.appendChild(label);
+                container.appendChild(cbWrap);
+                container.appendChild(selectAllWrapper);
+
+                return {
+                    root: container,
+                    getSelectedDMY: () => Array.from(cbWrap.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value),
+                    setSelectedDMY: (arr) => {
+                        const set = new Set(arr || []);
+                        cbWrap.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = set.has(cb.value));
+                    }
+                };
+            }
+
+            function createNoneRow(copyDatesFrom = []) {
                 const row = document.createElement('div');
                 row.classList.add('row');
 
@@ -778,6 +911,9 @@
 
                 const destinationSelect = createComboBox([], 'destination', null, true);
 
+                // Per-row date selector
+                const rowDateSelector = createRowDateSelector(copyDatesFrom);
+
                 // When row is rendered, also trigger the originSelect change to fill destination
                 function renderRowContent() {
                     row.innerHTML = '';
@@ -792,6 +928,8 @@
                         const anywhereSelect = createComboBox(allDestinations, 'anywhere', null, false);
                         toLabel.appendChild(anywhereSelect);
                         row.appendChild(toLabel);
+                        // Dates for this row
+                        row.appendChild(rowDateSelector.root);
                     } else {
                         // Always show FROM and TO when not 'from anywhere'
                         const fromLabel = document.createElement('label');
@@ -815,6 +953,8 @@
                         if (originInputEl) originInputEl.dispatchEvent(new Event('change'));
                         else if (originSelectEl) originSelectEl.dispatchEvent(new Event('change'));
                         else if (originSelect && originSelect.dispatchEvent) originSelect.dispatchEvent(new Event('change'));
+                        // Dates for this row
+                        row.appendChild(rowDateSelector.root);
                     }
                 }
 
@@ -842,7 +982,13 @@
                 addButton.textContent = '+ Add Route';
                 addButton.title = 'Add Row';
                 addButton.addEventListener('click', () => {
-                    rowsContainer.appendChild(createNoneRow());
+                    // Copy selected dates from the last row
+                    const lastRow = rowsContainer.querySelector('.row:last-of-type');
+                    let lastSelectedDMY = [];
+                    if (lastRow) {
+                        lastSelectedDMY = Array.from(lastRow.querySelectorAll('.row-dates-checkboxes input[type="checkbox"]:checked')).map(cb => cb.value);
+                    }
+                    rowsContainer.appendChild(createNoneRow(lastSelectedDMY));
                 });
                 addRowContainer.appendChild(addButton);
                 dynamicContent.appendChild(addRowContainer);
@@ -864,9 +1010,9 @@
                 const password = document.getElementById('password').value;
                 // Mode
                 const mode = document.querySelector('input[type="radio"][name="connection"]:checked').value;
-                // Dates
-                const dateCheckboxes = document.querySelectorAll('#dates-checkboxes input[type="checkbox"]:checked');
-                const dates = Array.from(dateCheckboxes).map(cb => {
+                // Global dates (used only in 'with' mode)
+                const globalDateCheckboxes = document.querySelectorAll('#dates-checkboxes input[type="checkbox"]:checked');
+                const globalDates = Array.from(globalDateCheckboxes).map(cb => {
                     // Convert DD/MM/YYYY to YYYY-MM-DD
                     const [d, m, y] = cb.value.split('/');
                     return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
@@ -882,7 +1028,22 @@
                     if (from && to) routes.push([from, to]);
                 } else {
                     const rows = document.querySelectorAll('.row');
+                    const perRoute = [];
+                    let rowIndex = 0;
                     rows.forEach(row => {
+                        rowIndex++;
+                        // Collect per-row dates (DMY -> ISO)
+                        const rowDateCheckboxes = row.querySelectorAll('.row-dates-checkboxes input[type="checkbox"]:checked');
+                        const rowDates = Array.from(rowDateCheckboxes).map(cb => {
+                            const [d, m, y] = cb.value.split('/');
+                            return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
+                        });
+                        if (rowDates.length === 0) {
+                            // Flag via data attribute to validate later
+                            row.dataset.missingDates = '1';
+                        } else {
+                            delete row.dataset.missingDates;
+                        }
                         const fromAnywhere = row.querySelector('input[name="from-anywhere"]').checked;
                         if (fromAnywhere) {
                             const toRaw = row.querySelector('select[name="anywhere"]')?.value || row.querySelector('input[name="anywhere"]')?.value;
@@ -890,7 +1051,7 @@
                             // Find all keys in pairs where to is in the array
                             Object.entries(pairs).forEach(([from, arr]) => {
                                 if (to && Array.isArray(arr) && arr.includes(to)) {
-                                    routes.push([from, to]);
+                                    perRoute.push({ origin: from, dest: to, dates: rowDates });
                                 }
                             });
                         } else {
@@ -903,41 +1064,57 @@
                             const toSelect = row.querySelector('select[name="destination"]');
                             if (toSelect.multiple) {
                                 Array.from(toSelect.selectedOptions).forEach(opt => {
-                                    routes.push([from, opt.value]);
+                                    perRoute.push({ origin: from, dest: opt.value, dates: rowDates });
                                 });
                             } else {
-                                routes.push([from, toSelect.value]);
+                                perRoute.push({ origin: from, dest: toSelect.value, dates: rowDates });
                             }
                         }
                     });
+                    routes = perRoute;
                 }
                 // Validation
-                if (!username || !password || routes.length === 0 || dates.length === 0) {
+                if (!username || !password) {
                     alert('All fields are required. Please fill in all details.');
-                    console.log(username, password, routes, dates, mode);
                     return;
+                }
+                if (mode === 'with') {
+                    if (routes.length === 0 || globalDates.length === 0) {
+                        alert('Please choose origin, destination and at least one date.');
+                        return;
+                    }
+                } else {
+                    if (routes.length === 0) {
+                        alert('Please add at least one route.');
+                        return;
+                    }
+                    // Each row must have at least one date selected
+                    const anyMissing = Array.from(document.querySelectorAll('.row')).some(r => r.dataset.missingDates === '1');
+                    if (anyMissing) {
+                        alert('לכל שורה חייב להיות לפחות תאריך אחד מסומן.');
+                        return;
+                    }
                 }
                 // Build info field
                 let info = '';
                 if (mode === 'with') {
                     // flights_with_connections_{from}-{to}_{date1,date2,...}
                     const [from, to] = routes[0] || ['', ''];
-                    info = `flights with connections from:${from} to:${to} at: ${dates.join(',')}`;
+                    info = `flights with connections from:${from} to:${to} at: ${globalDates.join(',')}`;
                 } else {
-                    const uniqueOrigins = Array.from(new Set(routes.map(r => (r[0] || '').trim().toUpperCase())));
+                    const uniqueOrigins = Array.from(new Set(routes.map(r => (r.origin || '').trim().toUpperCase())));
                     let fileOrigins = uniqueOrigins.slice(0, 5).join(' ');
                     if (uniqueOrigins.length > 5) fileOrigins += ' etc';
                     info = `${fileOrigins}`;
                 }
                 // Build object
-                const obj = {
-                    username,
-                    password,
-                    routes,
-                    dates,
-                    mode,
-                    info
-                };
+                let obj;
+                if (mode === 'with') {
+                    obj = { username, password, routes, dates: globalDates, mode, info };
+                } else {
+                    // New per-route format for none mode
+                    obj = { username, password, routes, mode, info };
+                }
                 // Remove any previous message
                 let msgDiv = document.getElementById('success-message');
                 if (msgDiv) msgDiv.remove();
