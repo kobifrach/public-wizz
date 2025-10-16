@@ -97,6 +97,31 @@
             font-size: 15px;
         }
 
+        /* Small subtle button used inside multi-select widgets */
+        .multiselect-select-all {
+            display: inline-block;
+            padding: 4px 8px;
+            margin: 6px 0 8px 0;
+            font-size: 13px;
+            background: transparent;
+            color: #007bff;
+            border: 1px solid rgba(0,123,255,0.15);
+            border-radius: 4px;
+            cursor: pointer;
+            width: auto;
+        }
+
+        .multiselect-select-all:hover {
+            background: rgba(0,123,255,0.06);
+        }
+
+        /* Small checkbox used inside multi-select widgets */
+        .multiselect-select-all-checkbox {
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+        }
+
         div {
             margin-bottom: 10px;
         }
@@ -210,9 +235,10 @@
 </head>
 
 <body>
-    <h1 style="text-align:center; font-size:2.1em; margin:32px 0 12px 0; letter-spacing:1px;">✈️ Wizz Flights Search ✈️
+    <h1 style="text-align:center; font-size:2em; margin:32px 0 12px 0; letter-spacing:1px;">
+        ✈️ Wizz Flights Search
     </h1>
-    <form id="flight-search-form">
+    <form id="flight-search-form" style="overflow-x: auto;">
         <!-- User Credentials -->
         <label for="username">Username (Email):</label>
         <input type="email" id="username" name="username" required>
@@ -248,18 +274,76 @@
     </form>
 
     <script>
-        let pairs = {};
+        // pairs: originCode -> [destinationCode]
+        // codeToName: airportCode -> display name
+        // allDestinationsOptions: [{code, name}] deduplicated
+    let pairs = {};
+    let codeToName = {};
+    let codeToCountry = {};
+    let allDestinationsOptions = [];
 
-        fetch('updated_pairs.json')
-            .then(response => response.json())
-            .then(data => {
-                pairs = data;
+        // Helper: from a display string like "Bucharest (OTP)" return the code "OTP"
+        function extractCode(value) {
+            if (!value) return '';
+            const match = String(value).match(/\(([^)]+)\)\s*$/);
+            if (match) return match[1].trim();
+            const upper = String(value).trim().toUpperCase();
+            if (codeToName[upper]) return upper; // already a code
+            return String(value).trim();
+        }
+
+        Promise.all([
+            fetch('updated_pairs.json').then(r => r.json()).catch(() => []),
+            fetch('airports_origins.json').then(r => r.json()).catch(() => [])
+        ])
+            .then(([data, airports]) => {
+                // Build country mapping
+                codeToCountry = {};
+                (Array.isArray(airports) ? airports : []).forEach(a => {
+                    if (a && a.code) codeToCountry[a.code] = a.country || 'Not Updated Country';
+                });
+
+                // data is an array of { code, name, destinations: [{code, name}] }
+                const destMap = new Map();
+                pairs = {};
+                codeToName = {};
+                (Array.isArray(data) ? data : []).forEach(origin => {
+                    const oCode = origin.code;
+                    const oName = origin.name;
+                    if (oCode) {
+                        codeToName[oCode] = oName || oCode;
+                        if (origin.country && !codeToCountry[oCode]) codeToCountry[oCode] = origin.country;
+                    }
+                    const dests = Array.isArray(origin.destinations) ? origin.destinations : [];
+                    pairs[oCode] = dests.map(d => {
+                        if (d && d.code) {
+                            codeToName[d.code] = d.name || d.code;
+                            if (d.country && !codeToCountry[d.code]) codeToCountry[d.code] = d.country;
+                            if (!destMap.has(d.code)) destMap.set(d.code, { code: d.code, name: d.name || d.code });
+                            return d.code;
+                        }
+                        return null;
+                    }).filter(Boolean);
+                });
+                allDestinationsOptions = Array.from(destMap.values());
+                // Ensure every known origin and destination code has a country entry
+                Object.keys(pairs).forEach(oCode => {
+                    if (!codeToCountry[oCode]) codeToCountry[oCode] = 'NOT UPDATED COUNTRY';
+                    const dests = Array.isArray(pairs[oCode]) ? pairs[oCode] : [];
+                    dests.forEach(dCode => {
+                        if (!codeToCountry[dCode]) codeToCountry[dCode] = 'NOT UPDATED COUNTRY';
+                    });
+                });
+                // Also ensure any standalone destinations from the master list have a country
+                allDestinationsOptions.forEach(({ code }) => {
+                    if (!codeToCountry[code]) codeToCountry[code] = 'NOT UPDATED COUNTRY';
+                });
                 initialize();
             })
-            .catch(error => console.error('Error loading pairs:', error));
+            .catch(error => console.error('Error loading data:', error));
 
         function initialize() {
-            const allDestinations = [...new Set(Object.values(pairs).flat())];
+            const allDestinations = allDestinationsOptions;
 
             const today = new Date();
             const formatDate = (date) => {
@@ -320,8 +404,13 @@
                         fromLabel.textContent = 'FROM';
                         fromLabel.style.display = 'block';
                         fromLabel.style.fontWeight = 'bold';
-                        const originSelect = createComboBox(Object.keys(pairs), 'origin');
+                        const originOptions = Object.keys(pairs).map(code => ({ code, name: codeToName[code] || code }));
+                        const originSelect = createComboBox(originOptions, 'origin');
                         fromLabel.appendChild(originSelect);
+
+                        // Trigger change to populate destinations if any
+                        const originSelectEl = originSelect.querySelector('select[name="origin"]');
+                        if (originSelectEl) originSelectEl.dispatchEvent(new Event('change'));
 
                         const toLabel = document.createElement('label');
                         toLabel.textContent = 'TO';
@@ -333,7 +422,7 @@
                         dynamicContent.appendChild(fromLabel);
                         dynamicContent.appendChild(toLabel);
 
-                        datesSelect.multiple = false;
+                        if (datesSelect) datesSelect.multiple = false;
                         document.getElementById('select-all-dates').style.display = 'none';
                     } else {
                         renderRowsContainer();
@@ -343,53 +432,299 @@
                 });
             });
 
+            // Repopulate a multi-select with options grouped by country (uses <optgroup>)
+            function repopulateMultiSelect(select, list, searchInput) {
+                const items = (list || []).map(opt => {
+                    const code = typeof opt === 'string' ? opt : opt.code;
+                    const name = typeof opt === 'string' ? (codeToName[code] || code) : (opt.name || opt.code);
+                    const country = codeToCountry[code] || 'Other';
+                    return { code, name, country };
+                });
+                const grouped = new Map();
+                items.forEach(it => {
+                    const key = it.country || 'Other';
+                    if (!grouped.has(key)) grouped.set(key, []);
+                    grouped.get(key).push(it);
+                });
+                const countries = Array.from(grouped.keys()).sort((a, b) => {
+                    const NU = 'NOT UPDATED COUNTRY';
+                    const ax = a === NU ? 1 : 0;
+                    const bx = b === NU ? 1 : 0;
+                    if (ax !== bx) return ax - bx; // NU last
+                    return a.localeCompare(b);
+                });
+                select.innerHTML = '';
+                countries.forEach(cty => {
+                    const og = document.createElement('optgroup');
+                    og.label = cty;
+                    grouped.get(cty).sort((a, b) => a.name.localeCompare(b.name)).forEach(({ code, name }) => {
+                        const opt = document.createElement('option');
+                        opt.value = code;
+                        opt.textContent = `${name} (${code})`;
+                        opt.dataset.searchKey = `${name} ${code} ${cty}`.toLowerCase();
+                        og.appendChild(opt);
+                    });
+                    select.appendChild(og);
+                });
+                if (searchInput && searchInput.value && searchInput.value.trim()) {
+                    const q = searchInput.value.trim().toLowerCase();
+                    for (const opt of select.options) {
+                        const key = opt.dataset.searchKey || `${opt.textContent} ${opt.value}`.toLowerCase();
+                        opt.hidden = q && !key.includes(q);
+                    }
+                    // Hide optgroups that have no visible children
+                    Array.from(select.querySelectorAll('optgroup')).forEach(og => {
+                        const anyVisible = Array.from(og.querySelectorAll('option')).some(o => !o.hidden);
+                        og.hidden = !anyVisible;
+                    });
+                }
+            }
+
+            // Show a small country hint near an origin input/select inside container
+            function attachCountryHint(container, fieldName) {
+                const el = container.querySelector(`[name="${fieldName}"]`);
+                if (!el) return;
+                const hint = document.createElement('small');
+                hint.style.marginLeft = '6px';
+                hint.style.color = '#666';
+                hint.style.fontSize = '12px';
+                const update = () => {
+                    const code = extractCode(el.value || '');
+                    const country = codeToCountry[code];
+                    hint.textContent = country ? `(${country})` : '';
+                };
+                el.addEventListener('input', update);
+                el.addEventListener('change', update);
+                setTimeout(update, 0);
+                container.appendChild(hint);
+            }
+
             function createComboBox(options, name, onChangeCallback, isMultiSelect = false) {
+                const normalize = (opt) => {
+                    if (typeof opt === 'string') {
+                        const code = opt;
+                        const nm = codeToName[code] || code;
+                        return { code, name: nm };
+                    }
+                    return { code: opt.code, name: opt.name || opt.code };
+                };
+                const normalized = (options || []).map(normalize);
                 if (isMultiSelect) {
-                    // MULTIPLE select as before
+                    // MULTI-SELECT with live search filtering
+                    const container = document.createElement('div');
+                    // Search input
+                    const search = document.createElement('input');
+                    search.type = 'text';
+                    search.placeholder = '🔎 Search destinations…';
+                    search.setAttribute('data-search-for', name);
+                    search.style.marginBottom = '6px';
+                    search.style.width = '100%';
+                    search.style.padding = '8px 10px';
+                    search.style.border = '1px solid #ccc';
+                    search.style.borderRadius = '4px';
+
+                    // Select element
                     const select = document.createElement('select');
                     select.name = name;
                     select.multiple = true;
-                    options.forEach(option => {
-                        const opt = document.createElement('option');
-                        opt.value = option;
-                        opt.textContent = option;
-                        select.appendChild(opt);
+
+                    const populateOptions = (list) => {
+                        repopulateMultiSelect(select, list, search);
+                        // Update the select-all checkbox state after repopulating
+                        try { updateSelectAllState(); } catch (e) { /* ignore if not yet defined */ }
+                    };
+
+                    const applyFilter = (query) => {
+                        const q = query.toLowerCase();
+                        for (const opt of select.options) {
+                            const key = opt.dataset.searchKey || `${opt.textContent} ${opt.value}`.toLowerCase();
+                            opt.hidden = q && !key.includes(q);
+                        }
+                        // Hide optgroups with no visible children
+                        Array.from(select.querySelectorAll('optgroup')).forEach(og => {
+                            const anyVisible = Array.from(og.querySelectorAll('option')).some(o => !o.hidden);
+                            og.hidden = !anyVisible;
+                        });
+                        // Reflect the current visible selection in the checkbox
+                        try { updateSelectAllState(); } catch (e) { /* ignore if not yet defined */ }
+                    };
+
+                    populateOptions(normalized);
+
+                    if (onChangeCallback) select.addEventListener('change', onChangeCallback);
+                    // Keep the select-all checkbox in sync when user selects/deselects options
+                    select.addEventListener('change', () => {
+                        try { updateSelectAllState(); } catch (e) { /* ignore */ }
                     });
-                    if (onChangeCallback) {
-                        select.addEventListener('change', onChangeCallback);
-                    }
-                    const selectAllButton = document.createElement('button');
-                    selectAllButton.type = 'button';
-                    selectAllButton.textContent = 'Select All';
-                    selectAllButton.addEventListener('click', () => {
+                    search.addEventListener('input', () => applyFilter(search.value.trim()));
+                    // Prevent Enter from submitting the form while searching
+                    search.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') e.preventDefault();
+                    });
+
+                    // Create checkbox + label to toggle select-all for visible options
+                    const selectAllWrapper = document.createElement('div');
+                    selectAllWrapper.style.display = 'flex';
+                    selectAllWrapper.style.alignItems = 'center';
+                    selectAllWrapper.style.gap = '8px';
+                    selectAllWrapper.style.margin = '6px 0';
+
+                    const selectAllCheckbox = document.createElement('input');
+                    selectAllCheckbox.type = 'checkbox';
+                    selectAllCheckbox.id = `select-all-${name}`;
+                    selectAllCheckbox.className = 'multiselect-select-all-checkbox';
+
+                    const selectAllLabel = document.createElement('label');
+                    selectAllLabel.setAttribute('for', selectAllCheckbox.id);
+                    selectAllLabel.textContent = 'בחר הכל';
+                    selectAllLabel.style.fontSize = '13px';
+                    selectAllLabel.style.color = '#007bff';
+
+                    // Toggle selects only visible (not hidden) options. If checked -> select visible; if unchecked -> deselect visible.
+                    selectAllCheckbox.addEventListener('change', () => {
+                        const shouldSelect = selectAllCheckbox.checked;
                         for (const option of select.options) {
-                            option.selected = true;
+                            if (!option.hidden) option.selected = shouldSelect;
+                        }
+                        // Fire change event so any listeners react to selection changes
+                        select.dispatchEvent(new Event('change', { bubbles: true }));
+                    });
+
+                    // Helper: update checkbox state (checked/indeterminate) based on visible options
+                    function updateSelectAllState() {
+                        const visible = Array.from(select.options).filter(o => !o.hidden);
+                        if (visible.length === 0) {
+                            selectAllCheckbox.checked = false;
+                            selectAllCheckbox.indeterminate = false;
+                            return;
+                        }
+                        const selectedCount = visible.filter(o => o.selected).length;
+                        if (selectedCount === 0) {
+                            selectAllCheckbox.checked = false;
+                            selectAllCheckbox.indeterminate = false;
+                        } else if (selectedCount === visible.length) {
+                            selectAllCheckbox.checked = true;
+                            selectAllCheckbox.indeterminate = false;
+                        } else {
+                            selectAllCheckbox.checked = false;
+                            selectAllCheckbox.indeterminate = true;
+                        }
+                    }
+
+                    selectAllWrapper.appendChild(selectAllCheckbox);
+                    selectAllWrapper.appendChild(selectAllLabel);
+
+                    // Order: search (top), then checkbox+label, then the multi-select list
+                    container.appendChild(search);
+                    container.appendChild(selectAllWrapper);
+                    container.appendChild(select);
+
+                    // Best-effort: clicking an optgroup label selects all its visible options
+                    select.addEventListener('click', (e) => {
+                        const target = e.target;
+                        if (target && target.tagName === 'OPTGROUP') {
+                            const opts = Array.from(target.querySelectorAll('option'));
+                            const visible = opts.filter(o => !o.hidden);
+                            const shouldSelect = visible.some(o => !o.selected);
+                            visible.forEach(o => { o.selected = shouldSelect; });
+                            select.dispatchEvent(new Event('change', { bubbles: true }));
                         }
                     });
-                    const container = document.createElement('div');
-                    container.appendChild(select);
-                    container.appendChild(selectAllButton);
                     return container;
                 } else {
-                    // SINGLE select: use input + datalist
-                    const input = document.createElement('input');
-                    input.setAttribute('list', `datalist-${name}`);
-                    input.name = name;
-                    input.autocomplete = 'off';
-                    const datalist = document.createElement('datalist');
-                    datalist.id = `datalist-${name}`;
-                    options.forEach(option => {
-                        const opt = document.createElement('option');
-                        opt.value = option;
-                        datalist.appendChild(opt);
-                    });
-                    if (onChangeCallback) {
-                        input.addEventListener('change', onChangeCallback);
+                    // SINGLE select
+                    if (name === 'origin') {
+                        // Render as a searchable SELECT grouped by country
+                        const container = document.createElement('div');
+                        const search = document.createElement('input');
+                        search.type = 'text';
+                        search.placeholder = '🔎 Search origins…';
+                        search.style.marginBottom = '6px';
+                        search.style.width = '100%';
+                        search.style.padding = '8px 10px';
+                        search.style.border = '1px solid #ccc';
+                        search.style.borderRadius = '4px';
+
+                        const select = document.createElement('select');
+                        select.name = name;
+
+                        const buildOptions = () => {
+                            // Build grouped options by country
+                            const byCountry = new Map();
+                            normalized.forEach(({ code, name }) => {
+                                const country = codeToCountry[code] || 'Other';
+                                if (!byCountry.has(country)) byCountry.set(country, []);
+                                byCountry.get(country).push({ code, name });
+                            });
+                            const NU = 'NOT UPDATED COUNTRY';
+                            const countries = Array.from(byCountry.keys()).sort((a, b) => {
+                                const ax = a === NU ? 1 : 0;
+                                const bx = b === NU ? 1 : 0;
+                                if (ax !== bx) return ax - bx;
+                                return a.localeCompare(b);
+                            });
+                            select.innerHTML = '';
+                            countries.forEach(country => {
+                                const og = document.createElement('optgroup');
+                                og.label = country;
+                                byCountry.get(country).sort((a, b) => a.name.localeCompare(b.name)).forEach(({ code, name }) => {
+                                    const opt = document.createElement('option');
+                                    opt.value = code;
+                                    opt.textContent = `${name} (${code})`;
+                                    opt.dataset.searchKey = `${name} ${code} ${country}`.toLowerCase();
+                                    og.appendChild(opt);
+                                });
+                                select.appendChild(og);
+                            });
+                        };
+                        buildOptions();
+
+                        // Set default to TLV
+                        select.value = 'TLV';
+
+                        const applyFilter = (query) => {
+                            const q = query.toLowerCase();
+                            for (const opt of select.options) {
+                                const key = opt.dataset.searchKey || `${opt.textContent} ${opt.value}`.toLowerCase();
+                                opt.hidden = q && !key.includes(q);
+                            }
+                            // Hide optgroups with no visible children
+                            Array.from(select.querySelectorAll('optgroup')).forEach(og => {
+                                const anyVisible = Array.from(og.querySelectorAll('option')).some(o => !o.hidden);
+                                og.hidden = !anyVisible;
+                            });
+                        };
+
+                        search.addEventListener('input', () => applyFilter(search.value.trim()));
+                        // Prevent Enter from submitting the form while searching
+                        search.addEventListener('keydown', (e) => {
+                            if (e.key === 'Enter') e.preventDefault();
+                        });
+
+                        if (onChangeCallback) select.addEventListener('change', onChangeCallback);
+
+                        container.appendChild(search);
+                        container.appendChild(select);
+                        return container;
+                    } else {
+                        // Keep input+datalist UX for other single selects
+                        const input = document.createElement('input');
+                        input.setAttribute('list', `datalist-${name}`);
+                        input.name = name;
+                        input.autocomplete = 'off';
+                        const datalist = document.createElement('datalist');
+                        datalist.id = `datalist-${name}`;
+                        normalized.forEach(({ code, name }) => {
+                            const opt = document.createElement('option');
+                            opt.value = `${name} (${code})`;
+                            datalist.appendChild(opt);
+                        });
+                        if (onChangeCallback) input.addEventListener('change', onChangeCallback);
+                        const container = document.createElement('span');
+                        container.appendChild(input);
+                        container.appendChild(datalist);
+                        return container;
                     }
-                    const container = document.createElement('span');
-                    container.appendChild(input);
-                    container.appendChild(datalist);
-                    return container;
                 }
             }
 
@@ -419,11 +754,13 @@
                     let selectedOrigin = null;
                     // If originSelect is input+datalist
                     if (originSelect.querySelector('input[name="origin"]')) {
-                        selectedOrigin = originSelect.querySelector('input[name="origin"]').value;
+                        selectedOrigin = extractCode(originSelect.querySelector('input[name="origin"]').value);
+                    } else if (originSelect.querySelector && originSelect.querySelector('select[name="origin"]')) {
+                        selectedOrigin = originSelect.querySelector('select[name="origin"]').value;
                     } else if (originSelect.value !== undefined) {
-                        selectedOrigin = originSelect.value;
+                        selectedOrigin = originSelect.value; // fallback (in case originSelect IS the select)
                     }
-                    const destinationOptions = pairs[selectedOrigin] || [];
+                    const destinationOptions = (pairs[selectedOrigin] || []).map(code => ({ code, name: codeToName[code] || code }));
                     // Find the destination select (could be inside a label)
                     let destinationSelect = row.querySelector('select[name="destination"]');
                     if (!destinationSelect) {
@@ -432,13 +769,10 @@
                         if (toLabel) destinationSelect = toLabel.querySelector('select[name="destination"]');
                     }
                     if (destinationSelect) {
-                        destinationSelect.innerHTML = '';
-                        destinationOptions.forEach(dest => {
-                            const opt = document.createElement('option');
-                            opt.value = dest;
-                            opt.textContent = dest;
-                            destinationSelect.appendChild(opt);
-                        });
+                        const searchInput = row.querySelector('input[data-search-for="destination"]');
+                        repopulateMultiSelect(destinationSelect, destinationOptions, searchInput);
+                        // Dispatch change so the select-all checkbox for this destinationSelect updates
+                        destinationSelect.dispatchEvent(new Event('change', { bubbles: true }));
                     }
                 });
 
@@ -465,6 +799,9 @@
                         fromLabel.style.display = 'block';
                         fromLabel.style.fontWeight = 'bold';
                         fromLabel.appendChild(originSelect);
+                        // Trigger change to populate destinations
+                        const originSelEl = originSelect.querySelector('select[name="origin"]');
+                        if (originSelEl) originSelEl.dispatchEvent(new Event('change'));
                         row.appendChild(fromLabel);
                         const toLabel = document.createElement('label');
                         toLabel.textContent = 'TO';
@@ -473,8 +810,11 @@
                         toLabel.appendChild(destinationSelect);
                         row.appendChild(toLabel);
                         // Fill destination options according to current origin
-                        if (typeof originSelect.onchange === 'function') originSelect.onchange();
-                        else originSelect.dispatchEvent(new Event('change'));
+                        const originInputEl = originSelect.querySelector ? originSelect.querySelector('input[name="origin"]') : null;
+                        const originSelectEl = originSelect.querySelector ? originSelect.querySelector('select[name="origin"]') : null;
+                        if (originInputEl) originInputEl.dispatchEvent(new Event('change'));
+                        else if (originSelectEl) originSelectEl.dispatchEvent(new Event('change'));
+                        else if (originSelect && originSelect.dispatchEvent) originSelect.dispatchEvent(new Event('change'));
                     }
                 }
 
@@ -509,38 +849,7 @@
             }
 
             // Update the logic for adding rows so the plus button is always below all rows
-            connectionRadios.forEach(radio => {
-                radio.addEventListener('change', () => {
-                    dynamicContent.innerHTML = '';
-
-                    // --- WITH mode ---
-                    if (radio.value === 'with') {
-                        const fromLabel = document.createElement('label');
-                        fromLabel.textContent = 'FROM';
-                        fromLabel.style.display = 'block';
-                        fromLabel.style.fontWeight = 'bold';
-                        const originSelect = createComboBox(Object.keys(pairs), 'origin');
-                        fromLabel.appendChild(originSelect);
-
-                        const toLabel = document.createElement('label');
-                        toLabel.textContent = 'TO';
-                        toLabel.style.display = 'block';
-                        toLabel.style.fontWeight = 'bold';
-                        const destinationSelect = createComboBox(allDestinations, 'destination');
-                        toLabel.appendChild(destinationSelect);
-
-                        dynamicContent.appendChild(fromLabel);
-                        dynamicContent.appendChild(toLabel);
-
-                        datesSelect.multiple = false;
-                        document.getElementById('select-all-dates').style.display = 'none';
-                    } else {
-                        renderRowsContainer();
-                        datesSelect && (datesSelect.multiple = true);
-                        document.getElementById('select-all-dates').style.display = 'inline-block';
-                    }
-                });
-            });
+            // Note: the above listener already handles switching modes; avoid duplicate listeners here.
 
             // Update the default state for 'none' mode on page load
             const radioNone = document.querySelector('input[type="radio"][name="connection"][value="none"]');
@@ -565,23 +874,28 @@
                 // Routes
                 let routes = [];
                 if (mode === 'with') {
-                    const from = document.querySelector('input[name="origin"]').value;
-                    const to = document.querySelector('input[name="destination"]').value;
-                    routes.push([from, to]);
+                    // In 'with' mode we may use datalist inputs; extract codes
+                    const fromRaw = document.querySelector('input[name="origin"]')?.value || document.querySelector('select[name="origin"]')?.value || '';
+                    const toRaw = document.querySelector('input[name="destination"]')?.value || document.querySelector('select[name="destination"]')?.value || '';
+                    const from = extractCode(fromRaw);
+                    const to = extractCode(toRaw);
+                    if (from && to) routes.push([from, to]);
                 } else {
                     const rows = document.querySelectorAll('.row');
                     rows.forEach(row => {
                         const fromAnywhere = row.querySelector('input[name="from-anywhere"]').checked;
                         if (fromAnywhere) {
-                            const to = row.querySelector('input[name="anywhere"]').value;
+                            const toRaw = row.querySelector('select[name="anywhere"]')?.value || row.querySelector('input[name="anywhere"]')?.value;
+                            const to = extractCode(toRaw);
                             // Find all keys in pairs where to is in the array
                             Object.entries(pairs).forEach(([from, arr]) => {
-                                if (arr.includes(to)) {
+                                if (to && Array.isArray(arr) && arr.includes(to)) {
                                     routes.push([from, to]);
                                 }
                             });
                         } else {
-                            const from = row.querySelector('input[name="origin"]')?.value;
+                            const fromRaw = row.querySelector('input[name="origin"]')?.value || row.querySelector('select[name="origin"]')?.value;
+                            const from = extractCode(fromRaw);
                             if (!from) {
                                 console.log('Missing origin in one of the rows');
                                 return
