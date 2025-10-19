@@ -1177,7 +1177,7 @@
                 if (!taskId) return alert('Missing task id for download');
                 try {
                     const a = document.createElement('a');
-                    a.href = `http://localhost:5000/download/${encodeURIComponent(taskId)}`
+                    a.href = `https://wizz-flights.onrender.com/download/${encodeURIComponent(taskId)}`
                     a.download = '';
                     document.body.appendChild(a);
                     a.click();
@@ -1425,7 +1425,7 @@
 
                 const startTask = async (payload) => {
                     try {
-                        const resp = await fetch("http://localhost:5000/process", {
+                        const resp = await fetch("https://wizz-flights.onrender.com/process", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(payload)
@@ -1435,7 +1435,7 @@
                         const taskId = data.task_id;
                         if (!taskId) throw new Error('Missing task id');
 
-                        const evtSource = new EventSource(`http://localhost:5000/stream/${taskId}`);
+                        const evtSource = new EventSource(`https://wizz-flights.onrender.com/stream/${taskId}`);
 
                         evtSource.onmessage = (e) => {
                             if (e.data === "ping" || !e.data || e.data.error) {
