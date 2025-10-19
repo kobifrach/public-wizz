@@ -250,6 +250,103 @@
             margin-bottom: 0;
             vertical-align: middle;
         }
+        /* Loading overlay */
+        #loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        #loading-overlay .box {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 18px 20px;
+            max-width: 520px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid #e5e7eb;
+            border-top-color: #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Results modal */
+        #results-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            padding: 14px;
+        }
+        #results-modal .modal {
+            background: #fff;
+            border-radius: 10px;
+            width: min(980px, 96vw);
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        #results-modal .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            border-bottom: 1px solid #eee;
+        }
+        #results-modal .modal-body {
+            padding: 12px 14px;
+            overflow: auto;
+        }
+        #results-close-btn {
+            border: none;
+            background: #e5e7eb;
+            color: #111827;
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 13px;
+            height: auto;
+            width: 44px;
+        }
+        #results-close-btn:hover { background: #d1d5db; }
+        .results-section { margin-bottom: 16px; }
+        .pill {
+            display: inline-block;
+            background: #f3f4f6;
+            color: #374151;
+            border-radius: 999px;
+            padding: 3px 10px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+        .card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin: 8px 0;
+            background: #fafbfc;
+        }
+        .table-wrap { overflow: auto; border: 1px solid #eee; border-radius: 6px; }
+        table.results { border-collapse: collapse; width: 100%; font-size: 14px; }
+        table.results th, table.results td { border: 1px solid #eee; padding: 6px 8px; text-align: left; }
+        table.results th { background: #f9fafb; position: sticky; top: 0; z-index: 1; }
     </style>
 </head>
 
@@ -291,6 +388,31 @@
             <button type="submit">Start</button>
         </div>
     </form>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay" role="status" aria-live="polite">
+        <div class="box">
+            <div>
+                <span class="spinner" aria-hidden="true"></span>
+                <strong>Loading…</strong>
+            </div>
+            <div style="margin-top:8px; font-size:14px; color:#374151;">
+                הבקשה נשלחה. אנא אל תסגור/י את החלון עד לסיום.
+                אם תרצה/י לשלוח בקשה נוספת, ניתן לפתוח כרטיסייה חדשה.
+            </div>
+        </div>
+    </div>
+
+    <!-- Results modal -->
+    <div id="results-modal" aria-modal="true" role="dialog">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="results-title" style="margin:0; font-size:18px;">תוצאות חיפוש</h2>
+                <button id="results-close-btn" title="Close">X</button>
+            </div>
+            <div class="modal-body" id="results-body"></div>
+        </div>
+    </div>
 
     <script>
         // pairs: originCode -> [destinationCode]
@@ -1003,6 +1125,148 @@
                 radioNone.dispatchEvent(new Event('change'));
             }
 
+            // Helper UI controls
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const resultsModal = document.getElementById('results-modal');
+            const resultsBody = document.getElementById('results-body');
+            const resultsTitle = document.getElementById('results-title');
+            const resultsCloseBtn = document.getElementById('results-close-btn');
+
+            function setStartDisabled(disabled) {
+                if (!submitBtn) return;
+                submitBtn.disabled = disabled;
+                submitBtn.style.opacity = disabled ? '0.7' : '1';
+                submitBtn.style.cursor = disabled ? 'not-allowed' : 'pointer';
+            }
+            function showLoading() { if (loadingOverlay) loadingOverlay.style.display = 'flex'; }
+            function hideLoading() { if (loadingOverlay) loadingOverlay.style.display = 'none'; }
+            function showResults(title, contentNode) {
+                if (resultsBody) {
+                    resultsBody.innerHTML = '';
+                    if (contentNode) resultsBody.appendChild(contentNode);
+                }
+                if (resultsTitle && title) resultsTitle.textContent = title;
+                if (resultsModal) resultsModal.style.display = 'flex';
+            }
+            function hideResults() {
+                if (resultsModal) resultsModal.style.display = 'none';
+                if (resultsBody) resultsBody.innerHTML = '';
+            }
+
+            if (resultsCloseBtn) {
+                resultsCloseBtn.addEventListener('click', () => {
+                    hideResults();
+                    setStartDisabled(false); // allow new submission after closing results
+                });
+            }
+
+            function renderNoResultsMessage() {
+                const wrap = document.createElement('div');
+                wrap.className = 'card';
+                wrap.textContent = 'לא נמצאו תוצאות לחיפוש הזה. אפשר לנסות תאריכים או מסלולים אחרים.';
+                return wrap;
+            }
+
+            function renderWithMode(dataObj) {
+                const container = document.createElement('div');
+                const order = ['direct', '1-stop', '2-stops'];
+                order.forEach(key => {
+                    const arr = Array.isArray(dataObj?.[key]) ? dataObj[key] : [];
+                    if (!arr || arr.length === 0) return; // skip empty sections
+                    const section = document.createElement('div');
+                    section.className = 'results-section';
+                    const h = document.createElement('h3');
+                    h.textContent = key;
+                    const count = document.createElement('span');
+                    count.className = 'pill';
+                    count.textContent = `${arr.length}`;
+                    h.appendChild(count);
+                    section.appendChild(h);
+
+                    arr.forEach(route => {
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                        const routeLine = document.createElement('div');
+                        routeLine.style.fontWeight = 'bold';
+                        routeLine.style.marginBottom = '4px';
+                        routeLine.textContent = String(route?.Route || '').trim() || 'Route';
+                        const meta = document.createElement('div');
+                        meta.style.color = '#374151';
+                        meta.style.fontSize = '14px';
+                        const price = route?.Total_Price != null ? `Price: ${route.Total_Price}` : '';
+                        const ttime = route?.Total_Time != null ? `Time: ${route.Total_Time}` : '';
+                        meta.textContent = [price, ttime].filter(Boolean).join(' • ');
+                        card.appendChild(routeLine);
+                        if (meta.textContent) card.appendChild(meta);
+
+                        const segs = Array.isArray(route?.Segments) ? route.Segments : [];
+                        if (segs.length) {
+                            const segList = document.createElement('div');
+                            segList.style.marginTop = '6px';
+                            segList.style.fontSize = '13px';
+                            // small helper to format a segment date+time if both present, or fallback to time only
+                            const formatDateTime = (dateStr, timeStr) => {
+                                // dateStr may be like '19 October 2025' or '2025-10-19' or '19/10/2025'
+                                const hasDate = dateStr && String(dateStr).trim();
+                                const hasTime = timeStr && String(timeStr).trim();
+                                if (!hasDate && !hasTime) return '';
+                                if (hasDate && hasTime) return `${dateStr} ${timeStr}`;
+                                return hasTime ? timeStr : dateStr;
+                            };
+
+                            segs.forEach((s, idx) => {
+                                const line = document.createElement('div');
+                                const from = s.From || s.Origin || s.Departure || '';
+                                const to = s.To || s.Destination || s.Arrival || '';
+                                const depTime = s.Departure_Time || s.Departure || '';
+                                const arrTime = s.Arrival_Time || s.Arrival || '';
+                                const depDate = s.Departure_Date || s.Date || '';
+                                const arrDate = s.Arrival_Date || s.Date || '';
+                                const dep = formatDateTime(depDate, depTime);
+                                const arr = formatDateTime(arrDate, arrTime);
+                                const code = s.Flight_Code || s.Flight || '';
+                                const carrier = s.Carrier || '';
+                                const main = [from && to ? `${from} → ${to}` : '', dep && arr ? `${dep} → ${arr}` : ''].filter(Boolean).join(' | ');
+                                const extra = [code, carrier].filter(Boolean).join(' • ');
+                                line.textContent = `${idx + 1}. ${main}${extra ? ' — ' + extra : ''}`;
+                                segList.appendChild(line);
+                            });
+                            card.appendChild(segList);
+                        }
+                        section.appendChild(card);
+                    });
+                    container.appendChild(section);
+                });
+                // If nothing rendered, show no-results
+                if (!container.children.length) return renderNoResultsMessage();
+                return container;
+            }
+
+            function renderNoneMode(arr) {
+                const data = Array.isArray(arr) ? arr : [];
+                if (data.length === 0) return renderNoResultsMessage();
+                const columns = ['From','From_Code','To','To_Code','Date','Status','Flight_Code','Departure_Time','Arrival_Time','Duration','Price','Currency','Stops','Carrier','Departure_Date','Arrival_Date'];
+                const wrap = document.createElement('div');
+                wrap.className = 'table-wrap';
+                const table = document.createElement('table');
+                table.className = 'results';
+                const thead = document.createElement('thead');
+                const trh = document.createElement('tr');
+                columns.forEach(c => { const th = document.createElement('th'); th.textContent = c; trh.appendChild(th); });
+                thead.appendChild(trh);
+                const tbody = document.createElement('tbody');
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    columns.forEach(c => { const td = document.createElement('td'); td.textContent = row?.[c] != null ? String(row[c]) : ''; tr.appendChild(td); });
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(thead);
+                table.appendChild(tbody);
+                wrap.appendChild(table);
+                return wrap;
+            }
+
             document.getElementById('flight-search-form').addEventListener('submit', function (e) {
                 e.preventDefault();
                 // Collect username and password
@@ -1107,57 +1371,78 @@
                     if (uniqueOrigins.length > 5) fileOrigins += ' etc';
                     info = `${fileOrigins}`;
                 }
-                // Build object
-                let obj;
+                // Build payload
+                let payload;
                 if (mode === 'with') {
-                    obj = { username, password, routes, dates: globalDates, mode, info };
+                    payload = { username, password, routes, dates: globalDates, mode, info };
                 } else {
                     // New per-route format for none mode
-                    obj = { username, password, routes, mode, info };
+                    payload = { username, password, routes, mode, info };
                 }
                 // Remove any previous message
                 let msgDiv = document.getElementById('success-message');
                 if (msgDiv) msgDiv.remove();
+                // Disable start and show loading immediately
+                setStartDisabled(true);
+                showLoading();
 
-                fetch('https://wizz-flights.onrender.com/process', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(obj)
-                })
-                    .then(response => {
-                        if (!response.ok) throw new Error('Network response was not ok');
-                        return response.json().catch(() => ({}));
-                    })
-                    .then(() => {
-                        const div = document.createElement('div');
-                        div.id = 'success-message';
-                        div.style.background = '#d4edda';
-                        div.style.color = '#155724';
-                        div.style.border = '1px solid #c3e6cb';
-                        div.style.padding = '14px 10px';
-                        div.style.borderRadius = '5px';
-                        div.style.margin = '16px 0';
-                        div.style.textAlign = 'center';
-                        div.style.fontSize = '16px';
-                        div.innerHTML = 'הבקשה התקבלה בהצלחה! התוצאות יישלחו אליך במייל.';
-                        document.body.insertBefore(div, document.body.firstChild);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    })
-                    .catch(() => {
-                        const div = document.createElement('div');
-                        div.id = 'success-message';
-                        div.style.background = '#f8d7da';
-                        div.style.color = '#721c24';
-                        div.style.border = '1px solid #f5c6cb';
-                        div.style.padding = '14px 10px';
-                        div.style.borderRadius = '5px';
-                        div.style.margin = '16px 0';
-                        div.style.textAlign = 'center';
-                        div.style.fontSize = '16px';
-                        div.innerHTML = 'אירעה שגיאה בשליחת הבקשה. נסה שוב.';
-                        document.body.insertBefore(div, document.body.firstChild);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    });
+                const startTask = async (payload) => {
+                    try {
+                        const resp = await fetch("https://wizz-flights.onrender.com/process", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(payload)
+                        });
+                        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                        const data = await resp.json().catch(() => ({}));
+                        const taskId = data.task_id;
+                        if (!taskId) throw new Error('Missing task id');
+
+                        const evtSource = new EventSource(`https://wizz-flights.onrender.com/stream/${taskId}`);
+
+                        evtSource.onmessage = (e) => {
+                            if (e.data === "ping" || !e.data || e.data.error) {
+                                // keep waiting
+                                return;
+                            }
+                            // Done (any non-ping message is considered final result)
+                            evtSource.close();
+                            hideLoading();
+                            let parsed = null;
+                            console.log(e.data)
+                            try { parsed = JSON.parse(e.data); } catch (e) { console.log(e); parsed = e.data; }
+                            console.log(parsed)
+
+                            let contentNode;
+                            if (parsed == null) {
+                                contentNode = renderNoResultsMessage();
+                            } else if (mode === 'with') {
+                                contentNode = renderWithMode(parsed);
+                            } else {
+                                if(parsed.length ==0 )
+                                    contentNode = renderNoResultsMessage();
+                                else contentNode = renderNoneMode(parsed);
+                            }
+                            const title = mode === 'with' ? 'תוצאות: WITH connections' : 'תוצאות: NONE';
+                            showResults(title, contentNode);
+                            // Keep button disabled until user closes the results
+                        };
+
+                        evtSource.onerror = (err) => {
+                            console.log(err);
+                            hideLoading();
+                            setStartDisabled(false);
+                            alert('ארעה שגיאה');
+                            evtSource.close();
+                        };
+                    } catch (err) {
+                        console.log(err);
+                        hideLoading();
+                        setStartDisabled(false);
+                        alert('שגיאה בשליחת הבקשה. נסה/י שוב מאוחר יותר.');
+                    }
+                }
+                startTask(payload)
             });
         }
     </script>
