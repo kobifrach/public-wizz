@@ -309,6 +309,7 @@
             justify-content: space-between;
             padding: 12px 14px;
             border-bottom: 1px solid #eee;
+            position: relative; /* allow absolutely positioned centered button */
         }
         #results-modal .modal-body {
             padding: 12px 14px;
@@ -326,6 +327,23 @@
             width: 44px;
         }
         #results-close-btn:hover { background: #d1d5db; }
+        /* Center the download button in the modal header without moving the close X (which stays on the right).
+           We use absolute positioning and transform to center horizontally. Keep a sensible z-index. */
+        #results-download-btn {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            padding: 6px 12px;
+            font-size: 13px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        #results-download-btn:hover { background: #0056b3; }
         .results-section { margin-bottom: 16px; }
         .pill {
             display: inline-block;
@@ -1154,9 +1172,28 @@
                 if (resultsBody) resultsBody.innerHTML = '';
             }
 
+            // Download helper: fetches /download/<taskId> and triggers a browser download
+            async function downloadResults(taskId) {
+                if (!taskId) return alert('Missing task id for download');
+                try {
+                    const a = document.createElement('a');
+                    a.href = `http://localhost:5000/download/${encodeURIComponent(taskId)}`
+                    a.download = '';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                } catch (err) {
+                    console.log('Download error', err);
+                    alert('שגיאה בהורדת הקובץ. נסה/י שוב מאוחר יותר.');
+                }
+            }
+
             if (resultsCloseBtn) {
                 resultsCloseBtn.addEventListener('click', () => {
                     hideResults();
+                    // Remove any download button added dynamically
+                    const dl = document.getElementById('results-download-btn');
+                    if (dl) dl.remove();
                     setStartDisabled(false); // allow new submission after closing results
                 });
             }
@@ -1388,7 +1425,7 @@
 
                 const startTask = async (payload) => {
                     try {
-                        const resp = await fetch("https://wizz-flights.onrender.com/process", {
+                        const resp = await fetch("http://localhost:5000/process", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(payload)
@@ -1398,7 +1435,7 @@
                         const taskId = data.task_id;
                         if (!taskId) throw new Error('Missing task id');
 
-                        const evtSource = new EventSource(`https://wizz-flights.onrender.com/stream/${taskId}`);
+                        const evtSource = new EventSource(`http://localhost:5000/stream/${taskId}`);
 
                         evtSource.onmessage = (e) => {
                             if (e.data === "ping" || !e.data || e.data.error) {
@@ -1408,28 +1445,84 @@
                             // Done (any non-ping message is considered final result)
                             evtSource.close();
                             hideLoading();
-                            let parsed = null;
                             console.log(e.data)
-                            try { parsed = JSON.parse(e.data); } catch (e) { console.log(e); parsed = e.data; }
-                            console.log(parsed)
+
+                            // The server now wraps the payload as { done, message, file_path }, where message is JSON string
+                            let payload = null;
+                            try {
+                                payload = JSON.parse(e.data);
+                            } catch (err) {
+                                console.log('Failed parsing SSE data', err, e.data);
+                                payload = e.data;
+                            }
+                            console.log('SSE payload:', payload);
+
+                            // If payload has 'message', parse it as the inner JSON
+                            let innerData = null;
+                            if (payload && typeof payload === 'object' && payload.message) {
+                                try {
+                                    innerData = JSON.parse(payload.message);
+                                } catch (err) {
+                                    console.log('Failed parsing inner message', err, payload.message);
+                                }
+                            }
+                            console.log(innerData)
+
+                            // Support both legacy (raw results array/object) and new wrapped response
+                            let results = null;
+                            let returnedTaskId = null;
+                            let hasFile = false;
+                            if (innerData && typeof innerData === 'object' && (innerData.results !== undefined || innerData.task_id !== undefined)) {
+                                results = innerData.results;
+                                returnedTaskId = innerData.task_id;
+                                hasFile = !!innerData.has_file;
+                            } else if (payload && typeof payload === 'object' && (payload.results !== undefined || payload.task_id !== undefined)) {
+                                results = payload.results;
+                                returnedTaskId = payload.task_id;
+                                hasFile = !!payload.has_file;
+                            } else {
+                                // backwards compatibility: payload itself is the results
+                                results = payload;
+                            }
 
                             let contentNode;
-                            if (parsed == null) {
+                            if (results == null) {
                                 contentNode = renderNoResultsMessage();
                             } else if (mode === 'with') {
-                                contentNode = renderWithMode(parsed);
+                                contentNode = renderWithMode(results);
                             } else {
-                                if(parsed.length ==0 )
-                                    contentNode = renderNoResultsMessage();
-                                else contentNode = renderNoneMode(parsed);
+                                if (Array.isArray(results) && results.length === 0) contentNode = renderNoResultsMessage();
+                                else contentNode = renderNoneMode(results);
                             }
+
                             const title = mode === 'with' ? 'תוצאות: WITH connections' : 'תוצאות: NONE';
                             showResults(title, contentNode);
-                            // Keep button disabled until user closes the results
+
+                            // If the server indicated a downloadable file is available, show a Download button
+                            if (hasFile && returnedTaskId) {
+                                // Create or replace a download button in the modal header
+                                let existing = document.getElementById('results-download-btn');
+                                if (existing) existing.remove();
+                                const btn = document.createElement('button');
+                                btn.id = 'results-download-btn';
+                                btn.type = 'button';
+                                btn.textContent = 'Download Results';
+                                btn.title = 'Download results for this task';
+                                btn.style.marginLeft = '8px';
+                                btn.addEventListener('click', () => downloadResults(returnedTaskId));
+                                // place it before the close (X) button so the X stays at the right
+                                const header = document.querySelector('#results-modal .modal-header');
+                                if (header) {
+                                    const closeBtnEl = header.querySelector('#results-close-btn');
+                                    if (closeBtnEl) header.insertBefore(btn, closeBtnEl);
+                                    else header.appendChild(btn);
+                                }
+                            }
+                            // Keep start button disabled until user closes the results
                         };
 
-                        evtSource.onerror = (err) => {
-                            console.log(err);
+                        evtSource.onerror = (e) => {
+                            console.log('error', e.error);
                             hideLoading();
                             setStartDisabled(false);
                             alert('ארעה שגיאה');
