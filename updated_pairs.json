@@ -91,7 +91,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "KUT",
@@ -111,7 +111,7 @@
       },
       {
         "code": "MLE",
-        "name": "MalÈ (Maldives)"
+        "name": "Mal√© (Maldives)"
       },
       {
         "code": "MXP",
@@ -551,7 +551,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "KUT",
@@ -654,48 +654,6 @@
     ]
   },
   {
-    "code": "MLH",
-    "name": "Basel-Mulhouse-Freiburg",
-    "destinations": [
-      {
-        "code": "BNX",
-        "name": "Banja Luka"
-      },
-      {
-        "code": "BEG",
-        "name": "Belgrad"
-      },
-      {
-        "code": "RMO",
-        "name": "Chisinau"
-      },
-      {
-        "code": "INI",
-        "name": "Niö"
-      },
-      {
-        "code": "OHD",
-        "name": "Ohrid"
-      },
-      {
-        "code": "TGD",
-        "name": "Podgorica"
-      },
-      {
-        "code": "SKP",
-        "name": "Skopje"
-      },
-      {
-        "code": "TIA",
-        "name": "Tirana"
-      },
-      {
-        "code": "TZL",
-        "name": "Tuzla"
-      }
-    ]
-  },
-  {
     "code": "BSL",
     "name": "Basel-Mulhouse-Freiburg",
     "destinations": [
@@ -725,11 +683,11 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "INI",
-        "name": "Niö"
+        "name": "Ni≈°"
       },
       {
         "code": "OHD",
@@ -774,6 +732,48 @@
       {
         "code": "WRO",
         "name": "Wroclaw"
+      }
+    ]
+  },
+  {
+    "code": "MLH",
+    "name": "Basel-Mulhouse-Freiburg",
+    "destinations": [
+      {
+        "code": "BNX",
+        "name": "Banja Luka"
+      },
+      {
+        "code": "BEG",
+        "name": "Belgrad"
+      },
+      {
+        "code": "RMO",
+        "name": "Chisinau"
+      },
+      {
+        "code": "INI",
+        "name": "Ni≈°"
+      },
+      {
+        "code": "OHD",
+        "name": "Ohrid"
+      },
+      {
+        "code": "TGD",
+        "name": "Podgorica"
+      },
+      {
+        "code": "SKP",
+        "name": "Skopje"
+      },
+      {
+        "code": "TIA",
+        "name": "Tirana"
+      },
+      {
+        "code": "TZL",
+        "name": "Tuzla"
       }
     ]
   },
@@ -897,7 +897,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "VNO",
@@ -1069,7 +1069,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "SKP",
@@ -1409,7 +1409,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "LCA",
@@ -1599,7 +1599,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "LTN",
@@ -2787,7 +2787,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "FCO",
@@ -3143,7 +3143,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "TIA",
@@ -3331,7 +3331,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "MXP",
@@ -3789,7 +3789,7 @@
   },
   {
     "code": "KRK",
-    "name": "KrakÛw",
+    "name": "Krak√≥w",
     "destinations": [
       {
         "code": "AUH",
@@ -4061,7 +4061,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "KUT",
@@ -4317,7 +4317,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "LCA",
@@ -4499,7 +4499,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "LCA",
@@ -4647,7 +4647,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "KUT",
@@ -4795,7 +4795,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "LGW",
@@ -4905,7 +4905,7 @@
   },
   {
     "code": "MLE",
-    "name": "MalÈ (Maldives)",
+    "name": "Mal√© (Maldives)",
     "destinations": [
       {
         "code": "AUH",
@@ -5019,7 +5019,7 @@
       },
       {
         "code": "INI",
-        "name": "Niö"
+        "name": "Ni≈°"
       },
       {
         "code": "OHD",
@@ -5187,7 +5187,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "KUT",
@@ -5243,7 +5243,7 @@
       },
       {
         "code": "RZE",
-        "name": "RzeszÛw"
+        "name": "Rzesz√≥w"
       },
       {
         "code": "SSH",
@@ -5435,7 +5435,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "FCO",
@@ -5469,7 +5469,7 @@
   },
   {
     "code": "INI",
-    "name": "Niö",
+    "name": "Ni≈°",
     "destinations": [
       {
         "code": "BSL",
@@ -5583,7 +5583,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       }
     ]
   },
@@ -6297,7 +6297,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "KUT",
@@ -6377,7 +6377,7 @@
       },
       {
         "code": "RZE",
-        "name": "RzeszÛw"
+        "name": "Rzesz√≥w"
       },
       {
         "code": "JTR",
@@ -6477,7 +6477,7 @@
   },
   {
     "code": "RZE",
-    "name": "RzeszÛw",
+    "name": "Rzesz√≥w",
     "destinations": [
       {
         "code": "MXP",
@@ -6953,7 +6953,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "LCA",
@@ -7053,7 +7053,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "LTN",
@@ -7095,7 +7095,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       }
     ]
   },
@@ -7307,7 +7307,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "LCA",
@@ -7623,7 +7623,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "LEJ",
@@ -7905,7 +7905,7 @@
       },
       {
         "code": "KRK",
-        "name": "KrakÛw"
+        "name": "Krak√≥w"
       },
       {
         "code": "MXP",
