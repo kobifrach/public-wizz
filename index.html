@@ -1179,6 +1179,7 @@
                     const a = document.createElement('a');
                     a.href = `https://wizz-flights.onrender.com/download/${encodeURIComponent(taskId)}`
                     a.download = '';
+                    a.target = '_blank';
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
@@ -1396,25 +1397,25 @@
                         return;
                     }
                 }
-                // Build info field
-                let info = '';
+                // Build description field
+                let description = '';
                 if (mode === 'with') {
                     // flights_with_connections_{from}-{to}_{date1,date2,...}
                     const [from, to] = routes[0] || ['', ''];
-                    info = `flights with connections from:${from} to:${to} at: ${globalDates.join(',')}`;
+                    description = `flights with connections from:${from} to:${to} at: ${globalDates.join(',')}`;
                 } else {
                     const uniqueOrigins = Array.from(new Set(routes.map(r => (r.origin || '').trim().toUpperCase())));
                     let fileOrigins = uniqueOrigins.slice(0, 5).join(' ');
                     if (uniqueOrigins.length > 5) fileOrigins += ' etc';
-                    info = `${fileOrigins}`;
+                    description = `${fileOrigins}`;
                 }
                 // Build payload
                 let payload;
                 if (mode === 'with') {
-                    payload = { username, password, routes, dates: globalDates, mode, info };
+                    payload = { username, password, routes:[ {'origin':routes[0][0], 'dest':routes[0][1]}], dates: globalDates, mode, description };
                 } else {
                     // New per-route format for none mode
-                    payload = { username, password, routes, mode, info };
+                    payload = { username, password, routes, mode, description };
                 }
                 // Remove any previous message
                 let msgDiv = document.getElementById('success-message');
@@ -1438,14 +1439,23 @@
                         const evtSource = new EventSource(`https://wizz-flights.onrender.com/stream/${taskId}`);
 
                         evtSource.onmessage = (e) => {
-                            if (e.data === "ping" || !e.data || e.data.error) {
+                            if (e.data === "ping" || !e.data) {
                                 // keep waiting
                                 return;
+                            }
+                            if(e.error || e.data.error){
+                                console.log('error', e.error, e.data.error);
+                                hideLoading();
+                                setStartDisabled(false);
+                                alert('ארעה שגיאה');
+                                evtSource.close();
+                                return
                             }
                             // Done (any non-ping message is considered final result)
                             evtSource.close();
                             hideLoading();
                             console.log(e.data)
+                            // if(e.data.error)
 
                             // The server now wraps the payload as { done, message, file_path }, where message is JSON string
                             let payload = null;
@@ -1486,20 +1496,24 @@
                             }
 
                             let contentNode;
+                            let hasResults = true;
                             if (results == null) {
                                 contentNode = renderNoResultsMessage();
+                                hasResults = false;
                             } else if (mode === 'with') {
                                 contentNode = renderWithMode(results);
                             } else {
-                                if (Array.isArray(results) && results.length === 0) contentNode = renderNoResultsMessage();
-                                else contentNode = renderNoneMode(results);
+                                if (Array.isArray(results) && results.length === 0) {
+                                    contentNode = renderNoResultsMessage();
+                                    hasResults = false;
+                                } else contentNode = renderNoneMode(results);
                             }
 
                             const title = mode === 'with' ? 'תוצאות: WITH connections' : 'תוצאות: NONE';
                             showResults(title, contentNode);
 
                             // If the server indicated a downloadable file is available, show a Download button
-                            if (hasFile && returnedTaskId) {
+                            if (hasFile && returnedTaskId && hasResults) {
                                 // Create or replace a download button in the modal header
                                 let existing = document.getElementById('results-download-btn');
                                 if (existing) existing.remove();
@@ -1522,11 +1536,13 @@
                         };
 
                         evtSource.onerror = (e) => {
-                            console.log('error', e.error);
-                            hideLoading();
-                            setStartDisabled(false);
-                            alert('ארעה שגיאה');
-                            evtSource.close();
+                            if(e.error){
+                                console.log('error', e.error);
+                                hideLoading();
+                                setStartDisabled(false);
+                                alert('ארעה שגיאה');
+                                evtSource.close();
+                            }
                         };
                     } catch (err) {
                         console.log(err);
