@@ -1407,6 +1407,10 @@
                     const uniqueOrigins = Array.from(new Set(routes.map(r => (r.origin || '').trim().toUpperCase())));
                     let fileOrigins = uniqueOrigins.slice(0, 5).join(' ');
                     if (uniqueOrigins.length > 5) fileOrigins += ' etc';
+                    if (uniqueOrigins.length == 1 ){
+                        const uniqueDests = Array.from(new Set(routes.map(r => (r.dest || '').trim().toUpperCase())));
+                        fileOrigins += ' to ' + uniqueDests.slice(0, 5).join(' ') + (uniqueDests.length > 5 ? ' etc' : '');
+                    }
                     description = `${fileOrigins}`;
                 }
                 // Build payload
