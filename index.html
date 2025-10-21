@@ -415,8 +415,7 @@
                 <strong>Loading…</strong>
             </div>
             <div style="margin-top:8px; font-size:14px; color:#374151;">
-                הבקשה נשלחה. אנא אל תסגור/י את החלון עד לסיום.
-                אם תרצה/י לשלוח בקשה נוספת, ניתן לפתוח כרטיסייה חדשה.
+                Request sent. Please do not close the window until completion. If you want to send another request, you can open a new tab.
             </div>
         </div>
     </div>
@@ -425,7 +424,7 @@
     <div id="results-modal" aria-modal="true" role="dialog">
         <div class="modal">
             <div class="modal-header">
-                <h2 id="results-title" style="margin:0; font-size:18px;">תוצאות חיפוש</h2>
+                <h2 id="results-title" style="margin:0; font-size:18px;">Search Results</h2>
                 <button id="results-close-btn" title="Close">X</button>
             </div>
             <div class="modal-body" id="results-body"></div>
@@ -740,7 +739,7 @@
 
                     const selectAllLabel = document.createElement('label');
                     selectAllLabel.setAttribute('for', selectAllCheckbox.id);
-                    selectAllLabel.textContent = 'select all destnations';
+                    selectAllLabel.textContent = 'select all destinations';
                     selectAllLabel.style.fontSize = '13px';
                     selectAllLabel.style.color = '#007bff';
 
@@ -1185,7 +1184,7 @@
                     a.remove();
                 } catch (err) {
                     console.log('Download error', err);
-                    alert('שגיאה בהורדת הקובץ. נסה/י שוב מאוחר יותר.');
+                    alert('Error downloading the file. Try again later.');
                 }
             }
 
@@ -1202,7 +1201,7 @@
             function renderNoResultsMessage() {
                 const wrap = document.createElement('div');
                 wrap.className = 'card';
-                wrap.textContent = 'לא נמצאו תוצאות לחיפוש הזה. אפשר לנסות תאריכים או מסלולים אחרים.';
+                wrap.textContent = 'No results found for this search. Try different dates or routes.';
                 return wrap;
             }
 
@@ -1393,7 +1392,7 @@
                     // Each row must have at least one date selected
                     const anyMissing = Array.from(document.querySelectorAll('.row')).some(r => r.dataset.missingDates === '1');
                     if (anyMissing) {
-                        alert('לכל שורה חייב להיות לפחות תאריך אחד מסומן.');
+                        alert('Each row must have at least one date selected.');
                         return;
                     }
                 }
@@ -1451,7 +1450,7 @@
                                 console.log('error', e.error, e.data.error);
                                 hideLoading();
                                 setStartDisabled(false);
-                                alert('ארעה שגיאה');
+                                alert('An error occurred');
                                 evtSource.close();
                                 return
                             }
@@ -1513,7 +1512,7 @@
                                 } else contentNode = renderNoneMode(results);
                             }
 
-                            const title = mode === 'with' ? 'תוצאות: WITH connections' : 'תוצאות: NONE';
+                            const title = mode === 'with' ? 'Results: WITH connections' : 'Results: NONE';
                             showResults(title, contentNode);
 
                             // If the server indicated a downloadable file is available, show a Download button
@@ -1544,7 +1543,7 @@
                                 console.log('error', e.error);
                                 hideLoading();
                                 setStartDisabled(false);
-                                alert('ארעה שגיאה');
+                                alert('An error occurred');
                                 evtSource.close();
                             }
                         };
@@ -1552,7 +1551,7 @@
                         console.log(err);
                         hideLoading();
                         setStartDisabled(false);
-                        alert('שגיאה בשליחת הבקשה. נסה/י שוב מאוחר יותר.');
+                        alert('Error sending the request. Try again later.');
                     }
                 }
                 startTask(payload)
