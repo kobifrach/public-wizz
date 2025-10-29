@@ -182,13 +182,13 @@
             font-size: 14px;
         }
 
-        #select-all-dates {
+        /* #select-all-dates {
             margin-top: 0;
             margin-bottom: 8px;
             font-size: 14px;
             padding: 6px 12px;
         }
-
+ */
         [type="submit"] {
             width: 100%;
             margin: 0;
@@ -399,7 +399,7 @@
         <!-- Date Selector -->
     <label for="dates" id="global-dates-label">Select Dates:</label>
     <div id="dates-checkboxes"></div>
-    <button type="button" id="select-all-dates">Select All</button>
+    <!-- <button type="button" id="select-all-dates">Select All</button> -->
 
         <!-- Start Button -->
         <div style="text-align: center; margin: 24px 0;">
@@ -548,10 +548,6 @@
 
             renderDateCheckboxes();
 
-            document.getElementById('select-all-dates').onclick = function () {
-                datesCheckboxes.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
-            };
-
             connectionRadios.forEach(radio => {
                 radio.addEventListener('change', () => {
                     dynamicContent.innerHTML = '';
@@ -587,10 +583,22 @@
 
                         dynamicContent.appendChild(fromLabel);
                         dynamicContent.appendChild(toLabel);
+
+                        // Change global dates to radios
+                        datesCheckboxes.querySelectorAll('input').forEach(input => {
+                            input.type = 'radio';
+                            input.name = 'global-date';
+                        });
                     } else {
                         // NONE mode: hide global dates and render rows with per-row date selectors
                         showGlobalDates(false);
                         renderRowsContainer();
+
+                        // Change global dates to checkboxes
+                        datesCheckboxes.querySelectorAll('input').forEach(input => {
+                            input.type = 'checkbox';
+                            input.removeAttribute('name');
+                        });
                     }
                 });
             });
@@ -796,12 +804,12 @@
                     return container;
                 } else {
                     // SINGLE select
-                    if (name === 'origin') {
+                    if (['origin', 'destination'].includes(name)) {
                         // Render as a searchable SELECT grouped by country
                         const container = document.createElement('div');
                         const search = document.createElement('input');
                         search.type = 'text';
-                        search.placeholder = '🔎 Search origins…';
+                        search.placeholder = name === 'destination' ? '🔎 Search destinations…' : '🔎 Search origins…';
                         search.style.marginBottom = '6px';
                         search.style.width = '100%';
                         search.style.padding = '8px 10px';
@@ -842,8 +850,8 @@
                         };
                         buildOptions();
 
-                        // Set default to TLV
-                        select.value = 'TLV';
+                        // Set default to TLV for origin
+                        if (name === 'origin') select.value = 'TLV';
 
                         const applyFilter = (query) => {
                             const q = query.toLowerCase();
