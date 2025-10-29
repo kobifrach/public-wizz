@@ -1320,7 +1320,7 @@
                 // Mode
                 const mode = document.querySelector('input[type="radio"][name="connection"]:checked').value;
                 // Global dates (used only in 'with' mode)
-                const globalDateCheckboxes = document.querySelectorAll('#dates-checkboxes input[type="checkbox"]:checked');
+                const globalDateCheckboxes = document.querySelectorAll('#dates-checkboxes input:checked');
                 const globalDates = Array.from(globalDateCheckboxes).map(cb => {
                     // Convert DD/MM/YYYY to YYYY-MM-DD
                     const [d, m, y] = cb.value.split('/');
@@ -1388,6 +1388,7 @@
                     return;
                 }
                 if (mode === 'with') {
+                    console.log(routes, globalDates);
                     if (routes.length === 0 || globalDates.length === 0) {
                         alert('Please choose origin, destination and at least one date.');
                         return;
