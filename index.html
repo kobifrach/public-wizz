@@ -1448,28 +1448,15 @@
                         const taskId = data.task_id;
                         if (!taskId) throw new Error('Missing task id');
 
-                        const evtSource = new EventSource(`https://wizz-flights.onrender.com/stream/${taskId}`);
+                        const evtSource = new EventSource(`http://wizz-flights.onrender.com/stream/${taskId}`);
 
                         evtSource.onmessage = (e) => {
                             if (e.data === "ping" || !e.data) {
                                 // keep waiting
                                 return;
                             }
-                            if(e.error || e.data.error){
-                                console.log('error', e.error, e.data.error);
-                                hideLoading();
-                                setStartDisabled(false);
-                                alert('An error occurred');
-                                evtSource.close();
-                                return
-                            }
-                            // Done (any non-ping message is considered final result)
-                            evtSource.close();
-                            hideLoading();
-                            console.log(e.data)
-                            // if(e.data.error)
-
-                            // The server now wraps the payload as { done, message, file_path }, where message is JSON string
+                            
+                            // Parse payload
                             let payload = null;
                             try {
                                 payload = JSON.parse(e.data);
@@ -1478,6 +1465,16 @@
                                 payload = e.data;
                             }
                             console.log('SSE payload:', payload);
+
+                            // Check for error in payload
+                            if (payload && payload.error) {
+                                console.log('error', payload.error);
+                                hideLoading();
+                                setStartDisabled(false);
+                                alert('An error occurred: ' + payload.error);
+                                evtSource.close();
+                                return;
+                            }
 
                             // If payload has 'message', parse it as the inner JSON
                             let innerData = null;
@@ -1494,17 +1491,30 @@
                             let results = null;
                             let returnedTaskId = null;
                             let hasFile = false;
+                            let isPartial = false;
+
                             if (innerData && typeof innerData === 'object' && (innerData.results !== undefined || innerData.task_id !== undefined)) {
                                 results = innerData.results;
                                 returnedTaskId = innerData.task_id;
                                 hasFile = !!innerData.has_file;
+                                isPartial = !!innerData.partial;
                             } else if (payload && typeof payload === 'object' && (payload.results !== undefined || payload.task_id !== undefined)) {
                                 results = payload.results;
                                 returnedTaskId = payload.task_id;
                                 hasFile = !!payload.has_file;
+                                isPartial = !!payload.partial;
                             } else {
                                 // backwards compatibility: payload itself is the results
                                 results = payload;
+                            }
+
+                            // Handle partial vs final
+                            if (!isPartial) {
+                                evtSource.close();
+                                hideLoading();
+                            } else {
+                                // Partial: show results but keep connection open
+                                hideLoading();
                             }
 
                             let contentNode;
@@ -1524,8 +1534,25 @@
                             const title = mode === 'with' ? 'Results: WITH connections' : 'Results: NONE';
                             showResults(title, contentNode);
 
+                            // Add partial warning
+                            if (isPartial) {
+                                const msgDiv = document.createElement('div');
+                                msgDiv.style.backgroundColor = '#fff3cd';
+                                msgDiv.style.color = '#856404';
+                                msgDiv.style.padding = '10px';
+                                msgDiv.style.marginBottom = '10px';
+                                msgDiv.style.borderRadius = '4px';
+                                msgDiv.style.textAlign = 'center';
+                                msgDiv.style.fontWeight = 'bold';
+                                msgDiv.textContent = 'זה לא הכל, אנא המתן להמשך... (Rate Limit)';
+                                
+                                if (resultsBody) {
+                                    resultsBody.insertBefore(msgDiv, resultsBody.firstChild);
+                                }
+                            }
+
                             // If the server indicated a downloadable file is available, show a Download button
-                            if (hasFile && returnedTaskId && hasResults) {
+                            if (hasFile && returnedTaskId && hasResults && !isPartial) {
                                 // Create or replace a download button in the modal header
                                 let existing = document.getElementById('results-download-btn');
                                 if (existing) existing.remove();
