@@ -14,76 +14,8 @@
     "name": "Abu Dhabi",
     "destinations": [
       {
-        "code": "HBE",
-        "name": "Alexandria (Borg El Arab)"
-      },
-      {
-        "code": "ALA",
-        "name": "Almaty"
-      },
-      {
-        "code": "AMM",
-        "name": "Amman"
-      },
-      {
-        "code": "AQJ",
-        "name": "Aqaba"
-      },
-      {
-        "code": "NQZ",
-        "name": "Astana"
-      },
-      {
-        "code": "ATH",
-        "name": "Athens"
-      },
-      {
-        "code": "GYD",
-        "name": "Baku"
-      },
-      {
-        "code": "BEG",
-        "name": "Belgrad"
-      },
-      {
-        "code": "FRU",
-        "name": "Bishkek"
-      },
-      {
-        "code": "OTP",
-        "name": "Bucharest"
-      },
-      {
-        "code": "BBU",
-        "name": "Bucharest Baneasa"
-      },
-      {
         "code": "BUD",
         "name": "Budapest"
-      },
-      {
-        "code": "SPX",
-        "name": "Cairo (Sphinx)"
-      },
-      {
-        "code": "RMO",
-        "name": "Chisinau"
-      },
-      {
-        "code": "CLJ",
-        "name": "Cluj-Napoca"
-      },
-      {
-        "code": "DMM",
-        "name": "Dammam"
-      },
-      {
-        "code": "EBL",
-        "name": "Erbil"
-      },
-      {
-        "code": "GBB",
-        "name": "Gabala"
       },
       {
         "code": "KTW",
@@ -94,88 +26,12 @@
         "name": "Kraków"
       },
       {
-        "code": "KUT",
-        "name": "Kutaisi"
-      },
-      {
         "code": "LCA",
         "name": "Larnaca"
       },
       {
-        "code": "LGW",
-        "name": "London Gatwick"
-      },
-      {
-        "code": "MED",
-        "name": "Madinah"
-      },
-      {
-        "code": "MLE",
-        "name": "Malé (Maldives)"
-      },
-      {
-        "code": "MXP",
-        "name": "Milan Malpensa"
-      },
-      {
-        "code": "MCT",
-        "name": "Muscat"
-      },
-      {
-        "code": "BEY",
-        "name": "Rafic Hariri Intl"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      },
-      {
-        "code": "SLL",
-        "name": "Salalah"
-      },
-      {
-        "code": "SKD",
-        "name": "Samarkand"
-      },
-      {
-        "code": "SJJ",
-        "name": "Sarajevo"
-      },
-      {
         "code": "SOF",
         "name": "Sofia"
-      },
-      {
-        "code": "HMB",
-        "name": "Sohag"
-      },
-      {
-        "code": "TAS",
-        "name": "Tashkent"
-      },
-      {
-        "code": "TLV",
-        "name": "Tel-Aviv"
-      },
-      {
-        "code": "TIA",
-        "name": "Tirana"
-      },
-      {
-        "code": "HSA",
-        "name": "Turkistan"
-      },
-      {
-        "code": "VAR",
-        "name": "Varna (Black Sea)"
-      },
-      {
-        "code": "VIE",
-        "name": "Vienna"
-      },
-      {
-        "code": "EVN",
-        "name": "Yerevan"
       }
     ]
   },
@@ -184,20 +40,8 @@
     "name": "Agadir",
     "destinations": [
       {
-        "code": "OTP",
-        "name": "Bucharest"
-      },
-      {
         "code": "KTW",
         "name": "Katowice"
-      },
-      {
-        "code": "LGW",
-        "name": "London Gatwick"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
       },
       {
         "code": "WAW",
@@ -216,20 +60,6 @@
     ]
   },
   {
-    "code": "HBE",
-    "name": "Alexandria (Borg El Arab)",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
-        "code": "VIE",
-        "name": "Vienna"
-      }
-    ]
-  },
-  {
     "code": "AHO",
     "name": "Alghero (Sardinia)",
     "destinations": [
@@ -240,6 +70,14 @@
       {
         "code": "BUD",
         "name": "Budapest"
+      },
+      {
+        "code": "SOF",
+        "name": "Sofia"
+      },
+      {
+        "code": "WMI",
+        "name": "Warsaw Modlin"
       }
     ]
   },
@@ -250,6 +88,10 @@
       {
         "code": "BEG",
         "name": "Belgrad"
+      },
+      {
+        "code": "BTS",
+        "name": "Bratislava"
       },
       {
         "code": "OTP",
@@ -272,12 +114,12 @@
         "name": "Katowice"
       },
       {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
+        "code": "MXP",
+        "name": "Milan Malpensa"
       },
       {
-        "code": "SOF",
-        "name": "Sofia"
+        "code": "FCO",
+        "name": "Rome Fiumicino"
       },
       {
         "code": "WAW",
@@ -286,23 +128,9 @@
     ]
   },
   {
-    "code": "ALA",
-    "name": "Almaty",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      }
-    ]
-  },
-  {
     "code": "AMM",
     "name": "Amman",
     "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
       {
         "code": "BUD",
         "name": "Budapest"
@@ -314,10 +142,6 @@
       {
         "code": "MXP",
         "name": "Milan Malpensa"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
       },
       {
         "code": "VIE",
@@ -348,10 +172,6 @@
         "name": "Budapest"
       },
       {
-        "code": "DEB",
-        "name": "Debrecen"
-      },
-      {
         "code": "LGW",
         "name": "London Gatwick"
       },
@@ -362,56 +182,20 @@
     ]
   },
   {
-    "code": "AQJ",
-    "name": "Aqaba",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
-        "code": "OTP",
-        "name": "Bucharest"
-      },
-      {
-        "code": "KTW",
-        "name": "Katowice"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      },
-      {
-        "code": "SOF",
-        "name": "Sofia"
-      },
-      {
-        "code": "WAW",
-        "name": "Warsaw Chopin"
-      }
-    ]
-  },
-  {
-    "code": "NQZ",
-    "name": "Astana",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      }
-    ]
-  },
-  {
     "code": "ATH",
     "name": "Athens",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
+        "code": "BTS",
+        "name": "Bratislava"
       },
       {
         "code": "OTP",
         "name": "Bucharest"
+      },
+      {
+        "code": "BBU",
+        "name": "Bucharest Baneasa"
       },
       {
         "code": "BUD",
@@ -420,6 +204,14 @@
       {
         "code": "RMO",
         "name": "Chisinau"
+      },
+      {
+        "code": "CRA",
+        "name": "Craiova"
+      },
+      {
+        "code": "GDN",
+        "name": "Gdansk"
       },
       {
         "code": "KTW",
@@ -442,10 +234,6 @@
         "name": "London Luton"
       },
       {
-        "code": "MXP",
-        "name": "Milan Malpensa"
-      },
-      {
         "code": "TLV",
         "name": "Tel-Aviv"
       },
@@ -456,6 +244,10 @@
       {
         "code": "VCE",
         "name": "Venice Marco Polo"
+      },
+      {
+        "code": "WMI",
+        "name": "Warsaw Modlin"
       }
     ]
   },
@@ -468,10 +260,6 @@
         "name": "London Luton"
       },
       {
-        "code": "BGY",
-        "name": "Milan Bergamo"
-      },
-      {
         "code": "FCO",
         "name": "Rome Fiumicino"
       }
@@ -481,10 +269,6 @@
     "code": "GYD",
     "name": "Baku",
     "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
       {
         "code": "BUD",
         "name": "Budapest"
@@ -504,10 +288,6 @@
         "name": "Basel-Mulhouse-Freiburg"
       },
       {
-        "code": "BSL",
-        "name": "Basel-Mulhouse-Freiburg"
-      },
-      {
         "code": "DTM",
         "name": "Dortmund"
       }
@@ -522,8 +302,16 @@
         "name": "Belgrad"
       },
       {
+        "code": "BTS",
+        "name": "Bratislava"
+      },
+      {
         "code": "OTP",
         "name": "Bucharest"
+      },
+      {
+        "code": "BBU",
+        "name": "Bucharest Baneasa"
       },
       {
         "code": "BUD",
@@ -536,6 +324,10 @@
       {
         "code": "CLJ",
         "name": "Cluj-Napoca"
+      },
+      {
+        "code": "CRA",
+        "name": "Craiova"
       },
       {
         "code": "GDN",
@@ -558,8 +350,20 @@
         "name": "Kutaisi"
       },
       {
+        "code": "LCA",
+        "name": "Larnaca"
+      },
+      {
+        "code": "LTN",
+        "name": "London Luton"
+      },
+      {
         "code": "MXP",
         "name": "Milan Malpensa"
+      },
+      {
+        "code": "TGD",
+        "name": "Podgorica"
       },
       {
         "code": "FCO",
@@ -598,6 +402,10 @@
         "name": "Warsaw Chopin"
       },
       {
+        "code": "WMI",
+        "name": "Warsaw Modlin"
+      },
+      {
         "code": "WRO",
         "name": "Wroclaw"
       }
@@ -626,6 +434,10 @@
       {
         "code": "CRA",
         "name": "Craiova"
+      },
+      {
+        "code": "SKP",
+        "name": "Skopje"
       },
       {
         "code": "SOF",
@@ -666,10 +478,6 @@
         "name": "Belgrad"
       },
       {
-        "code": "RMO",
-        "name": "Chisinau"
-      },
-      {
         "code": "INI",
         "name": "Niš"
       },
@@ -700,16 +508,16 @@
     "name": "Basel-Mulhouse-Freiburg",
     "destinations": [
       {
-        "code": "BNX",
-        "name": "Banja Luka"
-      },
-      {
-        "code": "BEG",
-        "name": "Belgrad"
+        "code": "BTS",
+        "name": "Bratislava"
       },
       {
         "code": "OTP",
         "name": "Bucharest"
+      },
+      {
+        "code": "BBU",
+        "name": "Bucharest Baneasa"
       },
       {
         "code": "BUD",
@@ -728,28 +536,12 @@
         "name": "Kraków"
       },
       {
-        "code": "INI",
-        "name": "Niš"
-      },
-      {
-        "code": "OHD",
-        "name": "Ohrid"
-      },
-      {
-        "code": "TGD",
-        "name": "Podgorica"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
+        "code": "POZ",
+        "name": "Poznan"
       },
       {
         "code": "SBZ",
         "name": "Sibiu"
-      },
-      {
-        "code": "SKP",
-        "name": "Skopje"
       },
       {
         "code": "SOF",
@@ -758,14 +550,6 @@
       {
         "code": "TSR",
         "name": "Timisoara"
-      },
-      {
-        "code": "TIA",
-        "name": "Tirana"
-      },
-      {
-        "code": "TZL",
-        "name": "Tuzla"
       },
       {
         "code": "WAW",
@@ -782,20 +566,12 @@
     "name": "Belgrad",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
         "code": "ALC",
         "name": "Alicante"
       },
       {
         "code": "BCN",
         "name": "Barcelona El Prat"
-      },
-      {
-        "code": "BSL",
-        "name": "Basel-Mulhouse-Freiburg"
       },
       {
         "code": "MLH",
@@ -826,12 +602,12 @@
         "name": "Gothenburg Landvetter"
       },
       {
-        "code": "HAM",
-        "name": "Hamburg"
+        "code": "GNB",
+        "name": "Grenoble"
       },
       {
-        "code": "HER",
-        "name": "Heraklion (Crete)"
+        "code": "HAM",
+        "name": "Hamburg"
       },
       {
         "code": "FKB",
@@ -848,6 +624,10 @@
       {
         "code": "LTN",
         "name": "London Luton"
+      },
+      {
+        "code": "MAD",
+        "name": "Madrid"
       },
       {
         "code": "MMX",
@@ -874,10 +654,6 @@
         "name": "Paris Beauvais"
       },
       {
-        "code": "CIA",
-        "name": "Rome Ciampino"
-      },
-      {
         "code": "FCO",
         "name": "Rome Fiumicino"
       },
@@ -900,8 +676,16 @@
         "name": "Kraków"
       },
       {
+        "code": "SZZ",
+        "name": "Szczecin"
+      },
+      {
         "code": "VNO",
         "name": "Vilnius"
+      },
+      {
+        "code": "WMI",
+        "name": "Warsaw Modlin"
       }
     ]
   },
@@ -914,6 +698,14 @@
         "name": "Belgrad"
       },
       {
+        "code": "BTS",
+        "name": "Bratislava"
+      },
+      {
+        "code": "OTP",
+        "name": "Bucharest"
+      },
+      {
         "code": "BUD",
         "name": "Budapest"
       },
@@ -922,16 +714,8 @@
         "name": "Chisinau"
       },
       {
-        "code": "IAS",
-        "name": "Iasi"
-      },
-      {
         "code": "KUT",
         "name": "Kutaisi"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
       },
       {
         "code": "SKP",
@@ -940,6 +724,10 @@
       {
         "code": "TIA",
         "name": "Tirana"
+      },
+      {
+        "code": "TZL",
+        "name": "Tuzla"
       },
       {
         "code": "VAR",
@@ -954,6 +742,14 @@
       {
         "code": "BUD",
         "name": "Budapest"
+      },
+      {
+        "code": "KRK",
+        "name": "Kraków"
+      },
+      {
+        "code": "LTN",
+        "name": "London Luton"
       },
       {
         "code": "FCO",
@@ -1002,6 +798,10 @@
         "name": "Katowice"
       },
       {
+        "code": "TIA",
+        "name": "Tirana"
+      },
+      {
         "code": "VNO",
         "name": "Vilnius"
       }
@@ -1028,18 +828,12 @@
         "name": "Rome Fiumicino"
       },
       {
+        "code": "SBZ",
+        "name": "Sibiu"
+      },
+      {
         "code": "SCV",
         "name": "Suceava"
-      }
-    ]
-  },
-  {
-    "code": "FRU",
-    "name": "Bishkek",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
       }
     ]
   },
@@ -1076,10 +870,6 @@
         "name": "Skopje"
       },
       {
-        "code": "SOF",
-        "name": "Sofia"
-      },
-      {
         "code": "SCV",
         "name": "Suceava"
       },
@@ -1098,16 +888,30 @@
     ]
   },
   {
+    "code": "BOD",
+    "name": "Bordeaux",
+    "destinations": [
+      {
+        "code": "OTP",
+        "name": "Bucharest"
+      },
+      {
+        "code": "FCO",
+        "name": "Rome Fiumicino"
+      },
+      {
+        "code": "VCE",
+        "name": "Venice Marco Polo"
+      }
+    ]
+  },
+  {
     "code": "BOJ",
     "name": "Bourgas (Black Sea)",
     "destinations": [
       {
         "code": "BUD",
         "name": "Budapest"
-      },
-      {
-        "code": "DEB",
-        "name": "Debrecen"
       },
       {
         "code": "GDN",
@@ -1124,14 +928,6 @@
       {
         "code": "LUZ",
         "name": "Lublin"
-      },
-      {
-        "code": "TLV",
-        "name": "Tel-Aviv"
-      },
-      {
-        "code": "VIE",
-        "name": "Vienna"
       },
       {
         "code": "WAW",
@@ -1152,6 +948,10 @@
         "name": "Dortmund"
       },
       {
+        "code": "KTW",
+        "name": "Katowice"
+      },
+      {
         "code": "LTN",
         "name": "London Luton"
       },
@@ -1160,12 +960,20 @@
         "name": "Memmingen/Munich West"
       },
       {
+        "code": "MXP",
+        "name": "Milan Malpensa"
+      },
+      {
         "code": "NAP",
         "name": "Naples"
       },
       {
         "code": "NUE",
         "name": "Nuremberg"
+      },
+      {
+        "code": "FCO",
+        "name": "Rome Fiumicino"
       }
     ]
   },
@@ -1174,22 +982,112 @@
     "name": "Bratislava",
     "destinations": [
       {
+        "code": "ALC",
+        "name": "Alicante"
+      },
+      {
+        "code": "ATH",
+        "name": "Athens"
+      },
+      {
+        "code": "BCN",
+        "name": "Barcelona El Prat"
+      },
+      {
+        "code": "BSL",
+        "name": "Basel-Mulhouse-Freiburg"
+      },
+      {
+        "code": "BER",
+        "name": "Berlin Brandenburg"
+      },
+      {
+        "code": "OTP",
+        "name": "Bucharest"
+      },
+      {
+        "code": "RMO",
+        "name": "Chisinau"
+      },
+      {
+        "code": "DTM",
+        "name": "Dortmund"
+      },
+      {
+        "code": "KSC",
+        "name": "Kosice"
+      },
+      {
+        "code": "SUF",
+        "name": "Lamezia Terme"
+      },
+      {
+        "code": "LCA",
+        "name": "Larnaca"
+      },
+      {
         "code": "LTN",
         "name": "London Luton"
       },
       {
-        "code": "SKP",
-        "name": "Skopje"
-      }
-    ]
-  },
-  {
-    "code": "BRE",
-    "name": "Bremen",
-    "destinations": [
+        "code": "AGP",
+        "name": "Malaga"
+      },
+      {
+        "code": "NAP",
+        "name": "Naples"
+      },
+      {
+        "code": "INI",
+        "name": "Niš"
+      },
+      {
+        "code": "OHD",
+        "name": "Ohrid"
+      },
+      {
+        "code": "OSL",
+        "name": "Oslo Gardermoen"
+      },
+      {
+        "code": "PMO",
+        "name": "Palermo"
+      },
+      {
+        "code": "PDV",
+        "name": "Plovdiv"
+      },
+      {
+        "code": "PRN",
+        "name": "Prishtina"
+      },
+      {
+        "code": "FCO",
+        "name": "Rome Fiumicino"
+      },
       {
         "code": "SKP",
         "name": "Skopje"
+      },
+      {
+        "code": "TLV",
+        "name": "Tel-Aviv"
+      },
+      {
+        "code": "TIA",
+        "name": "Tirana"
+      },
+      {
+        "code": "TZL",
+        "name": "Tuzla"
+      },
+      {
+        "code": "VAR",
+        "name": "Varna (Black Sea)"
+      },
+      {
+        "code": "WAW",
+        "name": "Warsaw Chopin"
       }
     ]
   },
@@ -1198,18 +1096,16 @@
     "name": "Brindisi",
     "destinations": [
       {
-        "code": "TIA",
-        "name": "Tirana"
-      }
-    ]
-  },
-  {
-    "code": "BRU",
-    "name": "Brussels",
-    "destinations": [
+        "code": "OTP",
+        "name": "Bucharest"
+      },
       {
-        "code": "BUD",
-        "name": "Budapest"
+        "code": "KTW",
+        "name": "Katowice"
+      },
+      {
+        "code": "WMI",
+        "name": "Warsaw Modlin"
       }
     ]
   },
@@ -1222,12 +1118,12 @@
         "name": "Bucharest"
       },
       {
-        "code": "BUD",
-        "name": "Budapest"
+        "code": "BBU",
+        "name": "Bucharest Baneasa"
       },
       {
-        "code": "CTA",
-        "name": "Catania (Sicily)"
+        "code": "BUD",
+        "name": "Budapest"
       },
       {
         "code": "RMO",
@@ -1284,14 +1180,6 @@
     "name": "Bucharest",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
-        "code": "AGA",
-        "name": "Agadir"
-      },
-      {
         "code": "AHO",
         "name": "Alghero (Sardinia)"
       },
@@ -1302,10 +1190,6 @@
       {
         "code": "AYT",
         "name": "Antalya"
-      },
-      {
-        "code": "AQJ",
-        "name": "Aqaba"
       },
       {
         "code": "ATH",
@@ -1324,6 +1208,10 @@
         "name": "Basel-Mulhouse-Freiburg"
       },
       {
+        "code": "BER",
+        "name": "Berlin Brandenburg"
+      },
+      {
         "code": "BLL",
         "name": "Billund"
       },
@@ -1336,12 +1224,20 @@
         "name": "Bologna"
       },
       {
-        "code": "CRL",
-        "name": "Brussels Charleroi"
+        "code": "BOD",
+        "name": "Bordeaux"
       },
       {
-        "code": "BUD",
-        "name": "Budapest"
+        "code": "BTS",
+        "name": "Bratislava"
+      },
+      {
+        "code": "BDS",
+        "name": "Brindisi"
+      },
+      {
+        "code": "CRL",
+        "name": "Brussels Charleroi"
       },
       {
         "code": "CDT",
@@ -1354,6 +1250,10 @@
       {
         "code": "RMO",
         "name": "Chisinau"
+      },
+      {
+        "code": "CGN",
+        "name": "Cologne"
       },
       {
         "code": "CPH",
@@ -1376,16 +1276,16 @@
         "name": "Eindhoven"
       },
       {
+        "code": "FAO",
+        "name": "Faro"
+      },
+      {
         "code": "HHN",
         "name": "Frankfurt Hahn"
       },
       {
-        "code": "FDH",
-        "name": "Friedrichshafen"
-      },
-      {
-        "code": "GVA",
-        "name": "Geneva"
+        "code": "GDN",
+        "name": "Gdansk"
       },
       {
         "code": "LPA",
@@ -1400,28 +1300,12 @@
         "name": "Heraklion (Crete)"
       },
       {
-        "code": "ADB",
-        "name": "Izmir"
-      },
-      {
-        "code": "JED",
-        "name": "Jeddah"
-      },
-      {
-        "code": "KRK",
-        "name": "Kraków"
-      },
-      {
         "code": "LCA",
         "name": "Larnaca"
       },
       {
         "code": "LBA",
         "name": "Leeds"
-      },
-      {
-        "code": "LEJ",
-        "name": "Leipzig"
       },
       {
         "code": "LIS",
@@ -1432,16 +1316,16 @@
         "name": "Liverpool"
       },
       {
-        "code": "LGW",
-        "name": "London Gatwick"
-      },
-      {
         "code": "LTN",
         "name": "London Luton"
       },
       {
         "code": "LYS",
         "name": "Lyon"
+      },
+      {
+        "code": "MST",
+        "name": "Maastricht"
       },
       {
         "code": "MAD",
@@ -1480,10 +1364,6 @@
         "name": "Mykonos"
       },
       {
-        "code": "NAP",
-        "name": "Naples"
-      },
-      {
         "code": "NCE",
         "name": "Nice"
       },
@@ -1504,8 +1384,24 @@
         "name": "Paris Beauvais"
       },
       {
+        "code": "ORY",
+        "name": "Paris Orly"
+      },
+      {
+        "code": "PSR",
+        "name": "Pescara"
+      },
+      {
         "code": "PSA",
         "name": "Pisa (Tuscany)"
+      },
+      {
+        "code": "OPO",
+        "name": "Porto"
+      },
+      {
+        "code": "PRG",
+        "name": "Prague"
       },
       {
         "code": "FCO",
@@ -1514,10 +1410,6 @@
       {
         "code": "QSR",
         "name": "Salerno Costa d'Amalfi"
-      },
-      {
-        "code": "SZG",
-        "name": "Salzburg"
       },
       {
         "code": "SDR",
@@ -1548,20 +1440,12 @@
         "name": "Tenerife (Canary Islands)"
       },
       {
-        "code": "SKG",
-        "name": "Thessaloniki"
-      },
-      {
-        "code": "TIA",
-        "name": "Tirana"
-      },
-      {
-        "code": "TRS",
-        "name": "Trieste"
-      },
-      {
         "code": "TRN",
         "name": "Turin"
+      },
+      {
+        "code": "TKU",
+        "name": "Turku"
       },
       {
         "code": "VLC",
@@ -1590,12 +1474,28 @@
     "name": "Bucharest Baneasa",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
+        "code": "ATH",
+        "name": "Athens"
+      },
+      {
+        "code": "BCN",
+        "name": "Barcelona El Prat"
+      },
+      {
+        "code": "BSL",
+        "name": "Basel-Mulhouse-Freiburg"
+      },
+      {
+        "code": "CRL",
+        "name": "Brussels Charleroi"
       },
       {
         "code": "BUD",
         "name": "Budapest"
+      },
+      {
+        "code": "HHN",
+        "name": "Frankfurt Hahn"
       },
       {
         "code": "KRK",
@@ -1606,8 +1506,24 @@
         "name": "London Luton"
       },
       {
+        "code": "FMM",
+        "name": "Memmingen/Munich West"
+      },
+      {
+        "code": "BGY",
+        "name": "Milan Bergamo"
+      },
+      {
         "code": "NAP",
         "name": "Naples"
+      },
+      {
+        "code": "NCE",
+        "name": "Nice"
+      },
+      {
+        "code": "TRN",
+        "name": "Turin"
       },
       {
         "code": "WAW",
@@ -1616,10 +1532,6 @@
       {
         "code": "WRO",
         "name": "Wroclaw"
-      },
-      {
-        "code": "EVN",
-        "name": "Yerevan"
       }
     ]
   },
@@ -1692,16 +1604,8 @@
         "name": "Brasov"
       },
       {
-        "code": "BRU",
-        "name": "Brussels"
-      },
-      {
         "code": "CRL",
         "name": "Brussels Charleroi"
-      },
-      {
-        "code": "OTP",
-        "name": "Bucharest"
       },
       {
         "code": "BBU",
@@ -1714,10 +1618,6 @@
       {
         "code": "CTA",
         "name": "Catania (Sicily)"
-      },
-      {
-        "code": "CHQ",
-        "name": "Chania (Crete)"
       },
       {
         "code": "RMO",
@@ -1754,10 +1654,6 @@
       {
         "code": "GOA",
         "name": "Genoa"
-      },
-      {
-        "code": "GRO",
-        "name": "Girona"
       },
       {
         "code": "GLA",
@@ -1860,20 +1756,8 @@
         "name": "Rhodes"
       },
       {
-        "code": "RUH",
-        "name": "Riyadh"
-      },
-      {
         "code": "FCO",
         "name": "Rome Fiumicino"
-      },
-      {
-        "code": "RVN",
-        "name": "Rovaniemi"
-      },
-      {
-        "code": "QSR",
-        "name": "Salerno Costa d'Amalfi"
       },
       {
         "code": "JTR",
@@ -1896,6 +1780,10 @@
         "name": "Stuttgart"
       },
       {
+        "code": "TLL",
+        "name": "Tallinn"
+      },
+      {
         "code": "TLV",
         "name": "Tel-Aviv"
       },
@@ -1914,6 +1802,10 @@
       {
         "code": "TGM",
         "name": "Tirgu Mures"
+      },
+      {
+        "code": "TRN",
+        "name": "Turin"
       },
       {
         "code": "VLC",
@@ -1950,16 +1842,8 @@
     "name": "Cairo (Sphinx)",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
         "code": "BUD",
         "name": "Budapest"
-      },
-      {
-        "code": "LCA",
-        "name": "Larnaca"
       },
       {
         "code": "LTN",
@@ -1986,10 +1870,6 @@
       {
         "code": "CLJ",
         "name": "Cluj-Napoca"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
       }
     ]
   },
@@ -1997,10 +1877,6 @@
     "code": "CTA",
     "name": "Catania (Sicily)",
     "destinations": [
-      {
-        "code": "CRL",
-        "name": "Brussels Charleroi"
-      },
       {
         "code": "OTP",
         "name": "Bucharest"
@@ -2014,8 +1890,8 @@
         "name": "Cluj-Napoca"
       },
       {
-        "code": "HAM",
-        "name": "Hamburg"
+        "code": "GDN",
+        "name": "Gdansk"
       },
       {
         "code": "IAS",
@@ -2042,20 +1918,16 @@
         "name": "Sharm El Sheikh"
       },
       {
-        "code": "SOF",
-        "name": "Sofia"
-      },
-      {
-        "code": "TIA",
-        "name": "Tirana"
-      },
-      {
         "code": "VNO",
         "name": "Vilnius"
       },
       {
         "code": "WAW",
         "name": "Warsaw Chopin"
+      },
+      {
+        "code": "WRO",
+        "name": "Wroclaw"
       }
     ]
   },
@@ -2063,18 +1935,6 @@
     "code": "CHQ",
     "name": "Chania (Crete)",
     "destinations": [
-      {
-        "code": "BUD",
-        "name": "Budapest"
-      },
-      {
-        "code": "CLJ",
-        "name": "Cluj-Napoca"
-      },
-      {
-        "code": "VIE",
-        "name": "Vienna"
-      },
       {
         "code": "WAW",
         "name": "Warsaw Chopin"
@@ -2086,10 +1946,6 @@
     "name": "Chisinau",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
         "code": "ATH",
         "name": "Athens"
       },
@@ -2100,10 +1956,6 @@
       {
         "code": "BRI",
         "name": "Bari"
-      },
-      {
-        "code": "MLH",
-        "name": "Basel-Mulhouse-Freiburg"
       },
       {
         "code": "BER",
@@ -2118,6 +1970,10 @@
         "name": "Bologna"
       },
       {
+        "code": "BTS",
+        "name": "Bratislava"
+      },
+      {
         "code": "CRL",
         "name": "Brussels Charleroi"
       },
@@ -2130,8 +1986,20 @@
         "name": "Budapest"
       },
       {
+        "code": "CPH",
+        "name": "Copenhagen"
+      },
+      {
         "code": "DTM",
         "name": "Dortmund"
+      },
+      {
+        "code": "HHN",
+        "name": "Frankfurt Hahn"
+      },
+      {
+        "code": "HAM",
+        "name": "Hamburg"
       },
       {
         "code": "FKB",
@@ -2170,6 +2038,10 @@
         "name": "Naples"
       },
       {
+        "code": "NCE",
+        "name": "Nice"
+      },
+      {
         "code": "NUE",
         "name": "Nuremberg"
       },
@@ -2178,8 +2050,20 @@
         "name": "Paris Beauvais"
       },
       {
+        "code": "PRG",
+        "name": "Prague"
+      },
+      {
         "code": "FCO",
         "name": "Rome Fiumicino"
+      },
+      {
+        "code": "SOF",
+        "name": "Sofia"
+      },
+      {
+        "code": "TRN",
+        "name": "Turin"
       },
       {
         "code": "VCE",
@@ -2198,6 +2082,10 @@
         "name": "Warsaw Chopin"
       },
       {
+        "code": "WMI",
+        "name": "Warsaw Modlin"
+      },
+      {
         "code": "WRO",
         "name": "Wroclaw"
       }
@@ -2207,10 +2095,6 @@
     "code": "CLJ",
     "name": "Cluj-Napoca",
     "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
       {
         "code": "ALC",
         "name": "Alicante"
@@ -2248,10 +2132,6 @@
         "name": "Catania (Sicily)"
       },
       {
-        "code": "CHQ",
-        "name": "Chania (Crete)"
-      },
-      {
         "code": "CFU",
         "name": "Corfu"
       },
@@ -2266,6 +2146,10 @@
       {
         "code": "HHN",
         "name": "Frankfurt Hahn"
+      },
+      {
+        "code": "HER",
+        "name": "Heraklion (Crete)"
       },
       {
         "code": "LCA",
@@ -2300,6 +2184,10 @@
         "name": "Malmo"
       },
       {
+        "code": "RAK",
+        "name": "Marrakesh"
+      },
+      {
         "code": "FMM",
         "name": "Memmingen/Munich West"
       },
@@ -2308,16 +2196,20 @@
         "name": "Milan Bergamo"
       },
       {
+        "code": "MXP",
+        "name": "Milan Malpensa"
+      },
+      {
         "code": "NAP",
         "name": "Naples"
       },
       {
-        "code": "NCE",
-        "name": "Nice"
-      },
-      {
         "code": "NUE",
         "name": "Nuremberg"
+      },
+      {
+        "code": "TRF",
+        "name": "Oslo Sandefjord Airport"
       },
       {
         "code": "PMI",
@@ -2328,12 +2220,12 @@
         "name": "Paris Beauvais"
       },
       {
-        "code": "CIA",
-        "name": "Rome Ciampino"
-      },
-      {
         "code": "FCO",
         "name": "Rome Fiumicino"
+      },
+      {
+        "code": "NYO",
+        "name": "Stockholm Skavsta"
       },
       {
         "code": "STR",
@@ -2370,12 +2262,24 @@
     "name": "Cologne",
     "destinations": [
       {
+        "code": "OTP",
+        "name": "Bucharest"
+      },
+      {
+        "code": "TGD",
+        "name": "Podgorica"
+      },
+      {
         "code": "SKP",
         "name": "Skopje"
       },
       {
         "code": "TIA",
         "name": "Tirana"
+      },
+      {
+        "code": "TZL",
+        "name": "Tuzla"
       }
     ]
   },
@@ -2416,28 +2320,16 @@
         "name": "Budapest"
       },
       {
+        "code": "RMO",
+        "name": "Chisinau"
+      },
+      {
         "code": "GDN",
         "name": "Gdansk"
       },
       {
         "code": "IAS",
         "name": "Iasi"
-      },
-      {
-        "code": "KTW",
-        "name": "Katowice"
-      },
-      {
-        "code": "KUT",
-        "name": "Kutaisi"
-      },
-      {
-        "code": "SKP",
-        "name": "Skopje"
-      },
-      {
-        "code": "SOF",
-        "name": "Sofia"
       },
       {
         "code": "WAW",
@@ -2462,10 +2354,6 @@
         "name": "Cluj-Napoca"
       },
       {
-        "code": "DEB",
-        "name": "Debrecen"
-      },
-      {
         "code": "KTW",
         "name": "Katowice"
       },
@@ -2474,16 +2362,8 @@
         "name": "Milan Malpensa"
       },
       {
-        "code": "NAP",
-        "name": "Naples"
-      },
-      {
         "code": "FCO",
         "name": "Rome Fiumicino"
-      },
-      {
-        "code": "VIE",
-        "name": "Vienna"
       },
       {
         "code": "WAW",
@@ -2495,6 +2375,14 @@
     "code": "CRA",
     "name": "Craiova",
     "destinations": [
+      {
+        "code": "ATH",
+        "name": "Athens"
+      },
+      {
+        "code": "BCN",
+        "name": "Barcelona El Prat"
+      },
       {
         "code": "BRI",
         "name": "Bari"
@@ -2532,8 +2420,12 @@
         "name": "Milan Bergamo"
       },
       {
-        "code": "CIA",
-        "name": "Rome Ciampino"
+        "code": "NAP",
+        "name": "Naples"
+      },
+      {
+        "code": "BVA",
+        "name": "Paris Beauvais"
       },
       {
         "code": "FCO",
@@ -2556,43 +2448,9 @@
     ]
   },
   {
-    "code": "DMM",
-    "name": "Dammam",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      }
-    ]
-  },
-  {
     "code": "DEB",
     "name": "Debrecen",
     "destinations": [
-      {
-        "code": "AYT",
-        "name": "Antalya"
-      },
-      {
-        "code": "BOJ",
-        "name": "Bourgas (Black Sea)"
-      },
-      {
-        "code": "CFU",
-        "name": "Corfu"
-      },
-      {
-        "code": "EIN",
-        "name": "Eindhoven"
-      },
-      {
-        "code": "IST",
-        "name": "Istanbul"
-      },
       {
         "code": "LCA",
         "name": "Larnaca"
@@ -2600,10 +2458,6 @@
       {
         "code": "LTN",
         "name": "London Luton"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
       }
     ]
   },
@@ -2622,6 +2476,10 @@
       {
         "code": "GHV",
         "name": "Brasov"
+      },
+      {
+        "code": "BTS",
+        "name": "Bratislava"
       },
       {
         "code": "OTP",
@@ -2660,6 +2518,10 @@
         "name": "Kutaisi"
       },
       {
+        "code": "INI",
+        "name": "Niš"
+      },
+      {
         "code": "OHD",
         "name": "Ohrid"
       },
@@ -2674,10 +2536,6 @@
       {
         "code": "PRN",
         "name": "Prishtina"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
       },
       {
         "code": "SBZ",
@@ -2718,6 +2576,10 @@
       {
         "code": "WAW",
         "name": "Warsaw Chopin"
+      },
+      {
+        "code": "WRO",
+        "name": "Wroclaw"
       },
       {
         "code": "EVN",
@@ -2770,10 +2632,6 @@
         "name": "Cluj-Napoca"
       },
       {
-        "code": "DEB",
-        "name": "Debrecen"
-      },
-      {
         "code": "GDN",
         "name": "Gdansk"
       },
@@ -2788,10 +2646,6 @@
       {
         "code": "KRK",
         "name": "Kraków"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
       },
       {
         "code": "SKP",
@@ -2824,19 +2678,17 @@
     ]
   },
   {
-    "code": "EBL",
-    "name": "Erbil",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      }
-    ]
-  },
-  {
     "code": "FAO",
     "name": "Faro",
     "destinations": [
+      {
+        "code": "OTP",
+        "name": "Bucharest"
+      },
+      {
+        "code": "KTW",
+        "name": "Katowice"
+      },
       {
         "code": "LGW",
         "name": "London Gatwick"
@@ -2850,6 +2702,14 @@
       {
         "code": "OTP",
         "name": "Bucharest"
+      },
+      {
+        "code": "BBU",
+        "name": "Bucharest Baneasa"
+      },
+      {
+        "code": "RMO",
+        "name": "Chisinau"
       },
       {
         "code": "CLJ",
@@ -2880,6 +2740,10 @@
         "name": "Tirana"
       },
       {
+        "code": "TZL",
+        "name": "Tuzla"
+      },
+      {
         "code": "VAR",
         "name": "Varna (Black Sea)"
       }
@@ -2892,10 +2756,6 @@
       {
         "code": "BEG",
         "name": "Belgrad"
-      },
-      {
-        "code": "OTP",
-        "name": "Bucharest"
       },
       {
         "code": "SKP",
@@ -2934,26 +2794,12 @@
         "name": "Katowice"
       },
       {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      },
-      {
         "code": "VIE",
         "name": "Vienna"
       },
       {
         "code": "WAW",
         "name": "Warsaw Chopin"
-      }
-    ]
-  },
-  {
-    "code": "GBB",
-    "name": "Gabala",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
       }
     ]
   },
@@ -2974,6 +2820,10 @@
         "name": "Alicante"
       },
       {
+        "code": "ATH",
+        "name": "Athens"
+      },
+      {
         "code": "BCN",
         "name": "Barcelona El Prat"
       },
@@ -2990,8 +2840,16 @@
         "name": "Bourgas (Black Sea)"
       },
       {
+        "code": "OTP",
+        "name": "Bucharest"
+      },
+      {
         "code": "BUD",
         "name": "Budapest"
+      },
+      {
+        "code": "CTA",
+        "name": "Catania (Sicily)"
       },
       {
         "code": "CPH",
@@ -3042,20 +2900,20 @@
         "name": "London Luton"
       },
       {
+        "code": "MAD",
+        "name": "Madrid"
+      },
+      {
         "code": "AGP",
         "name": "Malaga"
       },
       {
-        "code": "MMX",
-        "name": "Malmo"
-      },
-      {
-        "code": "RAK",
-        "name": "Marrakesh"
-      },
-      {
         "code": "MXP",
         "name": "Milan Malpensa"
+      },
+      {
+        "code": "NCE",
+        "name": "Nice"
       },
       {
         "code": "OSL",
@@ -3068,6 +2926,14 @@
       {
         "code": "BVA",
         "name": "Paris Beauvais"
+      },
+      {
+        "code": "TGD",
+        "name": "Podgorica"
+      },
+      {
+        "code": "TAT",
+        "name": "Poprad-Tatry"
       },
       {
         "code": "KEF",
@@ -3090,6 +2956,10 @@
         "name": "Stockholm Arlanda"
       },
       {
+        "code": "TLL",
+        "name": "Tallinn"
+      },
+      {
         "code": "TFS",
         "name": "Tenerife (Canary Islands)"
       },
@@ -3110,26 +2980,12 @@
         "name": "Turku"
       },
       {
-        "code": "VLC",
-        "name": "Valencia"
-      },
-      {
         "code": "VRN",
         "name": "Verona"
-      }
-    ]
-  },
-  {
-    "code": "GVA",
-    "name": "Geneva",
-    "destinations": [
-      {
-        "code": "OTP",
-        "name": "Bucharest"
       },
       {
-        "code": "SOF",
-        "name": "Sofia"
+        "code": "VNO",
+        "name": "Vilnius"
       }
     ]
   },
@@ -3156,22 +3012,20 @@
     ]
   },
   {
-    "code": "GRO",
-    "name": "Girona",
-    "destinations": [
-      {
-        "code": "BUD",
-        "name": "Budapest"
-      }
-    ]
-  },
-  {
     "code": "GLA",
     "name": "Glasgow",
     "destinations": [
       {
         "code": "BUD",
         "name": "Budapest"
+      },
+      {
+        "code": "MXP",
+        "name": "Milan Malpensa"
+      },
+      {
+        "code": "FCO",
+        "name": "Rome Fiumicino"
       }
     ]
   },
@@ -3188,16 +3042,12 @@
         "name": "Gdansk"
       },
       {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      },
-      {
         "code": "SKP",
         "name": "Skopje"
       },
       {
-        "code": "WAW",
-        "name": "Warsaw Chopin"
+        "code": "TZL",
+        "name": "Tuzla"
       }
     ]
   },
@@ -3228,6 +3078,10 @@
     "name": "Grenoble",
     "destinations": [
       {
+        "code": "BEG",
+        "name": "Belgrad"
+      },
+      {
         "code": "LGW",
         "name": "London Gatwick"
       },
@@ -3246,6 +3100,16 @@
     ]
   },
   {
+    "code": "LWN",
+    "name": "Gyumri",
+    "destinations": [
+      {
+        "code": "LCA",
+        "name": "Larnaca"
+      }
+    ]
+  },
+  {
     "code": "HAM",
     "name": "Hamburg",
     "destinations": [
@@ -3258,8 +3122,8 @@
         "name": "Bucharest"
       },
       {
-        "code": "CTA",
-        "name": "Catania (Sicily)"
+        "code": "RMO",
+        "name": "Chisinau"
       },
       {
         "code": "GDN",
@@ -3270,8 +3134,8 @@
         "name": "Kutaisi"
       },
       {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
+        "code": "TGD",
+        "name": "Podgorica"
       },
       {
         "code": "SBZ",
@@ -3288,6 +3152,10 @@
       {
         "code": "TIA",
         "name": "Tirana"
+      },
+      {
+        "code": "TZL",
+        "name": "Tuzla"
       },
       {
         "code": "VAR",
@@ -3314,16 +3182,16 @@
     "name": "Heraklion (Crete)",
     "destinations": [
       {
-        "code": "BEG",
-        "name": "Belgrad"
-      },
-      {
         "code": "OTP",
         "name": "Bucharest"
       },
       {
         "code": "BUD",
         "name": "Budapest"
+      },
+      {
+        "code": "CLJ",
+        "name": "Cluj-Napoca"
       },
       {
         "code": "GDN",
@@ -3342,8 +3210,8 @@
         "name": "Rome Fiumicino"
       },
       {
-        "code": "SOF",
-        "name": "Sofia"
+        "code": "TLV",
+        "name": "Tel-Aviv"
       },
       {
         "code": "WAW",
@@ -3392,10 +3260,6 @@
       {
         "code": "BSL",
         "name": "Basel-Mulhouse-Freiburg"
-      },
-      {
-        "code": "BER",
-        "name": "Berlin Brandenburg"
       },
       {
         "code": "BLL",
@@ -3462,16 +3326,16 @@
         "name": "Paris Beauvais"
       },
       {
-        "code": "CIA",
-        "name": "Rome Ciampino"
+        "code": "PSR",
+        "name": "Pescara"
+      },
+      {
+        "code": "PRG",
+        "name": "Prague"
       },
       {
         "code": "FCO",
         "name": "Rome Fiumicino"
-      },
-      {
-        "code": "NYO",
-        "name": "Stockholm Skavsta"
       },
       {
         "code": "TLV",
@@ -3480,6 +3344,10 @@
       {
         "code": "TRN",
         "name": "Turin"
+      },
+      {
+        "code": "VLC",
+        "name": "Valencia"
       },
       {
         "code": "TSF",
@@ -3491,10 +3359,6 @@
     "code": "IBZ",
     "name": "Ibiza",
     "destinations": [
-      {
-        "code": "NAP",
-        "name": "Naples"
-      },
       {
         "code": "FCO",
         "name": "Rome Fiumicino"
@@ -3508,10 +3372,6 @@
       {
         "code": "BUD",
         "name": "Budapest"
-      },
-      {
-        "code": "DEB",
-        "name": "Debrecen"
       },
       {
         "code": "IAS",
@@ -3528,23 +3388,9 @@
     ]
   },
   {
-    "code": "ADB",
-    "name": "Izmir",
-    "destinations": [
-      {
-        "code": "OTP",
-        "name": "Bucharest"
-      }
-    ]
-  },
-  {
     "code": "JED",
     "name": "Jeddah",
     "destinations": [
-      {
-        "code": "OTP",
-        "name": "Bucharest"
-      },
       {
         "code": "BUD",
         "name": "Budapest"
@@ -3578,6 +3424,10 @@
       {
         "code": "RMO",
         "name": "Chisinau"
+      },
+      {
+        "code": "TGD",
+        "name": "Podgorica"
       },
       {
         "code": "SBZ",
@@ -3618,10 +3468,6 @@
         "name": "Alicante"
       },
       {
-        "code": "AQJ",
-        "name": "Aqaba"
-      },
-      {
         "code": "ATH",
         "name": "Athens"
       },
@@ -3638,16 +3484,20 @@
         "name": "Bourgas (Black Sea)"
       },
       {
+        "code": "GHV",
+        "name": "Brasov"
+      },
+      {
+        "code": "BDS",
+        "name": "Brindisi"
+      },
+      {
         "code": "CTA",
         "name": "Catania (Sicily)"
       },
       {
         "code": "RMO",
         "name": "Chisinau"
-      },
-      {
-        "code": "CPH",
-        "name": "Copenhagen"
       },
       {
         "code": "CFU",
@@ -3662,6 +3512,10 @@
         "name": "Eindhoven"
       },
       {
+        "code": "FAO",
+        "name": "Faro"
+      },
+      {
         "code": "FUE",
         "name": "Fuerteventura (Canary Islands)"
       },
@@ -3672,6 +3526,10 @@
       {
         "code": "KUT",
         "name": "Kutaisi"
+      },
+      {
+        "code": "SUF",
+        "name": "Lamezia Terme"
       },
       {
         "code": "LCA",
@@ -3686,6 +3544,10 @@
         "name": "London Luton"
       },
       {
+        "code": "MST",
+        "name": "Maastricht"
+      },
+      {
         "code": "MAD",
         "name": "Madrid"
       },
@@ -3698,16 +3560,12 @@
         "name": "Malta"
       },
       {
-        "code": "RAK",
-        "name": "Marrakesh"
-      },
-      {
         "code": "NAP",
         "name": "Naples"
       },
       {
-        "code": "PMI",
-        "name": "Palma de Mallorca"
+        "code": "OHD",
+        "name": "Ohrid"
       },
       {
         "code": "PSA",
@@ -3718,12 +3576,12 @@
         "name": "Podgorica"
       },
       {
-        "code": "KEF",
-        "name": "Reykjavik"
+        "code": "OPO",
+        "name": "Porto"
       },
       {
-        "code": "CIA",
-        "name": "Rome Ciampino"
+        "code": "KEF",
+        "name": "Reykjavik"
       },
       {
         "code": "FCO",
@@ -3732,10 +3590,6 @@
       {
         "code": "SPU",
         "name": "Split"
-      },
-      {
-        "code": "TLV",
-        "name": "Tel-Aviv"
       },
       {
         "code": "TFS",
@@ -3758,29 +3612,13 @@
     ]
   },
   {
-    "code": "EFL",
-    "name": "Kefalonia",
-    "destinations": [
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      }
-    ]
-  },
-  {
-    "code": "KGS",
-    "name": "Kos",
-    "destinations": [
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      }
-    ]
-  },
-  {
     "code": "KSC",
     "name": "Kosice",
     "destinations": [
+      {
+        "code": "BTS",
+        "name": "Bratislava"
+      },
       {
         "code": "LTN",
         "name": "London Luton"
@@ -3808,12 +3646,12 @@
         "name": "Bergen"
       },
       {
-        "code": "BLQ",
-        "name": "Bologna"
+        "code": "BIO",
+        "name": "Bilbao"
       },
       {
-        "code": "OTP",
-        "name": "Bucharest"
+        "code": "BLQ",
+        "name": "Bologna"
       },
       {
         "code": "BBU",
@@ -3880,6 +3718,10 @@
         "name": "Stavanger"
       },
       {
+        "code": "TLL",
+        "name": "Tallinn"
+      },
+      {
         "code": "TLV",
         "name": "Tel-Aviv"
       },
@@ -3890,6 +3732,14 @@
       {
         "code": "VLC",
         "name": "Valencia"
+      },
+      {
+        "code": "VRN",
+        "name": "Verona"
+      },
+      {
+        "code": "VNO",
+        "name": "Vilnius"
       }
     ]
   },
@@ -3897,10 +3747,6 @@
     "code": "KUT",
     "name": "Kutaisi",
     "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
       {
         "code": "ATH",
         "name": "Athens"
@@ -3920,10 +3766,6 @@
       {
         "code": "BUD",
         "name": "Budapest"
-      },
-      {
-        "code": "CPH",
-        "name": "Copenhagen"
       },
       {
         "code": "DTM",
@@ -3974,20 +3816,16 @@
         "name": "Prague"
       },
       {
-        "code": "RIX",
-        "name": "Riga"
-      },
-      {
-        "code": "CIA",
-        "name": "Rome Ciampino"
-      },
-      {
         "code": "FCO",
         "name": "Rome Fiumicino"
       },
       {
         "code": "SKG",
         "name": "Thessaloniki"
+      },
+      {
+        "code": "VCE",
+        "name": "Venice Marco Polo"
       },
       {
         "code": "VIE",
@@ -4008,6 +3846,24 @@
     ]
   },
   {
+    "code": "SUF",
+    "name": "Lamezia Terme",
+    "destinations": [
+      {
+        "code": "BTS",
+        "name": "Bratislava"
+      },
+      {
+        "code": "KTW",
+        "name": "Katowice"
+      },
+      {
+        "code": "SOF",
+        "name": "Sofia"
+      }
+    ]
+  },
+  {
     "code": "LCA",
     "name": "Larnaca",
     "destinations": [
@@ -4020,8 +3876,16 @@
         "name": "Athens"
       },
       {
+        "code": "BCN",
+        "name": "Barcelona El Prat"
+      },
+      {
         "code": "BEG",
         "name": "Belgrad"
+      },
+      {
+        "code": "BTS",
+        "name": "Bratislava"
       },
       {
         "code": "OTP",
@@ -4030,10 +3894,6 @@
       {
         "code": "BUD",
         "name": "Budapest"
-      },
-      {
-        "code": "SPX",
-        "name": "Cairo (Sphinx)"
       },
       {
         "code": "RMO",
@@ -4050,6 +3910,10 @@
       {
         "code": "GDN",
         "name": "Gdansk"
+      },
+      {
+        "code": "LWN",
+        "name": "Gyumri"
       },
       {
         "code": "IAS",
@@ -4078,10 +3942,6 @@
       {
         "code": "MXP",
         "name": "Milan Malpensa"
-      },
-      {
-        "code": "BVA",
-        "name": "Paris Beauvais"
       },
       {
         "code": "PRG",
@@ -4118,6 +3978,18 @@
       {
         "code": "TSR",
         "name": "Timisoara"
+      },
+      {
+        "code": "TIA",
+        "name": "Tirana"
+      },
+      {
+        "code": "TZL",
+        "name": "Tuzla"
+      },
+      {
+        "code": "VCE",
+        "name": "Venice Marco Polo"
       },
       {
         "code": "VIE",
@@ -4164,24 +4036,6 @@
     ]
   },
   {
-    "code": "LEJ",
-    "name": "Leipzig",
-    "destinations": [
-      {
-        "code": "OTP",
-        "name": "Bucharest"
-      },
-      {
-        "code": "TIA",
-        "name": "Tirana"
-      },
-      {
-        "code": "VAR",
-        "name": "Varna (Black Sea)"
-      }
-    ]
-  },
-  {
     "code": "LIS",
     "name": "Lisbon",
     "destinations": [
@@ -4202,16 +4056,8 @@
         "name": "Cluj-Napoca"
       },
       {
-        "code": "LTN",
-        "name": "London Luton"
-      },
-      {
         "code": "FCO",
         "name": "Rome Fiumicino"
-      },
-      {
-        "code": "SOF",
-        "name": "Sofia"
       },
       {
         "code": "WAW",
@@ -4254,6 +4100,10 @@
     "name": "Ljubljana",
     "destinations": [
       {
+        "code": "TGD",
+        "name": "Podgorica"
+      },
+      {
         "code": "SKP",
         "name": "Skopje"
       }
@@ -4264,24 +4114,12 @@
     "name": "London Gatwick",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
-        "code": "AGA",
-        "name": "Agadir"
-      },
-      {
         "code": "AYT",
         "name": "Antalya"
       },
       {
         "code": "ATH",
         "name": "Athens"
-      },
-      {
-        "code": "OTP",
-        "name": "Bucharest"
       },
       {
         "code": "BUD",
@@ -4344,10 +4182,6 @@
         "name": "Milan Malpensa"
       },
       {
-        "code": "NAP",
-        "name": "Naples"
-      },
-      {
         "code": "TGD",
         "name": "Podgorica"
       },
@@ -4368,12 +4202,12 @@
         "name": "Tel-Aviv"
       },
       {
-        "code": "VAR",
-        "name": "Varna (Black Sea)"
+        "code": "TIA",
+        "name": "Tirana"
       },
       {
-        "code": "VCE",
-        "name": "Venice Marco Polo"
+        "code": "VAR",
+        "name": "Varna (Black Sea)"
       },
       {
         "code": "VIE",
@@ -4410,8 +4244,16 @@
         "name": "Bacau"
       },
       {
+        "code": "BCN",
+        "name": "Barcelona El Prat"
+      },
+      {
         "code": "BEG",
         "name": "Belgrad"
+      },
+      {
+        "code": "BIO",
+        "name": "Bilbao"
       },
       {
         "code": "BOJ",
@@ -4506,12 +4348,16 @@
         "name": "Larnaca"
       },
       {
-        "code": "LIS",
-        "name": "Lisbon"
-      },
-      {
         "code": "LUZ",
         "name": "Lublin"
+      },
+      {
+        "code": "MAD",
+        "name": "Madrid"
+      },
+      {
+        "code": "MXP",
+        "name": "Milan Malpensa"
       },
       {
         "code": "PMI",
@@ -4538,16 +4384,16 @@
         "name": "Prishtina"
       },
       {
-        "code": "SZG",
-        "name": "Salzburg"
-      },
-      {
-        "code": "SJJ",
-        "name": "Sarajevo"
+        "code": "FCO",
+        "name": "Rome Fiumicino"
       },
       {
         "code": "SUJ",
         "name": "Satu Mare"
+      },
+      {
+        "code": "SVQ",
+        "name": "Seville"
       },
       {
         "code": "SSH",
@@ -4590,16 +4436,24 @@
         "name": "Tirana"
       },
       {
-        "code": "TGM",
-        "name": "Tirgu Mures"
-      },
-      {
         "code": "TOS",
         "name": "Tromso"
       },
       {
+        "code": "VLC",
+        "name": "Valencia"
+      },
+      {
         "code": "VAR",
         "name": "Varna (Black Sea)"
+      },
+      {
+        "code": "VCE",
+        "name": "Venice Marco Polo"
+      },
+      {
+        "code": "VIE",
+        "name": "Vienna"
       },
       {
         "code": "VNO",
@@ -4626,6 +4480,10 @@
       {
         "code": "LTN",
         "name": "London Luton"
+      },
+      {
+        "code": "MST",
+        "name": "Maastricht"
       },
       {
         "code": "SPU",
@@ -4658,10 +4516,6 @@
         "name": "London Gatwick"
       },
       {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      },
-      {
         "code": "SKP",
         "name": "Skopje"
       },
@@ -4680,8 +4534,28 @@
     "name": "Maastricht",
     "destinations": [
       {
+        "code": "OTP",
+        "name": "Bucharest"
+      },
+      {
         "code": "RMO",
         "name": "Chisinau"
+      },
+      {
+        "code": "KTW",
+        "name": "Katowice"
+      },
+      {
+        "code": "LUZ",
+        "name": "Lublin"
+      },
+      {
+        "code": "TGD",
+        "name": "Podgorica"
+      },
+      {
+        "code": "TZL",
+        "name": "Tuzla"
       }
     ]
   },
@@ -4689,10 +4563,6 @@
     "code": "MED",
     "name": "Madinah",
     "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
       {
         "code": "LGW",
         "name": "London Gatwick"
@@ -4703,6 +4573,10 @@
     "code": "MAD",
     "name": "Madrid",
     "destinations": [
+      {
+        "code": "BEG",
+        "name": "Belgrad"
+      },
       {
         "code": "OTP",
         "name": "Bucharest"
@@ -4720,6 +4594,10 @@
         "name": "Craiova"
       },
       {
+        "code": "GDN",
+        "name": "Gdansk"
+      },
+      {
         "code": "IAS",
         "name": "Iasi"
       },
@@ -4732,6 +4610,10 @@
         "name": "Kutaisi"
       },
       {
+        "code": "LTN",
+        "name": "London Luton"
+      },
+      {
         "code": "MXP",
         "name": "Milan Malpensa"
       },
@@ -4742,6 +4624,10 @@
       {
         "code": "SBZ",
         "name": "Sibiu"
+      },
+      {
+        "code": "SKP",
+        "name": "Skopje"
       },
       {
         "code": "SOF",
@@ -4773,6 +4659,10 @@
     "code": "AGP",
     "name": "Malaga",
     "destinations": [
+      {
+        "code": "BTS",
+        "name": "Bratislava"
+      },
       {
         "code": "OTP",
         "name": "Bucharest"
@@ -4852,12 +4742,12 @@
         "name": "Cluj-Napoca"
       },
       {
-        "code": "GDN",
-        "name": "Gdansk"
-      },
-      {
         "code": "IAS",
         "name": "Iasi"
+      },
+      {
+        "code": "TGD",
+        "name": "Podgorica"
       },
       {
         "code": "SKP",
@@ -4866,6 +4756,10 @@
       {
         "code": "TIA",
         "name": "Tirana"
+      },
+      {
+        "code": "TZL",
+        "name": "Tuzla"
       }
     ]
   },
@@ -4900,16 +4794,10 @@
       {
         "code": "WAW",
         "name": "Warsaw Chopin"
-      }
-    ]
-  },
-  {
-    "code": "MLE",
-    "name": "Malé (Maldives)",
-    "destinations": [
+      },
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
+        "code": "WMI",
+        "name": "Warsaw Modlin"
       }
     ]
   },
@@ -4926,12 +4814,8 @@
         "name": "Budapest"
       },
       {
-        "code": "GDN",
-        "name": "Gdansk"
-      },
-      {
-        "code": "KTW",
-        "name": "Katowice"
+        "code": "CLJ",
+        "name": "Cluj-Napoca"
       },
       {
         "code": "LGW",
@@ -4948,10 +4832,6 @@
       {
         "code": "SOF",
         "name": "Sofia"
-      },
-      {
-        "code": "VIE",
-        "name": "Vienna"
       },
       {
         "code": "WAW",
@@ -4988,6 +4868,10 @@
       {
         "code": "OTP",
         "name": "Bucharest"
+      },
+      {
+        "code": "BBU",
+        "name": "Bucharest Baneasa"
       },
       {
         "code": "BUD",
@@ -5034,10 +4918,6 @@
         "name": "Prishtina"
       },
       {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      },
-      {
         "code": "SBZ",
         "name": "Sibiu"
       },
@@ -5068,6 +4948,10 @@
       {
         "code": "VAR",
         "name": "Varna (Black Sea)"
+      },
+      {
+        "code": "EVN",
+        "name": "Yerevan"
       }
     ]
   },
@@ -5076,16 +4960,16 @@
     "name": "Milan Bergamo",
     "destinations": [
       {
-        "code": "BCM",
-        "name": "Bacau"
-      },
-      {
         "code": "BEG",
         "name": "Belgrad"
       },
       {
         "code": "OTP",
         "name": "Bucharest"
+      },
+      {
+        "code": "BBU",
+        "name": "Bucharest Baneasa"
       },
       {
         "code": "RMO",
@@ -5104,6 +4988,10 @@
         "name": "Iasi"
       },
       {
+        "code": "SBZ",
+        "name": "Sibiu"
+      },
+      {
         "code": "SOF",
         "name": "Sofia"
       },
@@ -5120,8 +5008,16 @@
         "name": "Tirana"
       },
       {
+        "code": "VAR",
+        "name": "Varna (Black Sea)"
+      },
+      {
         "code": "WAW",
         "name": "Warsaw Chopin"
+      },
+      {
+        "code": "WMI",
+        "name": "Warsaw Modlin"
       }
     ]
   },
@@ -5130,24 +5026,20 @@
     "name": "Milan Malpensa",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
+        "code": "ALC",
+        "name": "Alicante"
       },
       {
         "code": "AMM",
         "name": "Amman"
       },
       {
-        "code": "ATH",
-        "name": "Athens"
-      },
-      {
-        "code": "BCM",
-        "name": "Bacau"
-      },
-      {
         "code": "BCN",
         "name": "Barcelona El Prat"
+      },
+      {
+        "code": "GHV",
+        "name": "Brasov"
       },
       {
         "code": "OTP",
@@ -5166,12 +5058,20 @@
         "name": "Chisinau"
       },
       {
+        "code": "CLJ",
+        "name": "Cluj-Napoca"
+      },
+      {
         "code": "CFU",
         "name": "Corfu"
       },
       {
         "code": "GDN",
         "name": "Gdansk"
+      },
+      {
+        "code": "GLA",
+        "name": "Glasgow"
       },
       {
         "code": "HER",
@@ -5202,6 +5102,10 @@
         "name": "London Gatwick"
       },
       {
+        "code": "LTN",
+        "name": "London Luton"
+      },
+      {
         "code": "MAD",
         "name": "Madrid"
       },
@@ -5218,16 +5122,16 @@
         "name": "Marsa Alam"
       },
       {
+        "code": "OHD",
+        "name": "Ohrid"
+      },
+      {
         "code": "BVA",
         "name": "Paris Beauvais"
       },
       {
         "code": "TGD",
         "name": "Podgorica"
-      },
-      {
-        "code": "PRG",
-        "name": "Prague"
       },
       {
         "code": "PRN",
@@ -5238,12 +5142,12 @@
         "name": "Reykjavik"
       },
       {
-        "code": "RUH",
-        "name": "Riyadh"
-      },
-      {
         "code": "RZE",
         "name": "Rzeszów"
+      },
+      {
+        "code": "SVQ",
+        "name": "Seville"
       },
       {
         "code": "SSH",
@@ -5260,10 +5164,6 @@
       {
         "code": "SCV",
         "name": "Suceava"
-      },
-      {
-        "code": "TLL",
-        "name": "Tallinn"
       },
       {
         "code": "TLV",
@@ -5300,26 +5200,12 @@
     ]
   },
   {
-    "code": "MCT",
-    "name": "Muscat",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      }
-    ]
-  },
-  {
     "code": "JMK",
     "name": "Mykonos",
     "destinations": [
       {
         "code": "OTP",
         "name": "Bucharest"
-      },
-      {
-        "code": "NAP",
-        "name": "Naples"
       },
       {
         "code": "FCO",
@@ -5336,8 +5222,8 @@
         "name": "Brasov"
       },
       {
-        "code": "OTP",
-        "name": "Bucharest"
+        "code": "BTS",
+        "name": "Bratislava"
       },
       {
         "code": "BBU",
@@ -5356,36 +5242,20 @@
         "name": "Cluj-Napoca"
       },
       {
-        "code": "CFU",
-        "name": "Corfu"
-      },
-      {
-        "code": "IBZ",
-        "name": "Ibiza"
+        "code": "CRA",
+        "name": "Craiova"
       },
       {
         "code": "KTW",
         "name": "Katowice"
       },
       {
-        "code": "LGW",
-        "name": "London Gatwick"
-      },
-      {
-        "code": "JMK",
-        "name": "Mykonos"
-      },
-      {
-        "code": "PRG",
-        "name": "Prague"
-      },
-      {
-        "code": "JTR",
-        "name": "Santorini"
-      },
-      {
         "code": "SSH",
         "name": "Sharm El Sheikh"
+      },
+      {
+        "code": "SKP",
+        "name": "Skopje"
       },
       {
         "code": "SOF",
@@ -5396,12 +5266,12 @@
         "name": "Tel-Aviv"
       },
       {
-        "code": "TIA",
-        "name": "Tirana"
+        "code": "TSR",
+        "name": "Timisoara"
       },
       {
-        "code": "VIE",
-        "name": "Vienna"
+        "code": "TIA",
+        "name": "Tirana"
       },
       {
         "code": "WAW",
@@ -5426,12 +5296,20 @@
         "name": "Bucharest"
       },
       {
+        "code": "BBU",
+        "name": "Bucharest Baneasa"
+      },
+      {
         "code": "BUD",
         "name": "Budapest"
       },
       {
-        "code": "CLJ",
-        "name": "Cluj-Napoca"
+        "code": "RMO",
+        "name": "Chisinau"
+      },
+      {
+        "code": "GDN",
+        "name": "Gdansk"
       },
       {
         "code": "KRK",
@@ -5454,16 +5332,16 @@
         "name": "Vienna"
       },
       {
+        "code": "VNO",
+        "name": "Vilnius"
+      },
+      {
         "code": "WAW",
         "name": "Warsaw Chopin"
       },
       {
         "code": "WRO",
         "name": "Wroclaw"
-      },
-      {
-        "code": "EVN",
-        "name": "Yerevan"
       }
     ]
   },
@@ -5472,12 +5350,16 @@
     "name": "Niš",
     "destinations": [
       {
-        "code": "BSL",
+        "code": "MLH",
         "name": "Basel-Mulhouse-Freiburg"
       },
       {
-        "code": "MLH",
-        "name": "Basel-Mulhouse-Freiburg"
+        "code": "BTS",
+        "name": "Bratislava"
+      },
+      {
+        "code": "DTM",
+        "name": "Dortmund"
       },
       {
         "code": "FMM",
@@ -5532,24 +5414,36 @@
     "name": "Ohrid",
     "destinations": [
       {
-        "code": "BSL",
+        "code": "MLH",
         "name": "Basel-Mulhouse-Freiburg"
       },
       {
-        "code": "MLH",
-        "name": "Basel-Mulhouse-Freiburg"
+        "code": "BTS",
+        "name": "Bratislava"
       },
       {
         "code": "DTM",
         "name": "Dortmund"
       },
       {
+        "code": "KTW",
+        "name": "Katowice"
+      },
+      {
         "code": "FMM",
         "name": "Memmingen/Munich West"
       },
       {
+        "code": "MXP",
+        "name": "Milan Malpensa"
+      },
+      {
         "code": "VIE",
         "name": "Vienna"
+      },
+      {
+        "code": "WRO",
+        "name": "Wroclaw"
       }
     ]
   },
@@ -5578,12 +5472,24 @@
     "name": "Oslo Gardermoen",
     "destinations": [
       {
+        "code": "BTS",
+        "name": "Bratislava"
+      },
+      {
         "code": "GDN",
         "name": "Gdansk"
       },
       {
         "code": "KRK",
         "name": "Kraków"
+      },
+      {
+        "code": "PLQ",
+        "name": "Palanga"
+      },
+      {
+        "code": "SZZ",
+        "name": "Szczecin"
       }
     ]
   },
@@ -5596,12 +5502,12 @@
         "name": "Bucharest"
       },
       {
-        "code": "GDN",
-        "name": "Gdansk"
+        "code": "CLJ",
+        "name": "Cluj-Napoca"
       },
       {
-        "code": "PLQ",
-        "name": "Palanga"
+        "code": "GDN",
+        "name": "Gdansk"
       },
       {
         "code": "SKP",
@@ -5626,8 +5532,22 @@
     "name": "Palanga",
     "destinations": [
       {
-        "code": "TRF",
-        "name": "Oslo Sandefjord Airport"
+        "code": "OSL",
+        "name": "Oslo Gardermoen"
+      }
+    ]
+  },
+  {
+    "code": "PMO",
+    "name": "Palermo",
+    "destinations": [
+      {
+        "code": "BTS",
+        "name": "Bratislava"
+      },
+      {
+        "code": "WMI",
+        "name": "Warsaw Modlin"
       }
     ]
   },
@@ -5648,16 +5568,16 @@
         "name": "Cluj-Napoca"
       },
       {
-        "code": "KTW",
-        "name": "Katowice"
-      },
-      {
         "code": "LTN",
         "name": "London Luton"
       },
       {
         "code": "FCO",
         "name": "Rome Fiumicino"
+      },
+      {
+        "code": "SOF",
+        "name": "Sofia"
       },
       {
         "code": "WAW",
@@ -5669,6 +5589,10 @@
     "code": "PFO",
     "name": "Paphos",
     "destinations": [
+      {
+        "code": "WMI",
+        "name": "Warsaw Modlin"
+      },
       {
         "code": "EVN",
         "name": "Yerevan"
@@ -5696,6 +5620,10 @@
         "name": "Cluj-Napoca"
       },
       {
+        "code": "CRA",
+        "name": "Craiova"
+      },
+      {
         "code": "GDN",
         "name": "Gdansk"
       },
@@ -5708,12 +5636,12 @@
         "name": "Kutaisi"
       },
       {
-        "code": "LCA",
-        "name": "Larnaca"
-      },
-      {
         "code": "MXP",
         "name": "Milan Malpensa"
+      },
+      {
+        "code": "TGD",
+        "name": "Podgorica"
       },
       {
         "code": "SKP",
@@ -5732,8 +5660,12 @@
         "name": "Tirana"
       },
       {
-        "code": "VNO",
-        "name": "Vilnius"
+        "code": "TZL",
+        "name": "Tuzla"
+      },
+      {
+        "code": "EVN",
+        "name": "Yerevan"
       }
     ]
   },
@@ -5741,6 +5673,10 @@
     "code": "ORY",
     "name": "Paris Orly",
     "destinations": [
+      {
+        "code": "OTP",
+        "name": "Bucharest"
+      },
       {
         "code": "BUD",
         "name": "Budapest"
@@ -5769,6 +5705,14 @@
     "code": "PSR",
     "name": "Pescara",
     "destinations": [
+      {
+        "code": "OTP",
+        "name": "Bucharest"
+      },
+      {
+        "code": "IAS",
+        "name": "Iasi"
+      },
       {
         "code": "TIA",
         "name": "Tirana"
@@ -5802,6 +5746,10 @@
     "name": "Plovdiv",
     "destinations": [
       {
+        "code": "BTS",
+        "name": "Bratislava"
+      },
+      {
         "code": "LTN",
         "name": "London Luton"
       }
@@ -5812,8 +5760,8 @@
     "name": "Podgorica",
     "destinations": [
       {
-        "code": "BSL",
-        "name": "Basel-Mulhouse-Freiburg"
+        "code": "BCN",
+        "name": "Barcelona El Prat"
       },
       {
         "code": "MLH",
@@ -5824,16 +5772,44 @@
         "name": "Budapest"
       },
       {
+        "code": "CGN",
+        "name": "Cologne"
+      },
+      {
         "code": "DTM",
         "name": "Dortmund"
+      },
+      {
+        "code": "GDN",
+        "name": "Gdansk"
+      },
+      {
+        "code": "HAM",
+        "name": "Hamburg"
+      },
+      {
+        "code": "FKB",
+        "name": "Karlsruhe/Baden-Baden"
       },
       {
         "code": "KTW",
         "name": "Katowice"
       },
       {
+        "code": "LJU",
+        "name": "Ljubljana"
+      },
+      {
         "code": "LGW",
         "name": "London Gatwick"
+      },
+      {
+        "code": "MST",
+        "name": "Maastricht"
+      },
+      {
+        "code": "MMX",
+        "name": "Malmo"
       },
       {
         "code": "FMM",
@@ -5844,12 +5820,36 @@
         "name": "Milan Malpensa"
       },
       {
+        "code": "BVA",
+        "name": "Paris Beauvais"
+      },
+      {
+        "code": "POZ",
+        "name": "Poznan"
+      },
+      {
+        "code": "FCO",
+        "name": "Rome Fiumicino"
+      },
+      {
+        "code": "RZE",
+        "name": "Rzeszów"
+      },
+      {
         "code": "VIE",
         "name": "Vienna"
       },
       {
+        "code": "VNO",
+        "name": "Vilnius"
+      },
+      {
         "code": "WAW",
         "name": "Warsaw Chopin"
+      },
+      {
+        "code": "WRO",
+        "name": "Wroclaw"
       }
     ]
   },
@@ -5857,6 +5857,10 @@
     "code": "TAT",
     "name": "Poprad-Tatry",
     "destinations": [
+      {
+        "code": "GDN",
+        "name": "Gdansk"
+      },
       {
         "code": "LTN",
         "name": "London Luton"
@@ -5867,6 +5871,14 @@
     "code": "OPO",
     "name": "Porto",
     "destinations": [
+      {
+        "code": "OTP",
+        "name": "Bucharest"
+      },
+      {
+        "code": "KTW",
+        "name": "Katowice"
+      },
       {
         "code": "FCO",
         "name": "Rome Fiumicino"
@@ -5882,12 +5894,20 @@
     "name": "Poznan",
     "destinations": [
       {
+        "code": "BSL",
+        "name": "Basel-Mulhouse-Freiburg"
+      },
+      {
         "code": "KUT",
         "name": "Kutaisi"
       },
       {
         "code": "LTN",
         "name": "London Luton"
+      },
+      {
+        "code": "TGD",
+        "name": "Podgorica"
       },
       {
         "code": "FCO",
@@ -5904,8 +5924,20 @@
     "name": "Prague",
     "destinations": [
       {
+        "code": "OTP",
+        "name": "Bucharest"
+      },
+      {
         "code": "CTA",
         "name": "Catania (Sicily)"
+      },
+      {
+        "code": "RMO",
+        "name": "Chisinau"
+      },
+      {
+        "code": "IAS",
+        "name": "Iasi"
       },
       {
         "code": "KUT",
@@ -5924,28 +5956,20 @@
         "name": "London Luton"
       },
       {
-        "code": "MXP",
-        "name": "Milan Malpensa"
-      },
-      {
-        "code": "NAP",
-        "name": "Naples"
-      },
-      {
         "code": "FCO",
         "name": "Rome Fiumicino"
       },
       {
+        "code": "SKP",
+        "name": "Skopje"
+      },
+      {
+        "code": "SOF",
+        "name": "Sofia"
+      },
+      {
         "code": "TIA",
         "name": "Tirana"
-      },
-      {
-        "code": "VAR",
-        "name": "Varna (Black Sea)"
-      },
-      {
-        "code": "VCE",
-        "name": "Venice Marco Polo"
       },
       {
         "code": "EVN",
@@ -5957,6 +5981,10 @@
     "code": "PRN",
     "name": "Prishtina",
     "destinations": [
+      {
+        "code": "BTS",
+        "name": "Bratislava"
+      },
       {
         "code": "DTM",
         "name": "Dortmund"
@@ -5990,16 +6018,6 @@
     ]
   },
   {
-    "code": "BEY",
-    "name": "Rafic Hariri Intl",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      }
-    ]
-  },
-  {
     "code": "KEF",
     "name": "Reykjavik",
     "destinations": [
@@ -6020,16 +6038,12 @@
         "name": "Milan Malpensa"
       },
       {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      },
-      {
-        "code": "VIE",
-        "name": "Vienna"
-      },
-      {
         "code": "WAW",
         "name": "Warsaw Chopin"
+      },
+      {
+        "code": "WRO",
+        "name": "Wroclaw"
       }
     ]
   },
@@ -6052,16 +6066,6 @@
     ]
   },
   {
-    "code": "RIX",
-    "name": "Riga",
-    "destinations": [
-      {
-        "code": "KUT",
-        "name": "Kutaisi"
-      }
-    ]
-  },
-  {
     "code": "RMI",
     "name": "Rimini",
     "destinations": [
@@ -6072,96 +6076,12 @@
     ]
   },
   {
-    "code": "RUH",
-    "name": "Riyadh",
-    "destinations": [
-      {
-        "code": "BUD",
-        "name": "Budapest"
-      },
-      {
-        "code": "MXP",
-        "name": "Milan Malpensa"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      },
-      {
-        "code": "VIE",
-        "name": "Vienna"
-      }
-    ]
-  },
-  {
-    "code": "CIA",
-    "name": "Rome Ciampino",
-    "destinations": [
-      {
-        "code": "BEG",
-        "name": "Belgrad"
-      },
-      {
-        "code": "CLJ",
-        "name": "Cluj-Napoca"
-      },
-      {
-        "code": "CRA",
-        "name": "Craiova"
-      },
-      {
-        "code": "IAS",
-        "name": "Iasi"
-      },
-      {
-        "code": "KTW",
-        "name": "Katowice"
-      },
-      {
-        "code": "KUT",
-        "name": "Kutaisi"
-      },
-      {
-        "code": "SKP",
-        "name": "Skopje"
-      },
-      {
-        "code": "SOF",
-        "name": "Sofia"
-      },
-      {
-        "code": "SCV",
-        "name": "Suceava"
-      },
-      {
-        "code": "TSR",
-        "name": "Timisoara"
-      }
-    ]
-  },
-  {
     "code": "FCO",
     "name": "Rome Fiumicino",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
-        "code": "AGA",
-        "name": "Agadir"
-      },
-      {
         "code": "ALC",
         "name": "Alicante"
-      },
-      {
-        "code": "AMM",
-        "name": "Amman"
-      },
-      {
-        "code": "AQJ",
-        "name": "Aqaba"
       },
       {
         "code": "BCM",
@@ -6176,16 +6096,8 @@
         "name": "Barcelona El Prat"
       },
       {
-        "code": "BSL",
-        "name": "Basel-Mulhouse-Freiburg"
-      },
-      {
         "code": "BEG",
         "name": "Belgrad"
-      },
-      {
-        "code": "BER",
-        "name": "Berlin Brandenburg"
       },
       {
         "code": "BIO",
@@ -6194,6 +6106,18 @@
       {
         "code": "BHX",
         "name": "Birmingham"
+      },
+      {
+        "code": "BOD",
+        "name": "Bordeaux"
+      },
+      {
+        "code": "GHV",
+        "name": "Brasov"
+      },
+      {
+        "code": "BTS",
+        "name": "Bratislava"
       },
       {
         "code": "OTP",
@@ -6206,10 +6130,6 @@
       {
         "code": "SPX",
         "name": "Cairo (Sphinx)"
-      },
-      {
-        "code": "CDT",
-        "name": "Castellon (Valencia)"
       },
       {
         "code": "RMO",
@@ -6228,40 +6148,16 @@
         "name": "Craiova"
       },
       {
-        "code": "DMM",
-        "name": "Dammam"
-      },
-      {
-        "code": "DEB",
-        "name": "Debrecen"
-      },
-      {
-        "code": "DTM",
-        "name": "Dortmund"
-      },
-      {
-        "code": "EIN",
-        "name": "Eindhoven"
-      },
-      {
-        "code": "FNC",
-        "name": "Funchal (Madeira)"
-      },
-      {
         "code": "GDN",
         "name": "Gdansk"
       },
       {
-        "code": "GOT",
-        "name": "Gothenburg Landvetter"
+        "code": "GLA",
+        "name": "Glasgow"
       },
       {
         "code": "LPA",
         "name": "Gran Canaria (Canary Islands)"
-      },
-      {
-        "code": "HAM",
-        "name": "Hamburg"
       },
       {
         "code": "HER",
@@ -6288,14 +6184,6 @@
         "name": "Katowice"
       },
       {
-        "code": "EFL",
-        "name": "Kefalonia"
-      },
-      {
-        "code": "KGS",
-        "name": "Kos"
-      },
-      {
         "code": "KRK",
         "name": "Kraków"
       },
@@ -6316,8 +6204,8 @@
         "name": "London Gatwick"
       },
       {
-        "code": "LYS",
-        "name": "Lyon"
+        "code": "LTN",
+        "name": "London Luton"
       },
       {
         "code": "MAD",
@@ -6336,10 +6224,6 @@
         "name": "Marsa Alam"
       },
       {
-        "code": "FMM",
-        "name": "Memmingen/Munich West"
-      },
-      {
         "code": "JMK",
         "name": "Mykonos"
       },
@@ -6356,6 +6240,10 @@
         "name": "Paris Orly"
       },
       {
+        "code": "TGD",
+        "name": "Podgorica"
+      },
+      {
         "code": "OPO",
         "name": "Porto"
       },
@@ -6366,14 +6254,6 @@
       {
         "code": "PRG",
         "name": "Prague"
-      },
-      {
-        "code": "KEF",
-        "name": "Reykjavik"
-      },
-      {
-        "code": "RUH",
-        "name": "Riyadh"
       },
       {
         "code": "RZE",
@@ -6412,10 +6292,6 @@
         "name": "Sofia"
       },
       {
-        "code": "SPU",
-        "name": "Split"
-      },
-      {
         "code": "SCV",
         "name": "Suceava"
       },
@@ -6440,14 +6316,6 @@
         "name": "Valencia"
       },
       {
-        "code": "VIE",
-        "name": "Vienna"
-      },
-      {
-        "code": "VNO",
-        "name": "Vilnius"
-      },
-      {
         "code": "WAW",
         "name": "Warsaw Chopin"
       },
@@ -6466,16 +6334,6 @@
     ]
   },
   {
-    "code": "RVN",
-    "name": "Rovaniemi",
-    "destinations": [
-      {
-        "code": "BUD",
-        "name": "Budapest"
-      }
-    ]
-  },
-  {
     "code": "RZE",
     "name": "Rzeszów",
     "destinations": [
@@ -6484,18 +6342,12 @@
         "name": "Milan Malpensa"
       },
       {
+        "code": "TGD",
+        "name": "Podgorica"
+      },
+      {
         "code": "FCO",
         "name": "Rome Fiumicino"
-      }
-    ]
-  },
-  {
-    "code": "SLL",
-    "name": "Salalah",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
       }
     ]
   },
@@ -6506,42 +6358,6 @@
       {
         "code": "OTP",
         "name": "Bucharest"
-      },
-      {
-        "code": "BUD",
-        "name": "Budapest"
-      },
-      {
-        "code": "TIA",
-        "name": "Tirana"
-      }
-    ]
-  },
-  {
-    "code": "SZG",
-    "name": "Salzburg",
-    "destinations": [
-      {
-        "code": "OTP",
-        "name": "Bucharest"
-      },
-      {
-        "code": "LTN",
-        "name": "London Luton"
-      },
-      {
-        "code": "SKP",
-        "name": "Skopje"
-      }
-    ]
-  },
-  {
-    "code": "SKD",
-    "name": "Samarkand",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
       }
     ]
   },
@@ -6568,10 +6384,6 @@
         "name": "Budapest"
       },
       {
-        "code": "NAP",
-        "name": "Naples"
-      },
-      {
         "code": "FCO",
         "name": "Rome Fiumicino"
       },
@@ -6585,14 +6397,6 @@
     "code": "SJJ",
     "name": "Sarajevo",
     "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
-        "code": "LTN",
-        "name": "London Luton"
-      },
       {
         "code": "FCO",
         "name": "Rome Fiumicino"
@@ -6618,8 +6422,12 @@
         "name": "Bucharest"
       },
       {
-        "code": "BBU",
-        "name": "Bucharest Baneasa"
+        "code": "LTN",
+        "name": "London Luton"
+      },
+      {
+        "code": "MXP",
+        "name": "Milan Malpensa"
       },
       {
         "code": "FCO",
@@ -6666,10 +6474,6 @@
       {
         "code": "VCE",
         "name": "Venice Marco Polo"
-      },
-      {
-        "code": "VIE",
-        "name": "Vienna"
       }
     ]
   },
@@ -6680,6 +6484,10 @@
       {
         "code": "BSL",
         "name": "Basel-Mulhouse-Freiburg"
+      },
+      {
+        "code": "BHX",
+        "name": "Birmingham"
       },
       {
         "code": "DTM",
@@ -6708,6 +6516,10 @@
       {
         "code": "FMM",
         "name": "Memmingen/Munich West"
+      },
+      {
+        "code": "BGY",
+        "name": "Milan Bergamo"
       },
       {
         "code": "NUE",
@@ -6746,8 +6558,8 @@
         "name": "Barcelona El Prat"
       },
       {
-        "code": "BSL",
-        "name": "Basel-Mulhouse-Freiburg"
+        "code": "BRI",
+        "name": "Bari"
       },
       {
         "code": "MLH",
@@ -6766,10 +6578,6 @@
         "name": "Bratislava"
       },
       {
-        "code": "BRE",
-        "name": "Bremen"
-      },
-      {
         "code": "CRL",
         "name": "Brussels Charleroi"
       },
@@ -6780,10 +6588,6 @@
       {
         "code": "CGN",
         "name": "Cologne"
-      },
-      {
-        "code": "CPH",
-        "name": "Copenhagen"
       },
       {
         "code": "DTM",
@@ -6830,6 +6634,10 @@
         "name": "Lyon"
       },
       {
+        "code": "MAD",
+        "name": "Madrid"
+      },
+      {
         "code": "MMX",
         "name": "Malmo"
       },
@@ -6846,6 +6654,10 @@
         "name": "Milan Malpensa"
       },
       {
+        "code": "NAP",
+        "name": "Naples"
+      },
+      {
         "code": "NUE",
         "name": "Nuremberg"
       },
@@ -6858,20 +6670,16 @@
         "name": "Paris Beauvais"
       },
       {
-        "code": "CIA",
-        "name": "Rome Ciampino"
+        "code": "PRG",
+        "name": "Prague"
       },
       {
         "code": "FCO",
         "name": "Rome Fiumicino"
       },
       {
-        "code": "SZG",
-        "name": "Salzburg"
-      },
-      {
-        "code": "NYO",
-        "name": "Stockholm Skavsta"
+        "code": "ARN",
+        "name": "Stockholm Arlanda"
       },
       {
         "code": "STR",
@@ -6892,12 +6700,8 @@
         "name": "Abu Dhabi"
       },
       {
-        "code": "ALC",
-        "name": "Alicante"
-      },
-      {
-        "code": "AQJ",
-        "name": "Aqaba"
+        "code": "AHO",
+        "name": "Alghero (Sardinia)"
       },
       {
         "code": "BCN",
@@ -6912,20 +6716,12 @@
         "name": "Basel-Mulhouse-Freiburg"
       },
       {
-        "code": "BLQ",
-        "name": "Bologna"
-      },
-      {
         "code": "CRL",
         "name": "Brussels Charleroi"
       },
       {
-        "code": "CTA",
-        "name": "Catania (Sicily)"
-      },
-      {
-        "code": "CPH",
-        "name": "Copenhagen"
+        "code": "RMO",
+        "name": "Chisinau"
       },
       {
         "code": "DTM",
@@ -6940,28 +6736,20 @@
         "name": "Frankfurt Hahn"
       },
       {
-        "code": "GVA",
-        "name": "Geneva"
-      },
-      {
         "code": "HAM",
         "name": "Hamburg"
-      },
-      {
-        "code": "HER",
-        "name": "Heraklion (Crete)"
       },
       {
         "code": "KRK",
         "name": "Kraków"
       },
       {
-        "code": "LCA",
-        "name": "Larnaca"
+        "code": "SUF",
+        "name": "Lamezia Terme"
       },
       {
-        "code": "LIS",
-        "name": "Lisbon"
+        "code": "LCA",
+        "name": "Larnaca"
       },
       {
         "code": "LTN",
@@ -7000,12 +6788,16 @@
         "name": "Nice"
       },
       {
+        "code": "PMI",
+        "name": "Palma de Mallorca"
+      },
+      {
         "code": "BVA",
         "name": "Paris Beauvais"
       },
       {
-        "code": "CIA",
-        "name": "Rome Ciampino"
+        "code": "PRG",
+        "name": "Prague"
       },
       {
         "code": "FCO",
@@ -7020,22 +6812,20 @@
         "name": "Tel-Aviv"
       },
       {
+        "code": "TRN",
+        "name": "Turin"
+      },
+      {
         "code": "VLC",
         "name": "Valencia"
       },
       {
+        "code": "WMI",
+        "name": "Warsaw Modlin"
+      },
+      {
         "code": "EVN",
         "name": "Yerevan"
-      }
-    ]
-  },
-  {
-    "code": "HMB",
-    "name": "Sohag",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
       }
     ]
   },
@@ -7062,18 +6852,6 @@
       {
         "code": "LUZ",
         "name": "Lublin"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      },
-      {
-        "code": "VIE",
-        "name": "Vienna"
-      },
-      {
-        "code": "VNO",
-        "name": "Vilnius"
       },
       {
         "code": "WAW",
@@ -7110,6 +6888,14 @@
       {
         "code": "GDN",
         "name": "Gdansk"
+      },
+      {
+        "code": "SKP",
+        "name": "Skopje"
+      },
+      {
+        "code": "TIA",
+        "name": "Tirana"
       }
     ]
   },
@@ -7126,16 +6912,8 @@
         "name": "Bucharest"
       },
       {
-        "code": "IAS",
-        "name": "Iasi"
-      },
-      {
-        "code": "SKP",
-        "name": "Skopje"
-      },
-      {
-        "code": "TIA",
-        "name": "Tirana"
+        "code": "CLJ",
+        "name": "Cluj-Napoca"
       },
       {
         "code": "WAW",
@@ -7218,10 +6996,6 @@
         "name": "Milan Malpensa"
       },
       {
-        "code": "CIA",
-        "name": "Rome Ciampino"
-      },
-      {
         "code": "FCO",
         "name": "Rome Fiumicino"
       },
@@ -7240,6 +7014,14 @@
     "name": "Szczecin",
     "destinations": [
       {
+        "code": "BGO",
+        "name": "Bergen"
+      },
+      {
+        "code": "OSL",
+        "name": "Oslo Gardermoen"
+      },
+      {
         "code": "TRF",
         "name": "Oslo Sandefjord Airport"
       }
@@ -7250,22 +7032,28 @@
     "name": "Tallinn",
     "destinations": [
       {
+        "code": "BUD",
+        "name": "Budapest"
+      },
+      {
+        "code": "GDN",
+        "name": "Gdansk"
+      },
+      {
+        "code": "KRK",
+        "name": "Kraków"
+      },
+      {
         "code": "LTN",
         "name": "London Luton"
       },
       {
-        "code": "MXP",
-        "name": "Milan Malpensa"
-      }
-    ]
-  },
-  {
-    "code": "TAS",
-    "name": "Tashkent",
-    "destinations": [
+        "code": "VCE",
+        "name": "Venice Marco Polo"
+      },
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
+        "code": "VNO",
+        "name": "Vilnius"
       }
     ]
   },
@@ -7274,16 +7062,12 @@
     "name": "Tel-Aviv",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
         "code": "ATH",
         "name": "Athens"
       },
       {
-        "code": "BOJ",
-        "name": "Bourgas (Black Sea)"
+        "code": "BTS",
+        "name": "Bratislava"
       },
       {
         "code": "OTP",
@@ -7298,12 +7082,12 @@
         "name": "Cluj-Napoca"
       },
       {
-        "code": "IAS",
-        "name": "Iasi"
+        "code": "HER",
+        "name": "Heraklion (Crete)"
       },
       {
-        "code": "KTW",
-        "name": "Katowice"
+        "code": "IAS",
+        "name": "Iasi"
       },
       {
         "code": "KRK",
@@ -7350,6 +7134,10 @@
         "name": "Varna (Black Sea)"
       },
       {
+        "code": "VCE",
+        "name": "Venice Marco Polo"
+      },
+      {
         "code": "VIE",
         "name": "Vienna"
       },
@@ -7392,6 +7180,10 @@
         "name": "Rome Fiumicino"
       },
       {
+        "code": "TIA",
+        "name": "Tirana"
+      },
+      {
         "code": "VCE",
         "name": "Venice Marco Polo"
       },
@@ -7409,10 +7201,6 @@
     "code": "SKG",
     "name": "Thessaloniki",
     "destinations": [
-      {
-        "code": "OTP",
-        "name": "Bucharest"
-      },
       {
         "code": "BUD",
         "name": "Budapest"
@@ -7488,6 +7276,10 @@
         "name": "Milan Bergamo"
       },
       {
+        "code": "NAP",
+        "name": "Naples"
+      },
+      {
         "code": "NUE",
         "name": "Nuremberg"
       },
@@ -7496,16 +7288,8 @@
         "name": "Paris Beauvais"
       },
       {
-        "code": "CIA",
-        "name": "Rome Ciampino"
-      },
-      {
         "code": "FCO",
         "name": "Rome Fiumicino"
-      },
-      {
-        "code": "TRN",
-        "name": "Turin"
       },
       {
         "code": "VLC",
@@ -7525,10 +7309,6 @@
     "code": "TIA",
     "name": "Tirana",
     "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
       {
         "code": "AOI",
         "name": "Ancona"
@@ -7550,36 +7330,28 @@
         "name": "Basel-Mulhouse-Freiburg"
       },
       {
-        "code": "BSL",
-        "name": "Basel-Mulhouse-Freiburg"
-      },
-      {
         "code": "BER",
         "name": "Berlin Brandenburg"
+      },
+      {
+        "code": "BLL",
+        "name": "Billund"
       },
       {
         "code": "BLQ",
         "name": "Bologna"
       },
       {
-        "code": "BDS",
-        "name": "Brindisi"
+        "code": "BTS",
+        "name": "Bratislava"
       },
       {
         "code": "CRL",
         "name": "Brussels Charleroi"
       },
       {
-        "code": "OTP",
-        "name": "Bucharest"
-      },
-      {
         "code": "BUD",
         "name": "Budapest"
-      },
-      {
-        "code": "CTA",
-        "name": "Catania (Sicily)"
       },
       {
         "code": "CGN",
@@ -7626,8 +7398,12 @@
         "name": "Kraków"
       },
       {
-        "code": "LEJ",
-        "name": "Leipzig"
+        "code": "LCA",
+        "name": "Larnaca"
+      },
+      {
+        "code": "LGW",
+        "name": "London Gatwick"
       },
       {
         "code": "LTN",
@@ -7714,16 +7490,16 @@
         "name": "Rome Fiumicino"
       },
       {
-        "code": "QSR",
-        "name": "Salerno Costa d'Amalfi"
-      },
-      {
-        "code": "NYO",
-        "name": "Stockholm Skavsta"
+        "code": "ARN",
+        "name": "Stockholm Arlanda"
       },
       {
         "code": "STR",
         "name": "Stuttgart"
+      },
+      {
+        "code": "TFS",
+        "name": "Tenerife (Canary Islands)"
       },
       {
         "code": "TRS",
@@ -7750,6 +7526,10 @@
         "name": "Vienna"
       },
       {
+        "code": "VNO",
+        "name": "Vilnius"
+      },
+      {
         "code": "WAW",
         "name": "Warsaw Chopin"
       },
@@ -7766,10 +7546,6 @@
       {
         "code": "BUD",
         "name": "Budapest"
-      },
-      {
-        "code": "LTN",
-        "name": "London Luton"
       }
     ]
   },
@@ -7777,10 +7553,6 @@
     "code": "TRS",
     "name": "Trieste",
     "destinations": [
-      {
-        "code": "OTP",
-        "name": "Bucharest"
-      },
       {
         "code": "TIA",
         "name": "Tirana"
@@ -7820,12 +7592,24 @@
         "name": "Bucharest"
       },
       {
+        "code": "BBU",
+        "name": "Bucharest Baneasa"
+      },
+      {
+        "code": "BUD",
+        "name": "Budapest"
+      },
+      {
+        "code": "RMO",
+        "name": "Chisinau"
+      },
+      {
         "code": "IAS",
         "name": "Iasi"
       },
       {
-        "code": "TSR",
-        "name": "Timisoara"
+        "code": "SOF",
+        "name": "Sofia"
       },
       {
         "code": "TIA",
@@ -7838,22 +7622,20 @@
     ]
   },
   {
-    "code": "HSA",
-    "name": "Turkistan",
-    "destinations": [
-      {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      }
-    ]
-  },
-  {
     "code": "TKU",
     "name": "Turku",
     "destinations": [
       {
+        "code": "OTP",
+        "name": "Bucharest"
+      },
+      {
         "code": "GDN",
         "name": "Gdansk"
+      },
+      {
+        "code": "VNO",
+        "name": "Vilnius"
       }
     ]
   },
@@ -7862,20 +7644,56 @@
     "name": "Tuzla",
     "destinations": [
       {
-        "code": "BSL",
+        "code": "MLH",
         "name": "Basel-Mulhouse-Freiburg"
       },
       {
-        "code": "MLH",
-        "name": "Basel-Mulhouse-Freiburg"
+        "code": "BER",
+        "name": "Berlin Brandenburg"
+      },
+      {
+        "code": "BTS",
+        "name": "Bratislava"
+      },
+      {
+        "code": "CGN",
+        "name": "Cologne"
       },
       {
         "code": "DTM",
         "name": "Dortmund"
       },
       {
+        "code": "HHN",
+        "name": "Frankfurt Hahn"
+      },
+      {
+        "code": "GOT",
+        "name": "Gothenburg Landvetter"
+      },
+      {
+        "code": "HAM",
+        "name": "Hamburg"
+      },
+      {
+        "code": "LCA",
+        "name": "Larnaca"
+      },
+      {
+        "code": "MST",
+        "name": "Maastricht"
+      },
+      {
+        "code": "MMX",
+        "name": "Malmo"
+      },
+      {
         "code": "FMM",
         "name": "Memmingen/Munich West"
+      },
+      {
+        "code": "BVA",
+        "name": "Paris Beauvais"
       },
       {
         "code": "VIE",
@@ -7900,12 +7718,16 @@
         "name": "Cluj-Napoca"
       },
       {
-        "code": "GDN",
-        "name": "Gdansk"
+        "code": "IAS",
+        "name": "Iasi"
       },
       {
         "code": "KRK",
         "name": "Kraków"
+      },
+      {
+        "code": "LTN",
+        "name": "London Luton"
       },
       {
         "code": "MXP",
@@ -7928,6 +7750,10 @@
         "name": "Tirana"
       },
       {
+        "code": "VCE",
+        "name": "Venice Marco Polo"
+      },
+      {
         "code": "WAW",
         "name": "Warsaw Chopin"
       }
@@ -7938,12 +7764,12 @@
     "name": "Varna (Black Sea)",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
         "code": "BER",
         "name": "Berlin Brandenburg"
+      },
+      {
+        "code": "BTS",
+        "name": "Bratislava"
       },
       {
         "code": "CRL",
@@ -7966,10 +7792,6 @@
         "name": "Hamburg"
       },
       {
-        "code": "LEJ",
-        "name": "Leipzig"
-      },
-      {
         "code": "LGW",
         "name": "London Gatwick"
       },
@@ -7982,20 +7804,20 @@
         "name": "Memmingen/Munich West"
       },
       {
-        "code": "NUE",
-        "name": "Nuremberg"
+        "code": "BGY",
+        "name": "Milan Bergamo"
       },
       {
-        "code": "PRG",
-        "name": "Prague"
+        "code": "NUE",
+        "name": "Nuremberg"
       },
       {
         "code": "TLV",
         "name": "Tel-Aviv"
       },
       {
-        "code": "VIE",
-        "name": "Vienna"
+        "code": "WRO",
+        "name": "Wroclaw"
       }
     ]
   },
@@ -8012,6 +7834,10 @@
         "name": "Barcelona El Prat"
       },
       {
+        "code": "BOD",
+        "name": "Bordeaux"
+      },
+      {
         "code": "BUD",
         "name": "Budapest"
       },
@@ -8020,32 +7846,44 @@
         "name": "Chisinau"
       },
       {
-        "code": "LGW",
-        "name": "London Gatwick"
+        "code": "KUT",
+        "name": "Kutaisi"
+      },
+      {
+        "code": "LCA",
+        "name": "Larnaca"
+      },
+      {
+        "code": "LTN",
+        "name": "London Luton"
       },
       {
         "code": "MAD",
         "name": "Madrid"
       },
       {
-        "code": "PRG",
-        "name": "Prague"
-      },
-      {
         "code": "SSH",
         "name": "Sharm El Sheikh"
-      },
-      {
-        "code": "SKP",
-        "name": "Skopje"
       },
       {
         "code": "SCV",
         "name": "Suceava"
       },
       {
+        "code": "TLL",
+        "name": "Tallinn"
+      },
+      {
+        "code": "TLV",
+        "name": "Tel-Aviv"
+      },
+      {
         "code": "TFS",
         "name": "Tenerife (Canary Islands)"
+      },
+      {
+        "code": "VLC",
+        "name": "Valencia"
       },
       {
         "code": "WAW",
@@ -8100,6 +7938,10 @@
         "name": "Gdansk"
       },
       {
+        "code": "KRK",
+        "name": "Kraków"
+      },
+      {
         "code": "TIA",
         "name": "Tirana"
       },
@@ -8114,14 +7956,6 @@
     "name": "Vienna",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
-        "code": "HBE",
-        "name": "Alexandria (Borg El Arab)"
-      },
-      {
         "code": "AMM",
         "name": "Amman"
       },
@@ -8134,28 +7968,12 @@
         "name": "Bilbao"
       },
       {
-        "code": "BOJ",
-        "name": "Bourgas (Black Sea)"
-      },
-      {
-        "code": "CHQ",
-        "name": "Chania (Crete)"
-      },
-      {
         "code": "RMO",
         "name": "Chisinau"
       },
       {
         "code": "CLJ",
         "name": "Cluj-Napoca"
-      },
-      {
-        "code": "CFU",
-        "name": "Corfu"
-      },
-      {
-        "code": "DXB",
-        "name": "Dubai"
       },
       {
         "code": "FNC",
@@ -8182,16 +8000,12 @@
         "name": "London Gatwick"
       },
       {
+        "code": "LTN",
+        "name": "London Luton"
+      },
+      {
         "code": "AGP",
         "name": "Malaga"
-      },
-      {
-        "code": "RAK",
-        "name": "Marrakesh"
-      },
-      {
-        "code": "NAP",
-        "name": "Naples"
       },
       {
         "code": "NCE",
@@ -8210,28 +8024,8 @@
         "name": "Prishtina"
       },
       {
-        "code": "KEF",
-        "name": "Reykjavik"
-      },
-      {
-        "code": "RUH",
-        "name": "Riyadh"
-      },
-      {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
-      },
-      {
-        "code": "SSH",
-        "name": "Sharm El Sheikh"
-      },
-      {
         "code": "SBZ",
         "name": "Sibiu"
-      },
-      {
-        "code": "SPU",
-        "name": "Split"
       },
       {
         "code": "SCV",
@@ -8254,16 +8048,8 @@
         "name": "Tuzla"
       },
       {
-        "code": "VAR",
-        "name": "Varna (Black Sea)"
-      },
-      {
         "code": "EVN",
         "name": "Yerevan"
-      },
-      {
-        "code": "ZTH",
-        "name": "Zakynthos"
       }
     ]
   },
@@ -8300,8 +8086,16 @@
         "name": "Eindhoven"
       },
       {
+        "code": "GDN",
+        "name": "Gdansk"
+      },
+      {
         "code": "GNB",
         "name": "Grenoble"
+      },
+      {
+        "code": "KRK",
+        "name": "Kraków"
       },
       {
         "code": "KUT",
@@ -8324,20 +8118,28 @@
         "name": "Milan Malpensa"
       },
       {
-        "code": "BVA",
-        "name": "Paris Beauvais"
+        "code": "NCE",
+        "name": "Nice"
       },
       {
-        "code": "FCO",
-        "name": "Rome Fiumicino"
+        "code": "TGD",
+        "name": "Podgorica"
       },
       {
-        "code": "SPU",
-        "name": "Split"
+        "code": "TLL",
+        "name": "Tallinn"
       },
       {
         "code": "TLV",
         "name": "Tel-Aviv"
+      },
+      {
+        "code": "TIA",
+        "name": "Tirana"
+      },
+      {
+        "code": "TKU",
+        "name": "Turku"
       }
     ]
   },
@@ -8352,10 +8154,6 @@
       {
         "code": "ALC",
         "name": "Alicante"
-      },
-      {
-        "code": "AQJ",
-        "name": "Aqaba"
       },
       {
         "code": "BCN",
@@ -8380,6 +8178,10 @@
       {
         "code": "BOJ",
         "name": "Bourgas (Black Sea)"
+      },
+      {
+        "code": "BTS",
+        "name": "Bratislava"
       },
       {
         "code": "CRL",
@@ -8436,10 +8238,6 @@
       {
         "code": "GOA",
         "name": "Genoa"
-      },
-      {
-        "code": "GOT",
-        "name": "Gothenburg Landvetter"
       },
       {
         "code": "GNB",
@@ -8600,6 +8398,56 @@
     ]
   },
   {
+    "code": "WMI",
+    "name": "Warsaw Modlin",
+    "destinations": [
+      {
+        "code": "AHO",
+        "name": "Alghero (Sardinia)"
+      },
+      {
+        "code": "ATH",
+        "name": "Athens"
+      },
+      {
+        "code": "BCN",
+        "name": "Barcelona El Prat"
+      },
+      {
+        "code": "BGO",
+        "name": "Bergen"
+      },
+      {
+        "code": "BDS",
+        "name": "Brindisi"
+      },
+      {
+        "code": "RMO",
+        "name": "Chisinau"
+      },
+      {
+        "code": "MLA",
+        "name": "Malta"
+      },
+      {
+        "code": "BGY",
+        "name": "Milan Bergamo"
+      },
+      {
+        "code": "PMO",
+        "name": "Palermo"
+      },
+      {
+        "code": "PFO",
+        "name": "Paphos"
+      },
+      {
+        "code": "SOF",
+        "name": "Sofia"
+      }
+    ]
+  },
+  {
     "code": "WRO",
     "name": "Wroclaw",
     "destinations": [
@@ -8624,8 +8472,16 @@
         "name": "Budapest"
       },
       {
+        "code": "CTA",
+        "name": "Catania (Sicily)"
+      },
+      {
         "code": "RMO",
         "name": "Chisinau"
+      },
+      {
+        "code": "DTM",
+        "name": "Dortmund"
       },
       {
         "code": "EIN",
@@ -8664,12 +8520,28 @@
         "name": "Nice"
       },
       {
+        "code": "OHD",
+        "name": "Ohrid"
+      },
+      {
+        "code": "TGD",
+        "name": "Podgorica"
+      },
+      {
+        "code": "KEF",
+        "name": "Reykjavik"
+      },
+      {
         "code": "SPU",
         "name": "Split"
       },
       {
         "code": "TIA",
         "name": "Tirana"
+      },
+      {
+        "code": "VAR",
+        "name": "Varna (Black Sea)"
       }
     ]
   },
@@ -8678,20 +8550,12 @@
     "name": "Yerevan",
     "destinations": [
       {
-        "code": "AUH",
-        "name": "Abu Dhabi"
-      },
-      {
         "code": "BRI",
         "name": "Bari"
       },
       {
         "code": "OTP",
         "name": "Bucharest"
-      },
-      {
-        "code": "BBU",
-        "name": "Bucharest Baneasa"
       },
       {
         "code": "BUD",
@@ -8710,6 +8574,10 @@
         "name": "Larnaca"
       },
       {
+        "code": "FMM",
+        "name": "Memmingen/Munich West"
+      },
+      {
         "code": "MXP",
         "name": "Milan Malpensa"
       },
@@ -8718,12 +8586,12 @@
         "name": "Naples"
       },
       {
-        "code": "NCE",
-        "name": "Nice"
-      },
-      {
         "code": "PFO",
         "name": "Paphos"
+      },
+      {
+        "code": "BVA",
+        "name": "Paris Beauvais"
       },
       {
         "code": "PRG",
@@ -8774,10 +8642,6 @@
       {
         "code": "TSR",
         "name": "Timisoara"
-      },
-      {
-        "code": "VIE",
-        "name": "Vienna"
       },
       {
         "code": "WAW",
