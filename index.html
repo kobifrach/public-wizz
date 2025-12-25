@@ -1448,7 +1448,7 @@
                         const taskId = data.task_id;
                         if (!taskId) throw new Error('Missing task id');
 
-                        const evtSource = new EventSource(`http://wizz-flights.onrender.com/stream/${taskId}`);
+                        const evtSource = new EventSource(`https://wizz-flights.onrender.com/stream/${taskId}`);
 
                         evtSource.onmessage = (e) => {
                             if (e.data === "ping" || !e.data) {
