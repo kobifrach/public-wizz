@@ -365,6 +365,20 @@
         table.results { border-collapse: collapse; width: 100%; font-size: 14px; }
         table.results th, table.results td { border: 1px solid #eee; padding: 6px 8px; text-align: left; }
         table.results th { background: #f9fafb; position: sticky; top: 0; z-index: 1; }
+        /* Extras modal */
+        #extras-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: none; align-items: center; justify-content: center; z-index: 10001; padding: 14px;
+        }
+        #extras-modal .modal {
+            background: #fff; border-radius: 8px; width: min(500px, 94vw); max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        /* Payment modal */
+        #payment-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: none; align-items: center; justify-content: center; z-index: 10002; padding: 14px;
+        }
+        #payment-modal .modal {
+            background: #fff; border-radius: 8px; width: min(600px, 94vw); max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
 
@@ -428,6 +442,56 @@
                 <button id="results-close-btn" title="Close">X</button>
             </div>
             <div class="modal-body" id="results-body"></div>
+        </div>
+    </div>
+
+    <!-- Extras modal -->
+    <div id="extras-modal">
+        <div class="modal">
+            <div class="modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #eee;">
+                <h2 style="margin:0; font-size:16px;">Select Extras</h2>
+            </div>
+            <div class="modal-body" id="extras-list" style="padding: 10px 12px; overflow: auto;"></div>
+            <div style="padding: 10px 12px; border-top: 1px solid #eee; display: flex; justify-content: flex-end; gap: 10px;">
+                <button id="extras-cancel-btn" style="background: #e5e7eb; color: #111827; width: auto; padding: 6px 12px;">Cancel</button>
+                <button id="extras-confirm-btn" style="background: #e6007e; color: #fff; width: auto; padding: 6px 12px;">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment modal -->
+    <div id="payment-modal">
+        <div class="modal">
+            <div class="modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #eee;">
+                <h2 style="margin:0; font-size:16px;">Booking Summary & Payment</h2>
+            </div>
+            <div class="modal-body" style="padding: 10px 12px; overflow: auto;">
+                <div id="payment-summary" style="margin-bottom: 15px; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #eee;"></div>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                    <div>
+                        <label style="font-size: 11px; margin-bottom: 2px;">Cardholder Name *</label>
+                        <input type="text" id="card-name" placeholder="John Doe" required style="margin-bottom: 0;">
+                    </div>
+                    <div>
+                        <label style="font-size: 11px; margin-bottom: 2px;">Card Number *</label>
+                        <input type="text" id="card-number" required placeholder="0000 0000 0000 0000" minlength="13" maxlength="19" style="margin-bottom: 0;">
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <div style="flex: 1;">
+                            <label style="font-size: 11px; margin-bottom: 2px;">Expiry (MM/YY) *</label>
+                            <input type="text" id="card-expiry" required placeholder="MM/YY" maxlength="5" minlength="5" style="margin-bottom: 0;">
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="font-size: 11px; margin-bottom: 2px;">CVV *</label>
+                            <input type="text" id="card-cvv" required placeholder="123" maxlength="4" minlength="3" style="margin-bottom: 0;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="padding: 10px 12px; border-top: 1px solid #eee; display: flex; justify-content: flex-end; gap: 10px;">
+                <button id="payment-cancel-btn" style="background: #e5e7eb; color: #111827; width: auto; padding: 6px 12px;">Cancel</button>
+                <button id="payment-confirm-btn" style="background: #e6007e; color: #fff; width: auto; padding: 6px 12px;">Pay Now</button>
+            </div>
         </div>
     </div>
 
@@ -1164,6 +1228,25 @@
                 submitBtn.style.opacity = disabled ? '0.7' : '1';
                 submitBtn.style.cursor = disabled ? 'not-allowed' : 'pointer';
             }
+            // Disable all BUY buttons (used when a booking is in progress)
+            function disableBuyButtons() {
+                const btns = document.querySelectorAll('.buy-btn');
+                btns.forEach(b => {
+                    b.disabled = true;
+                    b.style.opacity = '0.6';
+                    b.style.cursor = 'not-allowed';
+                });
+            }
+
+            // Re-enable all BUY buttons
+            function enableBuyButtons() {
+                const btns = document.querySelectorAll('.buy-btn');
+                btns.forEach(b => {
+                    b.disabled = false;
+                    b.style.opacity = '';
+                    b.style.cursor = '';
+                });
+            }
             function showLoading() { if (loadingOverlay) loadingOverlay.style.display = 'flex'; }
             function hideLoading() { if (loadingOverlay) loadingOverlay.style.display = 'none'; }
             function showResults(title, contentNode) {
@@ -1291,7 +1374,7 @@
             function renderNoneMode(arr) {
                 const data = Array.isArray(arr) ? arr : [];
                 if (data.length === 0) return renderNoResultsMessage();
-                const columns = ['From','From_Code','To','To_Code','Date','Status','Flight_Code','Departure_Time','Arrival_Time','Duration','Price','Currency','Stops','Carrier','Departure_Date','Arrival_Date'];
+                const columns = ['Action', 'From','From_Code','To','To_Code','Date','Status','Flight_Code','Departure_Time','Arrival_Time','Duration','Price','Currency','Stops','Carrier','Departure_Date','Arrival_Date'];
                 const wrap = document.createElement('div');
                 wrap.className = 'table-wrap';
                 const table = document.createElement('table');
@@ -1303,7 +1386,22 @@
                 const tbody = document.createElement('tbody');
                 data.forEach(row => {
                     const tr = document.createElement('tr');
-                    columns.forEach(c => { const td = document.createElement('td'); td.textContent = row?.[c] != null ? String(row[c]) : ''; tr.appendChild(td); });
+                    columns.forEach(c => { 
+                        const td = document.createElement('td'); 
+                        if (c === 'Action') {
+                            const btn = document.createElement('button');
+                            btn.className = 'buy-btn';
+                            btn.textContent = 'Buy';
+                            btn.style.padding = '4px 8px';
+                            btn.style.fontSize = '12px';
+                            btn.style.backgroundColor = '#28a745';
+                            btn.onclick = () => initiateBooking(row);
+                            td.appendChild(btn);
+                        } else {
+                            td.textContent = row?.[c] != null ? String(row[c]) : ''; 
+                        }
+                        tr.appendChild(td); 
+                    });
                     tbody.appendChild(tr);
                 });
                 table.appendChild(thead);
@@ -1592,6 +1690,291 @@
                 }
                 startTask(payload)
             });
+        }
+        // --- Booking Logic ---
+
+        // Show credentials refresh dialog
+        function showCredentialsRefreshDialog() {
+            return new Promise((resolve) => {
+                // Create modal overlay
+                window.__authDialogOpen = true;
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0,0,0,0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                `;
+                
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    background: #fff;
+                    padding: 16px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    width: 90%;
+                    max-width: 400px;
+                `;
+                
+                modal.innerHTML = `
+                    <h3 style="margin-top:0; margin-bottom:12px; font-size:16px;">Authentication</h3>
+                    <p style="margin-top:0; margin-bottom:10px; font-size:13px;">Please log in again to continue.</p>
+                    <label for="refresh-username" style="display:block; margin-bottom:4px; font-weight:bold;">Username (Email):</label>
+                    <input type="email" id="refresh-username" style="width:100%; padding:6px; margin-bottom:8px; border:1px solid #ccc; border-radius:4px;">
+                    <label for="refresh-password" style="display:block; margin-bottom:4px; font-weight:bold;">Password:</label>
+                    <input type="text" id="refresh-password" style="width:100%; padding:6px; margin-bottom:12px; border:1px solid #ccc; border-radius:4px;">
+                    <label style="display:flex; align-items:center; margin-bottom:16px; font-size: 12px; user-select: none;">
+                        <input type="checkbox" id="refresh-remember" checked style="width:auto; margin-right:6px;"> Remember me
+                    </label>
+                    <div style="text-align: right;">
+                        <button id="refresh-ok" style="padding: 6px 12px; font-size: 14px; background-color: #007bff; border:none; border-radius:4px; color:white; cursor:pointer;">Login</button>
+                    </div>
+                `;
+                
+                overlay.appendChild(modal);
+                document.body.appendChild(overlay);
+                
+                // Focus on username field
+                setTimeout(() => document.getElementById('refresh-username').focus(), 100);
+                
+                const closeAndResolve = (value) => {
+                    if (document.body.contains(overlay)) {
+                        document.body.removeChild(overlay);
+                    }
+                    window.__authDialogOpen = false;
+                    resolve(value);
+                };
+
+                // Handle OK button
+                document.getElementById('refresh-ok').onclick = () => {
+                    const username = document.getElementById('refresh-username').value;
+                    const password = document.getElementById('refresh-password').value;
+                    const remember = document.getElementById('refresh-remember').checked;
+                    if (!username || !password) {
+                        alert('Please enter both username and password.');
+                        return;
+                    }
+                    closeAndResolve({ username, password, remember });
+                };
+                
+                // Prevent closing the dialog by clicking outside the modal
+                overlay.addEventListener('click', () => {
+                    // Do nothing, to prevent closing on overlay click
+                });
+
+                // Also ensure clicks inside the modal don't propagate to overlay
+                modal.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+                
+                // Handle Enter key for login
+                modal.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        document.getElementById('refresh-ok').click();
+                    }
+                });
+            });
+        }
+
+        window.showExtrasDialog = function(offeredExtras) {
+            return new Promise((resolve) => {
+                const modal = document.getElementById('extras-modal');
+                const list = document.getElementById('extras-list');
+                list.innerHTML = '';
+                
+                if (!offeredExtras || offeredExtras.length === 0) {
+                    list.innerHTML = '<p style="text-align:center; padding:20px;">No extras available for this flight.</p>';
+                } else {
+                    offeredExtras.forEach((extra, index) => {
+                        const div = document.createElement('div');
+                        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee;';
+                        
+                        const label = document.createElement('label');
+                        label.style.cssText = 'display: flex; align-items: center; gap: 10px; cursor: pointer; margin-bottom: 0; font-weight: normal; flex: 1;';
+                        
+                        const cb = document.createElement('input');
+                        cb.type = 'checkbox';
+                        cb.value = index;
+                        cb.style.width = 'auto';
+                        
+                        const text = document.createElement('span');
+                        text.innerHTML = `<strong style="font-size:13px;">${extra.title}</strong><br><span style="color:#666; font-size:11px;">${extra.price.replace('\n', ' ')}</span>`;
+                        
+                        label.appendChild(cb);
+                        label.appendChild(text);
+                        div.appendChild(label);
+                        list.appendChild(div);
+                    });
+                }
+                
+                modal.style.display = 'flex';
+                
+                document.getElementById('extras-confirm-btn').onclick = () => {
+                    const selected = [];
+                    list.querySelectorAll('input:checked').forEach(cb => {
+                        selected.push(offeredExtras[cb.value]);
+                    });
+                    modal.style.display = 'none';
+                    resolve(selected);
+                };
+                
+                document.getElementById('extras-cancel-btn').onclick = () => {
+                    modal.style.display = 'none';
+                    resolve([]);
+                };
+            });
+        };
+
+        window.showPaymentDialog = function(summary) {
+            return new Promise((resolve) => {
+                const modal = document.getElementById('payment-modal');
+                const summaryDiv = document.getElementById('payment-summary');
+                
+                let itemsHtml = (summary.items || []).map(item => `
+                    <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+                        <span style="color:#555;">${item.description}</span>
+                        <span style="font-weight:bold;">${item.price}</span>
+                    </div>
+                `).join('');
+                
+                summaryDiv.innerHTML = `
+                    <div style="font-weight:bold; margin-bottom:8px; border-bottom:1px solid #ddd; padding-bottom:4px; font-size:13px; color:#e6007e;">
+                        ${summary.route} | ${summary.date}
+                    </div>
+                    ${itemsHtml}
+                    <div style="margin-top:8px; padding-top:8px; border-top:2px solid #e6007e; font-weight:bold; display:flex; justify-content:space-between; font-size:14px;">
+                        <span>Total Price</span>
+                        <span>${summary.total}</span>
+                    </div>
+                `;
+                
+                modal.style.display = 'flex';
+                
+                document.getElementById('payment-confirm-btn').onclick = () => {
+                    const result = {
+                        name: document.getElementById('card-name').value.trim(),
+                        number: document.getElementById('card-number').value.replace(/\s/g, ''),
+                        expiry: document.getElementById('card-expiry').value.trim(),
+                        cvv: document.getElementById('card-cvv').value.trim()
+                    };
+                    
+                    if (!result.name || !result.number || !result.expiry || !result.cvv) {
+                        alert('Please fill in all payment details.');
+                        return;
+                    }
+
+                    // Basic validation for expiry format MM/YY
+                    if (!/^\d{2}\/\d{2}$/.test(result.expiry)) {
+                        alert('Expiry date must be in MM/YY format.');
+                        return;
+                    }
+                    
+                    modal.style.display = 'none';
+                    resolve(result);
+                };
+                
+                document.getElementById('payment-cancel-btn').onclick = () => {
+                    modal.style.display = 'none';
+                    resolve(null);
+                };
+            });
+        };
+
+        async function initiateBooking(row) {
+            if (!confirm(`Start booking for ${row.From_Code} -> ${row.To_Code} on ${row.Date}?`)) return;
+            // Disable all BUY buttons until the booking finishes (final or error)
+            try { disableBuyButtons(); } catch (e) { /* ignore */ }
+                        
+            try {
+                // Start booking
+                const resp = await fetch("https://wizz-flights.onrender.com/buy_flight", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        origin: row.From_Code,
+                        destination: row.To_Code,
+                        date: row.Date, // Assuming YYYY-MM-DD or compatible
+                        flight_code: row.Flight_Code
+                    })
+                });
+                
+                if (!resp.ok) throw new Error("Failed to start booking");
+                const { task_id } = await resp.json();
+                
+                initiateBookingLoop(task_id);
+
+            } catch (e) {
+                try { enableBuyButtons(); } catch (err) { /* ignore */ }
+                alert("Error: " + e.message);
+            }
+        }
+
+        async function initiateBookingLoop(task_id) {
+             const pollInterval = setInterval(async () => {
+                    try {
+                        const statusResp = await fetch(`https://wizz-flights.onrender.com/check_booking_status/${task_id}`);
+                        if (!statusResp.ok) return;
+                        const statusData = await statusResp.json();
+                        
+                        if (statusData.status === 'waiting_for_extras') {
+                            clearInterval(pollInterval);
+                            const selected = await window.showExtrasDialog(statusData.data);
+                            await fetch(`https://wizz-flights.onrender.com/submit_booking_response/${task_id}`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify(selected)
+                            });
+                            initiateBookingLoop(task_id);
+                            
+                        } else if (statusData.status === 'waiting_for_payment') {
+                            clearInterval(pollInterval);
+                            const paymentDetails = await window.showPaymentDialog(statusData.data);
+                            await fetch(`https://wizz-flights.onrender.com/submit_booking_response/${task_id}`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify(paymentDetails) // null if cancelled
+                            });
+                            initiateBookingLoop(task_id);
+                            
+                        } else if (statusData.status === 'waiting_for_credentials') {
+                             clearInterval(pollInterval);
+                             // Ensure showCredentialsRefreshDialog exists
+                             if (window.showCredentialsRefreshDialog) {
+                                 const creds = await window.showCredentialsRefreshDialog();
+                                 await fetch(`https://wizz-flights.onrender.com/submit_booking_response/${task_id}`, {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify(creds)
+                                });
+                             } else {
+                                 // Fallback
+                                 const u = prompt("Enter Username:");
+                                 const p = prompt("Enter Password:");
+                                 await fetch(`https://wizz-flights.onrender.com/submit_booking_response/${task_id}`, {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({username: u, password: p})
+                                });
+                             }
+                            initiateBookingLoop(task_id);
+
+                        } else if (statusData.status === 'completed') {
+                            clearInterval(pollInterval);
+                            try { enableBuyButtons(); } catch (e) { /* ignore */ }
+                            alert("Booking completed successfully!");
+                        } else if (statusData.status === 'error') {
+                            clearInterval(pollInterval);
+                            try { enableBuyButtons(); } catch (e) { /* ignore */ }
+                            alert("Booking failed: " + statusData.error);
+                        }
+                    } catch (e) {
+                        console.error("Polling error", e);
+                    }
+                }, 2000);
         }
     </script>
 </body>
