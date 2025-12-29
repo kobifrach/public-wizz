@@ -1551,8 +1551,131 @@
                 showLoading();
 
                 const startTask = async (payload) => {
+                    const API_BASE = "https://wizz-flights.onrender.com";
+
+                    const renderPayload = (payloadObj, meta = {}) => {
+                        const { done = false } = meta;
+
+                        // If nothing received yet and still running, show in-progress message
+                        if (!payloadObj) {
+                            const wrap = document.createElement('div');
+                            wrap.className = 'card';
+                            wrap.style.textAlign = 'center';
+                            wrap.textContent = 'Scanning... results will appear here soon.';
+                            showResults('Results', wrap);
+                            hideLoading();
+                            return { stop: false };
+                        }
+
+                        if (payloadObj && payloadObj.error) {
+                            hideLoading();
+                            setStartDisabled(false);
+                            const wrap = document.createElement('div');
+                            wrap.className = 'card';
+                            wrap.textContent = `No results found or an error occurred`;
+                            showResults('Results', wrap);
+                            return { stop: true };
+                        }
+
+                        // If payload has nested message, prefer it
+                        let dataNode = payloadObj;
+                        if (payloadObj && typeof payloadObj === 'object' && payloadObj.message) {
+                            try {
+                                dataNode = typeof payloadObj.message === 'string' ? JSON.parse(payloadObj.message) : payloadObj.message;
+                            } catch (err) {
+                                console.log('Failed parsing inner message', err, payloadObj.message);
+                            }
+                        }
+
+                            let results = null;
+                            let returnedTaskId = null;
+                            let hasFile = !!meta.hasFile;
+                            let isPartial = meta.isPartial === true;
+
+                        if (dataNode && typeof dataNode === 'object' && (dataNode.results !== undefined || dataNode.task_id !== undefined)) {
+                            results = dataNode.results;
+                            returnedTaskId = dataNode.task_id;
+                            hasFile = meta.hasFile !== undefined ? meta.hasFile : !!dataNode.has_file;
+                            isPartial = meta.isPartial !== undefined ? meta.isPartial : !!dataNode.partial;
+                        } else {
+                            results = dataNode;
+                            returnedTaskId = meta.taskIdOverride || null;
+                        }
+
+                        hideLoading();
+
+                        let contentNode;
+                        let hasResults = true;
+                        if (results == null) {
+                            if (done) {
+                                contentNode = renderNoResultsMessage();
+                                hasResults = false;
+                            } else {
+                                const wrap = document.createElement('div');
+                                wrap.className = 'card';
+                                wrap.style.textAlign = 'center';
+                                wrap.textContent = 'Scanning... results will appear here soon.';
+                                contentNode = wrap;
+                                hasResults = false;
+                            }
+                        } else if (mode === 'with') {
+                            contentNode = renderWithMode(results);
+                        } else {
+                            if (Array.isArray(results) && results.length === 0) {
+                                if (done) {
+                                    contentNode = renderNoResultsMessage();
+                                    hasResults = false;
+                                } else {
+                                    const wrap = document.createElement('div');
+                                    wrap.className = 'card';
+                                    wrap.style.textAlign = 'center';
+                                    wrap.textContent = 'Scanning... results will appear here soon.';
+                                    contentNode = wrap;
+                                    hasResults = false;
+                                }
+                            } else contentNode = renderNoneMode(results);
+                        }
+
+                        // Mark partial results explicitly
+                        if (isPartial) {
+                            const badge = document.createElement('div');
+                            badge.style.backgroundColor = '#e1ecff';
+                            badge.style.color = '#1d4ed8';
+                            badge.style.padding = '8px';
+                            badge.style.marginBottom = '10px';
+                            badge.style.borderRadius = '4px';
+                            badge.style.textAlign = 'center';
+                            badge.style.fontWeight = 'bold';
+                            badge.textContent = 'Partial results (still running)...';
+                            if (contentNode && contentNode.prepend) contentNode.prepend(badge);
+                        }
+
+                        const title = mode === 'with' ? 'Results: WITH connections' : 'Results: NONE';
+                        showResults(title, contentNode);
+
+                        if (hasFile && returnedTaskId && hasResults && !isPartial) {
+                            let existing = document.getElementById('results-download-btn');
+                            if (existing) existing.remove();
+                            const btn = document.createElement('button');
+                            btn.id = 'results-download-btn';
+                            btn.type = 'button';
+                            btn.textContent = 'Download Results';
+                            btn.title = 'Download results for this task';
+                            btn.style.marginLeft = '8px';
+                            btn.addEventListener('click', () => downloadResults(returnedTaskId));
+                            const header = document.querySelector('#results-modal .modal-header');
+                            if (header) {
+                                const closeBtnEl = header.querySelector('#results-close-btn');
+                                if (closeBtnEl) header.insertBefore(btn, closeBtnEl);
+                                else header.appendChild(btn);
+                            }
+                        }
+
+                        return { stop: false, isPartial };
+                    };
+
                     try {
-                        const resp = await fetch("https://wizz-flights.onrender.com/process", {
+                        const resp = await fetch(`${API_BASE}/process`, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(payload)
@@ -1562,141 +1685,54 @@
                         const taskId = data.task_id;
                         if (!taskId) throw new Error('Missing task id');
 
-                        const evtSource = new EventSource(`https://wizz-flights.onrender.com/stream/${taskId}`);
+                        const pollIntervalMs = 20000;
+                        let lastSignature = null;
+                        let pollHandle = null;
 
-                        evtSource.onmessage = (e) => {
-                            if (e.data === "ping" || !e.data) {
-                                // keep waiting
-                                return;
-                            }
-                            
-                            // Parse payload
-                            let payload = null;
+                        const pollOnce = async () => {
                             try {
-                                payload = JSON.parse(e.data);
+                                const statusResp = await fetch(`${API_BASE}/status/${taskId}`);
+                                if (!statusResp.ok) throw new Error(`Status HTTP ${statusResp.status}`);
+                                const statusData = await statusResp.json();
+                                if (statusData.error) {
+                                    hideLoading();
+                                    setStartDisabled(false);
+                                    alert('An error occurred: ' + statusData.error);
+                                    if (pollHandle) clearInterval(pollHandle);
+                                    return;
+                                }
+
+                                const payloadData = statusData.data || statusData;
+                                const isPartial = statusData.partial || (payloadData && payloadData.partial);
+                                const done = statusData.done || statusData.status === 'done';
+                                const hasFile = statusData.has_file || (payloadData && payloadData.has_file);
+
+                                const signature = JSON.stringify(payloadData || {});
+                                if (!done && signature === lastSignature) return;
+                                lastSignature = signature;
+
+                                const result = renderPayload(payloadData, { isPartial, hasFile, taskIdOverride: taskId, done });
+                                if (result.stop) {
+                                    if (pollHandle) clearInterval(pollHandle);
+                                    return;
+                                }
+
+                                if (done && !isPartial) {
+                                    if (pollHandle) clearInterval(pollHandle);
+                                }
                             } catch (err) {
-                                console.log('Failed parsing SSE data', err, e.data);
-                                payload = e.data;
-                            }
-                            console.log('SSE payload:', payload);
-
-                            // Check for error in payload
-                            if (payload && payload.error) {
-                                console.log('error', payload.error);
+                                console.log('Polling error', err);
                                 hideLoading();
                                 setStartDisabled(false);
-                                alert('An error occurred: ' + payload.error);
-                                evtSource.close();
-                                return;
-                            }
-
-                            // If payload has 'message', parse it as the inner JSON
-                            let innerData = null;
-                            if (payload && typeof payload === 'object' && payload.message) {
-                                try {
-                                    innerData = JSON.parse(payload.message);
-                                } catch (err) {
-                                    console.log('Failed parsing inner message', err, payload.message);
-                                }
-                            }
-                            console.log(innerData)
-
-                            // Support both legacy (raw results array/object) and new wrapped response
-                            let results = null;
-                            let returnedTaskId = null;
-                            let hasFile = false;
-                            let isPartial = false;
-
-                            if (innerData && typeof innerData === 'object' && (innerData.results !== undefined || innerData.task_id !== undefined)) {
-                                results = innerData.results;
-                                returnedTaskId = innerData.task_id;
-                                hasFile = !!innerData.has_file;
-                                isPartial = !!innerData.partial;
-                            } else if (payload && typeof payload === 'object' && (payload.results !== undefined || payload.task_id !== undefined)) {
-                                results = payload.results;
-                                returnedTaskId = payload.task_id;
-                                hasFile = !!payload.has_file;
-                                isPartial = !!payload.partial;
-                            } else {
-                                // backwards compatibility: payload itself is the results
-                                results = payload;
-                            }
-
-                            // Handle partial vs final
-                            if (!isPartial) {
-                                evtSource.close();
-                                hideLoading();
-                            } else {
-                                // Partial: show results but keep connection open
-                                hideLoading();
-                            }
-
-                            let contentNode;
-                            let hasResults = true;
-                            if (results == null) {
-                                contentNode = renderNoResultsMessage();
-                                hasResults = false;
-                            } else if (mode === 'with') {
-                                contentNode = renderWithMode(results);
-                            } else {
-                                if (Array.isArray(results) && results.length === 0) {
-                                    contentNode = renderNoResultsMessage();
-                                    hasResults = false;
-                                } else contentNode = renderNoneMode(results);
-                            }
-
-                            const title = mode === 'with' ? 'Results: WITH connections' : 'Results: NONE';
-                            showResults(title, contentNode);
-
-                            // Add partial warning
-                            if (isPartial) {
-                                const msgDiv = document.createElement('div');
-                                msgDiv.style.backgroundColor = '#fff3cd';
-                                msgDiv.style.color = '#856404';
-                                msgDiv.style.padding = '10px';
-                                msgDiv.style.marginBottom = '10px';
-                                msgDiv.style.borderRadius = '4px';
-                                msgDiv.style.textAlign = 'center';
-                                msgDiv.style.fontWeight = 'bold';
-                                msgDiv.textContent = 'זה לא הכל, אנא המתן להמשך... (Rate Limit)';
-                                
-                                if (resultsBody) {
-                                    resultsBody.insertBefore(msgDiv, resultsBody.firstChild);
-                                }
-                            }
-
-                            // If the server indicated a downloadable file is available, show a Download button
-                            if (hasFile && returnedTaskId && hasResults && !isPartial) {
-                                // Create or replace a download button in the modal header
-                                let existing = document.getElementById('results-download-btn');
-                                if (existing) existing.remove();
-                                const btn = document.createElement('button');
-                                btn.id = 'results-download-btn';
-                                btn.type = 'button';
-                                btn.textContent = 'Download Results';
-                                btn.title = 'Download results for this task';
-                                btn.style.marginLeft = '8px';
-                                btn.addEventListener('click', () => downloadResults(returnedTaskId));
-                                // place it before the close (X) button so the X stays at the right
-                                const header = document.querySelector('#results-modal .modal-header');
-                                if (header) {
-                                    const closeBtnEl = header.querySelector('#results-close-btn');
-                                    if (closeBtnEl) header.insertBefore(btn, closeBtnEl);
-                                    else header.appendChild(btn);
-                                }
-                            }
-                            // Keep start button disabled until user closes the results
-                        };
-
-                        evtSource.onerror = (e) => {
-                            if(e.error){
-                                console.log('error', e.error);
-                                hideLoading();
-                                setStartDisabled(false);
-                                alert('An error occurred');
-                                evtSource.close();
+                                if (pollHandle) clearInterval(pollHandle);
+                                alert('Error while polling results.');
                             }
                         };
+
+                        // Kick off immediately, then continue polling
+                        await pollOnce();
+                        pollHandle = setInterval(pollOnce, pollIntervalMs);
+
                     } catch (err) {
                         console.log(err);
                         hideLoading();
