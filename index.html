@@ -495,6 +495,19 @@
         </div>
     </div>
 
+    <!-- Screenshot modal -->
+    <div id="screenshot-modal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 10003; padding: 14px;">
+        <div class="modal" style="background: #fff; border-radius: 8px; width: min(900px, 96vw); max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <div class="modal-header" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #eee;">
+                <h2 style="margin:0; font-size:16px;">Booking Screenshot</h2>
+                <button id="screenshot-close-btn" style="border:none; background:transparent; font-size:20px; cursor:pointer;">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 10px; overflow: auto; text-align: center;">
+                <img id="booking-screenshot-img" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+        </div>
+    </div>
+
     <script>
         // pairs: originCode -> [destinationCode]
         // codeToName: airportCode -> display name
@@ -1247,6 +1260,9 @@
                     b.style.cursor = '';
                 });
             }
+            // Global flag: true while a booking request is in-flight
+            // Prevents starting multiple concurrent BUY requests.
+            window.bookingInProgress = false;
             function showLoading() { if (loadingOverlay) loadingOverlay.style.display = 'flex'; }
             function hideLoading() { if (loadingOverlay) loadingOverlay.style.display = 'none'; }
             function showResults(title, contentNode) {
@@ -1884,9 +1900,27 @@
             });
         };
 
+        function showScreenshot(base64Data) {
+            const modal = document.getElementById('screenshot-modal');
+            const img = document.getElementById('booking-screenshot-img');
+            img.src = 'data:image/png;base64,' + base64Data;
+            modal.style.display = 'flex';
+        }
+
+        document.getElementById('screenshot-close-btn').onclick = () => {
+            document.getElementById('screenshot-modal').style.display = 'none';
+        };
+
         async function initiateBooking(row) {
+            // Prevent starting another booking while one is in progress
+            if (window.bookingInProgress) {
+                alert('אנא המתן לסיום הבקשה');
+                return;
+            }
+
             if (!confirm(`Start booking for ${row.From_Code} -> ${row.To_Code} on ${row.Date}?`)) return;
-            // Disable all BUY buttons until the booking finishes (final or error)
+            // Mark booking as in-progress and disable buy buttons
+            window.bookingInProgress = true;
             try { disableBuyButtons(); } catch (e) { /* ignore */ }
                         
             try {
@@ -1908,6 +1942,8 @@
                 initiateBookingLoop(task_id);
 
             } catch (e) {
+                // clear in-progress flag so user can retry
+                window.bookingInProgress = false;
                 try { enableBuyButtons(); } catch (err) { /* ignore */ }
                 alert("Error: " + e.message);
             }
@@ -1964,17 +2000,33 @@
 
                         } else if (statusData.status === 'completed') {
                             clearInterval(pollInterval);
+                            // booking finished
+                            window.bookingInProgress = false;
                             try { enableBuyButtons(); } catch (e) { /* ignore */ }
+                            
+                            if (statusData.screenshot) {
+                                showScreenshot(statusData.screenshot);
+                            }
                             alert("Booking completed successfully!");
                         } else if (statusData.status === 'error') {
                             clearInterval(pollInterval);
+                            // booking failed
+                            window.bookingInProgress = false;
                             try { enableBuyButtons(); } catch (e) { /* ignore */ }
+                            
+                            if (statusData.screenshot) {
+                                showScreenshot(statusData.screenshot);
+                            }
                             alert("Booking failed: " + statusData.error);
                         }
                     } catch (e) {
                         console.error("Polling error", e);
+                        // on unexpected polling error, clear flag so user can retry
+                        try { clearInterval(pollInterval); } catch (err) { /* ignore */ }
+                        window.bookingInProgress = false;
+                        try { enableBuyButtons(); } catch (err) { /* ignore */ }
                     }
-                }, 2000);
+                }, 20000);
         }
     </script>
 </body>
