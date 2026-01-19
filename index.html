@@ -1283,7 +1283,7 @@
                 if (!taskId) return alert('Missing task id for download');
                 try {
                     const a = document.createElement('a');
-                    a.href = `https://wizz-flights.onrender.com/download/${encodeURIComponent(taskId)}`
+                    a.href = `https://wizz-flights-server.onrender.com/download/${encodeURIComponent(taskId)}`
                     a.download = '';
                     a.target = '_blank';
                     document.body.appendChild(a);
@@ -1551,7 +1551,7 @@
                 showLoading();
 
                 const startTask = async (payload) => {
-                    const API_BASE = "https://wizz-flights.onrender.com";
+                    const API_BASE = "https://wizz-flights-server.onrender.com";
 
                     const renderPayload = (payloadObj, meta = {}) => {
                         const { done = false } = meta;
@@ -1961,7 +1961,7 @@
                         
             try {
                 // Start booking
-                const resp = await fetch("https://wizz-flights.onrender.com/buy_flight", {
+                const resp = await fetch("https://wizz-flights-server.onrender.com/buy_flight", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -1988,14 +1988,14 @@
         async function initiateBookingLoop(task_id) {
              const pollInterval = setInterval(async () => {
                     try {
-                        const statusResp = await fetch(`https://wizz-flights.onrender.com/check_booking_status/${task_id}`);
+                        const statusResp = await fetch(`https://wizz-flights-server.onrender.com/check_booking_status/${task_id}`);
                         if (!statusResp.ok) return;
                         const statusData = await statusResp.json();
                         
                         if (statusData.status === 'waiting_for_extras') {
                             clearInterval(pollInterval);
                             const selected = await window.showExtrasDialog(statusData.data);
-                            await fetch(`https://wizz-flights.onrender.com/submit_booking_response/${task_id}`, {
+                            await fetch(`https://wizz-flights-server.onrender.com/submit_booking_response/${task_id}`, {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify(selected)
@@ -2005,7 +2005,7 @@
                         } else if (statusData.status === 'waiting_for_payment') {
                             clearInterval(pollInterval);
                             const paymentDetails = await window.showPaymentDialog(statusData.data);
-                            await fetch(`https://wizz-flights.onrender.com/submit_booking_response/${task_id}`, {
+                            await fetch(`https://wizz-flights-server.onrender.com/submit_booking_response/${task_id}`, {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify(paymentDetails) // null if cancelled
@@ -2017,7 +2017,7 @@
                              // Ensure showCredentialsRefreshDialog exists
                              if (window.showCredentialsRefreshDialog) {
                                  const creds = await window.showCredentialsRefreshDialog();
-                                 await fetch(`https://wizz-flights.onrender.com/submit_booking_response/${task_id}`, {
+                                 await fetch(`https://wizz-flights-server.onrender.com/submit_booking_response/${task_id}`, {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify(creds)
@@ -2026,7 +2026,7 @@
                                  // Fallback
                                  const u = prompt("Enter Username:");
                                  const p = prompt("Enter Password:");
-                                 await fetch(`https://wizz-flights.onrender.com/submit_booking_response/${task_id}`, {
+                                 await fetch(`https://wizz-flights-server.onrender.com/submit_booking_response/${task_id}`, {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify({username: u, password: p})
