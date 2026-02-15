@@ -484,44 +484,6 @@
     ]
   },
   {
-    "code": "MLH",
-    "name": "Basel-Mulhouse-Freiburg",
-    "destinations": [
-      {
-        "code": "BNX",
-        "name": "Banja Luka"
-      },
-      {
-        "code": "BEG",
-        "name": "Belgrad"
-      },
-      {
-        "code": "INI",
-        "name": "Niš"
-      },
-      {
-        "code": "OHD",
-        "name": "Ohrid"
-      },
-      {
-        "code": "TGD",
-        "name": "Podgorica"
-      },
-      {
-        "code": "SKP",
-        "name": "Skopje"
-      },
-      {
-        "code": "TIA",
-        "name": "Tirana"
-      },
-      {
-        "code": "TZL",
-        "name": "Tuzla"
-      }
-    ]
-  },
-  {
     "code": "BSL",
     "name": "Basel-Mulhouse-Freiburg",
     "destinations": [
@@ -576,6 +538,44 @@
       {
         "code": "WRO",
         "name": "Wroclaw"
+      }
+    ]
+  },
+  {
+    "code": "MLH",
+    "name": "Basel-Mulhouse-Freiburg",
+    "destinations": [
+      {
+        "code": "BNX",
+        "name": "Banja Luka"
+      },
+      {
+        "code": "BEG",
+        "name": "Belgrad"
+      },
+      {
+        "code": "INI",
+        "name": "Niš"
+      },
+      {
+        "code": "OHD",
+        "name": "Ohrid"
+      },
+      {
+        "code": "TGD",
+        "name": "Podgorica"
+      },
+      {
+        "code": "SKP",
+        "name": "Skopje"
+      },
+      {
+        "code": "TIA",
+        "name": "Tirana"
+      },
+      {
+        "code": "TZL",
+        "name": "Tuzla"
       }
     ]
   },
