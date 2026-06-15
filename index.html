@@ -431,6 +431,9 @@
             <div style="margin-top:8px; font-size:14px; color:#374151;">
                 Request sent. Please do not close the window until completion. If you want to send another request, you can open a new tab.
             </div>
+            <div style="margin-top:10px; text-align:center;">
+                <button id="loading-cancel-btn" style="background:#dcbd35; color:white; border:none; padding:6px 12px; cursor:pointer; border-radius:4px; font-size:13px;">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -439,7 +442,11 @@
         <div class="modal">
             <div class="modal-header">
                 <h2 id="results-title" style="margin:0; font-size:18px;">Search Results</h2>
-                <button id="results-close-btn" title="Close">X</button>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <button id="results-stop-btn" title="Stop search and return current results" style="background:#dc3545; color:white; border:none; padding:6px 12px; cursor:pointer; border-radius:4px; font-size:12px; white-space:nowrap; display:none;">&#9209; STOP</button>
+                    <button id="results-return-btn" title="Reverse search" style="background:#28a745; color:white; border:none; padding:6px 12px; cursor:pointer; border-radius:4px; font-size:12px; white-space:nowrap;">&#8617; Search Return</button>
+                    <button id="results-close-btn" title="Close">X</button>
+                </div>
             </div>
             <div class="modal-body" id="results-body"></div>
         </div>
@@ -1234,6 +1241,12 @@
             const resultsBody = document.getElementById('results-body');
             const resultsTitle = document.getElementById('results-title');
             const resultsCloseBtn = document.getElementById('results-close-btn');
+            const resultsStopBtn = document.getElementById('results-stop-btn');
+            const resultsReturnBtn = document.getElementById('results-return-btn');
+            let currentSearchTaskId = null;
+            let lastSearchPayload = null;
+            let lastSearchResults = null;
+            let startTask = null;
 
             function setStartDisabled(disabled) {
                 if (!submitBtn) return;
@@ -1296,12 +1309,179 @@
             }
 
             if (resultsCloseBtn) {
-                resultsCloseBtn.addEventListener('click', () => {
+                resultsCloseBtn.addEventListener('click', async () => {
                     hideResults();
                     // Remove any download button added dynamically
                     const dl = document.getElementById('results-download-btn');
                     if (dl) dl.remove();
+                    // Signal stop if a search is running
+                    if (currentSearchTaskId) {
+                        try {
+                            await fetch(`https://wizz-flights-server.onrender.com/stop_search/${currentSearchTaskId}`, { method: 'POST' });
+                        } catch (e) { console.error('Failed to stop search:', e); }
+                    }
+                    if (resultsStopBtn) resultsStopBtn.style.display = 'none';
                     setStartDisabled(false); // allow new submission after closing results
+                });
+            }
+
+            if (resultsStopBtn) {
+                resultsStopBtn.addEventListener('click', async () => {
+                    try {
+                        if (currentSearchTaskId) {
+                            const stopResp = await fetch(`https://wizz-flights-server.onrender.com/stop_search/${currentSearchTaskId}`, { method: 'POST' });
+                            if (stopResp.ok) {
+                                console.log('✔ Stop signal sent to search');
+                            }
+                            resultsStopBtn.style.display = 'none';
+                            // When user stops the search, show the Search Return button
+                            if (resultsReturnBtn) resultsReturnBtn.style.display = 'inline-block';
+                        }
+                    } catch (err) {
+                        console.error('Error stopping search:', err);
+                        // Best-effort: hide button regardless
+                        resultsStopBtn.style.display = 'none';
+                    }
+                });
+            }
+
+            const loadingCancelBtn = document.getElementById('loading-cancel-btn');
+            if (loadingCancelBtn) {
+                loadingCancelBtn.addEventListener('click', async () => {
+                    try {
+                        if (currentSearchTaskId) {
+                            await fetch(`https://wizz-flights-server.onrender.com/stop_search/${currentSearchTaskId}`, { method: 'POST' });
+                        }
+                    } catch (e) {
+                        console.error('Failed to call stop_search:', e);
+                    }
+                    hideLoading();
+                });
+            }
+
+            if (resultsReturnBtn) {
+                resultsReturnBtn.addEventListener('click', () => {
+                    // Build the 4-day date range (YYYY-MM-DD) shown in the form
+                    const todayD = new Date();
+                    todayD.setHours(0, 0, 0, 0);
+                    const rangeDates = [];
+
+                    for (let i = 0; i < 4; i++) {
+                        const d = new Date(todayD);
+                        // הוספה בטוחה של ימים, שמתחשבת גם בחילופי שעון
+                        d.setDate(todayD.getDate() + i); 
+                        
+                        // בניית המחרוזת בפורמט YYYY-MM-DD לפי אזור הזמן המקומי
+                        const year = d.getFullYear();
+                        const month = String(d.getMonth() + 1).padStart(2, '0');
+                        const day = String(d.getDate()).padStart(2, '0');
+                        
+                        rangeDates.push(`${year}-${month}-${day}`);
+                    }
+                    // Extract reverse routes from the last none-mode results
+                    const results = Array.isArray(lastSearchResults) ? lastSearchResults : [];
+                    // Map: "FROM->TO" -> { origin, dest, minDate }
+                    const routeMap = new Map();
+                    function normalizeToISO(dstr) {
+                        if (!dstr) return '';
+                        // If already ISO yyyy-mm-dd
+                        if (/^\d{4}-\d{2}-\d{2}$/.test(dstr)) return dstr;
+                        // If DD/MM or DD/MM/YYYY
+                        const m = dstr.match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?$/);
+                        if (m) {
+                            const day = m[1].padStart(2, '0');
+                            const mon = m[2].padStart(2, '0');
+                            const year = m[3] ? (m[3].length === 2 ? '20' + m[3] : m[3]) : String(new Date().getFullYear());
+                            return `${year}-${mon}-${day}`;
+                        }
+                        // Try Date parse fallback
+                        const dt = new Date(dstr);
+                        if (!isNaN(dt)) return dt.toISOString().slice(0,10);
+                        return '';
+                    }
+
+                    results.forEach(row => {
+                        const from = (row.From_Code || '').trim().toUpperCase();
+                        const to   = (row.To_Code   || '').trim().toUpperCase();
+                        const rawDate = row.Date || row.Departure_Date || '';
+                        const date = normalizeToISO(String(rawDate).trim());
+                        if (!from || !to) return;
+                        const key = `${from}->${to}`;
+                        if (!routeMap.has(key)) routeMap.set(key, { origin: from, dest: to, minDate: '' });
+                        const entry = routeMap.get(key);
+                        // Track the earliest date found for this route (compare ISO strings)
+                        if (date) {
+                            if (!entry.minDate || date < entry.minDate) entry.minDate = date;
+                        }
+                    });
+
+                    let reverseRoutes = [];
+                    if (routeMap.size > 0) {
+                        routeMap.forEach(({ origin, dest, minDate }) => {
+                                const datesISO = minDate
+                                    ? rangeDates.filter(d => d > minDate)
+                                    : rangeDates.slice(1);
+                            const datesDMY = datesISO.map(iso => {
+                                const [y, m, d] = iso.split('-');
+                                return `${d}/${m}/${y}`;
+                            });
+                            reverseRoutes.push({ origin: dest, dest: origin, datesDMY });
+                        });
+                    } else if (lastSearchPayload) {
+                        // Fallback: swap routes from payload with no specific date pre-selection
+                        reverseRoutes = (lastSearchPayload.routes || []).map(r => ({
+                            origin: r.dest || r.destination || '',
+                            dest: r.origin || '',
+                            datesDMY: []
+                        }));
+                    }
+
+                    // Close the results modal
+                    hideResults();
+                    const dl = document.getElementById('results-download-btn');
+                    if (dl) dl.remove();
+
+                    if (reverseRoutes.length === 0) return;
+
+                    // Switch to none mode and reset rows
+                    const radioNoneEl = document.querySelector('input[type="radio"][name="connection"][value="none"]');
+                    if (radioNoneEl && !radioNoneEl.checked) {
+                        radioNoneEl.checked = true;
+                        radioNoneEl.dispatchEvent(new Event('change'));
+                    } else {
+                        renderRowsContainer();
+                    }
+
+                    const rowsContainer = document.getElementById('rows-container');
+                    if (!rowsContainer) return;
+
+                    // Clear the default empty row
+                    rowsContainer.innerHTML = '';
+
+                    // Add prefilled reverse rows
+                    reverseRoutes.forEach(({ origin, dest, datesDMY }) => {
+                        const row = createNoneRow(datesDMY);
+                        rowsContainer.appendChild(row);
+
+                        // Set origin and trigger change to repopulate destinations
+                        const originSel = row.querySelector('select[name="origin"]');
+                        if (originSel) {
+                            originSel.value = origin;
+                            originSel.dispatchEvent(new Event('change'));
+                        }
+
+                        // Pre-select destination after repopulation
+                        const destSel = row.querySelector('select[name="destination"]');
+                        if (destSel) {
+                            for (const opt of destSel.options) {
+                                opt.selected = opt.value === dest;
+                            }
+                            destSel.dispatchEvent(new Event('change'));
+                        }
+                    });
+
+                    setStartDisabled(false);
+                    document.getElementById('flight-search-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             }
 
@@ -1309,6 +1489,57 @@
                 const wrap = document.createElement('div');
                 wrap.className = 'card';
                 wrap.textContent = 'No results found for this search. Try different dates or routes.';
+                return wrap;
+            }
+
+            function extractAllFlightsFromWithMode(withModeResults) {
+                // If the backend returned all_flights, use those directly
+                if (Array.isArray(withModeResults?.all_flights)) {
+                    return withModeResults.all_flights;
+                }
+                // Fallback: extract from Segments of all route categories
+                const allFlights = [];
+                const categories = ['direct', '1-stop', '2-stops'];
+                categories.forEach(cat => {
+                    const routes = Array.isArray(withModeResults?.[cat]) ? withModeResults[cat] : [];
+                    routes.forEach(route => {
+                        const segments = Array.isArray(route?.Segments) ? route.Segments : [];
+                        allFlights.push(...segments);
+                    });
+                });
+                return allFlights;
+            }
+
+            function renderAllFlightsTable(flights) {
+                if (!Array.isArray(flights) || flights.length === 0) return null;
+                const columns = ['From', 'From_Code', 'To', 'To_Code', 'Departure_Date', 'Departure_Time', 'Arrival_Time', 'Status', 'Flight_Code', 'Price', 'Currency', 'Carrier'];
+                const wrap = document.createElement('div');
+                wrap.className = 'table-wrap';
+                const title = document.createElement('h3');
+                title.textContent = 'Irrelevant flights found during search';
+                title.style.marginTop = '30px';
+                title.style.marginBottom = '10px';
+                wrap.appendChild(title);
+                const table = document.createElement('table');
+                table.className = 'results';
+                const thead = document.createElement('thead');
+                const trh = document.createElement('tr');
+                columns.forEach(c => { const th = document.createElement('th'); th.textContent = c; trh.appendChild(th); });
+                thead.appendChild(trh);
+                const tbody = document.createElement('tbody');
+                flights.forEach(row => {
+                    const tr = document.createElement('tr');
+                    columns.forEach(col => {
+                        const td = document.createElement('td');
+                        const val = row?.[col];
+                        td.textContent = val != null ? String(val).trim() : '';
+                        tr.appendChild(td);
+                    });
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(thead);
+                table.appendChild(tbody);
+                wrap.appendChild(table);
                 return wrap;
             }
 
@@ -1549,8 +1780,11 @@
                 // Disable start and show loading immediately
                 setStartDisabled(true);
                 showLoading();
+                // Show STOP button when search starts
+                if (resultsStopBtn) resultsStopBtn.style.display = 'inline-block';
 
-                const startTask = async (payload) => {
+                lastSearchPayload = payload;
+                startTask = async (payload) => {
                     const API_BASE = "https://wizz-flights-server.onrender.com";
 
                     const renderPayload = (payloadObj, meta = {}) => {
@@ -1570,6 +1804,7 @@
                         if (payloadObj && payloadObj.error) {
                             hideLoading();
                             setStartDisabled(false);
+                            if (resultsStopBtn) resultsStopBtn.style.display = 'none';
                             const wrap = document.createElement('div');
                             wrap.className = 'card';
                             wrap.textContent = `No results found or an error occurred`;
@@ -1620,6 +1855,12 @@
                             }
                         } else if (mode === 'with') {
                             contentNode = renderWithMode(results);
+                            // Append all flights table below the categorized display
+                            const allFlights = extractAllFlightsFromWithMode(results);
+                            const flightsTable = renderAllFlightsTable(allFlights);
+                            if (flightsTable) {
+                                contentNode.appendChild(flightsTable);
+                            }
                         } else {
                             if (Array.isArray(results) && results.length === 0) {
                                 if (done) {
@@ -1633,7 +1874,10 @@
                                     contentNode = wrap;
                                     hasResults = false;
                                 }
-                            } else contentNode = renderNoneMode(results);
+                            } else {
+                                lastSearchResults = results;
+                                contentNode = renderNoneMode(results);
+                            }
                         }
 
                         // Mark partial results explicitly
@@ -1666,8 +1910,7 @@
                             const header = document.querySelector('#results-modal .modal-header');
                             if (header) {
                                 const closeBtnEl = header.querySelector('#results-close-btn');
-                                if (closeBtnEl) header.insertBefore(btn, closeBtnEl);
-                                else header.appendChild(btn);
+                                closeBtnEl?.insertAdjacentElement('beforebegin', btn)  ?? header.appendChild(btn);
                             }
                         }
 
@@ -1684,6 +1927,10 @@
                         const data = await resp.json().catch(() => ({}));
                         const taskId = data.task_id;
                         if (!taskId) throw new Error('Missing task id');
+                        currentSearchTaskId = taskId;
+
+                        // Hide Search Return while a search is running
+                        if (resultsReturnBtn) resultsReturnBtn.style.display = 'none';
 
                         const pollIntervalMs = 20000;
                         let lastSignature = null;
@@ -1699,6 +1946,7 @@
                                     setStartDisabled(false);
                                     alert('An error occurred: ' + statusData.error);
                                     if (pollHandle) clearInterval(pollHandle);
+                                    if (resultsStopBtn) resultsStopBtn.style.display = 'none';
                                     return;
                                 }
 
@@ -1714,18 +1962,21 @@
                                 const result = renderPayload(payloadData, { isPartial, hasFile, taskIdOverride: taskId, done });
                                 if (result.stop) {
                                     if (pollHandle) clearInterval(pollHandle);
+                                    if (resultsStopBtn) resultsStopBtn.style.display = 'none';
                                     return;
                                 }
 
                                 if (done && !isPartial) {
                                     if (pollHandle) clearInterval(pollHandle);
+                                    if (resultsStopBtn) resultsStopBtn.style.display = 'none';
+                                    if (resultsReturnBtn) resultsReturnBtn.style.display = 'inline-block';
                                 }
                             } catch (err) {
                                 console.log('Polling error', err);
                                 hideLoading();
                                 setStartDisabled(false);
                                 if (pollHandle) clearInterval(pollHandle);
-                                alert('Error while polling results.');
+                                if (resultsStopBtn) resultsStopBtn.style.display = 'none';
                             }
                         };
 
@@ -1737,6 +1988,7 @@
                         console.log(err);
                         hideLoading();
                         setStartDisabled(false);
+                        if (resultsStopBtn) resultsStopBtn.style.display = 'none';
                         alert('Error sending the request. Try again later.');
                     }
                 }
